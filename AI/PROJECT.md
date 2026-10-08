@@ -60,7 +60,9 @@ against.
 
 ## Repository map
 
-- **Report:** not started
+- **Report:** [`paper/main.tex`](../paper/main.tex), a LaTeX paper split into one file per
+  section under `paper/sections/`. It compiles with `pdflatex` and `bibtex` directly, configured
+  in `.vscode/settings.json`, since this machine's TeX distribution has no `latexmk`.
 - **Code:** not started. The baseline reference lives in `sql/activity_score.sql`.
 - **Data:** none. The simulation generates data at run time; the repository stores no data.
 - **Generated figures or tables:** not started
