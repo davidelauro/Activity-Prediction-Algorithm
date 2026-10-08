@@ -1,28 +1,30 @@
 -- Venue activity score
 --
--- The full reasoning behind every choice below lives in MODEL.md, numbered by
--- section; comments here only point at it, they don't repeat it.
+-- MODEL.md carries the full reasoning behind every choice below, numbered by
+-- section. Comments here only point at it; they do not repeat it.
 --
--- Expected schema (adapt freely — only the shapes matter):
+-- Expected schema (adapt freely; only the shapes matter):
 --
 --   events(user_id uuid, venue_id text, venue_name text,
 --          lat double precision, lon double precision, created_at timestamptz)
 --
 --   friendships(user_a uuid, user_b uuid, status text)   -- status = 'accepted' is mutual
 --
--- Returns one row per venue with two scores that answer two different
--- questions and should never be summed:
+-- The function returns one row per venue, with two scores that answer two
+-- different questions. Never sum them:
 --
---   activity_now      "there are people there right now" — only parties of 2+,
---                      time-decayed (MODEL.md §6). Near-zero most of the time
---                      with a small user base, and that's the correct answer,
---                      not a bug.
---   activity_usual     "this venue is generally lively" — a standing estimate,
---                      not tied to the present moment (MODEL.md §8).
+--   activity_now      "There are people there right now." Counts only
+--                      parties of 2 or more, time-decayed (MODEL.md section
+--                      6). The value stays near zero most of the time with a
+--                      small user base. That is the correct answer, not a
+--                      bug.
+--   activity_usual     "This venue is generally lively." A standing
+--                      estimate, not tied to the present moment (MODEL.md
+--                      section 8).
 --
--- `security definer` is a Postgres detail from the original deployment (the
+-- `security definer` is a Postgres detail from the original deployment: the
 -- function needed to read across a friendship/visibility boundary that the
--- caller's own row-level-security would otherwise block) — keep it only if
+-- caller's own row-level security would otherwise block. Keep it only if
 -- your own schema has a similar boundary to cross; drop it otherwise.
 
 create or replace function public.venue_activity_score(
@@ -41,10 +43,11 @@ returns table (
   activity_usual    double precision,
   party_sessions    bigint,
   distinct_people   bigint,
-  -- 0..1, how much the ordering between venues can be trusted (MODEL.md §7).
+  -- Ranges from 0 to 1. States how much the ordering between venues can be
+  -- trusted (MODEL.md section 7).
   confidence        double precision,
-  -- Exposed so the active regime can be inspected rather than guessed from
-  -- the output numbers.
+  -- Exposed so the caller can inspect the active regime directly, instead of
+  -- guessing it from the output numbers.
   theta             double precision
 )
 language sql
@@ -64,8 +67,9 @@ raw_events as (
     e.venue_name,
     e.lat,
     e.lon,
-    -- MODEL.md §1: the session boundary, not the calendar date. 6h is a
-    -- placeholder cutoff for "nobody's still out" — tune to your domain.
+    -- MODEL.md section 1: the session boundary, not the calendar date. The
+    -- 6-hour cutoff is a placeholder for "nobody is still out." Tune it to
+    -- your domain.
     ((e.created_at at time zone 'UTC') - interval '6 hours')::date as session
   from events e
   cross join window_ w
@@ -77,7 +81,7 @@ raw_events as (
     and (min_lon is null or e.lon between min_lon and max_lon)
 ),
 presences as (
-  -- MODEL.md §2: distinct people, not raw events.
+  -- MODEL.md section 2: this CTE counts distinct people, not raw events.
   select
     venue_id, session, user_id,
     min(created_at) as first_seen,
@@ -93,8 +97,9 @@ regime as (
   from presences
 ),
 edges as (
-  -- MODEL.md §3: two people present in the same venue/session who are mutual
-  -- friends. Symmetric on purpose (both directions), feeds the closure below.
+  -- MODEL.md section 3: two people present in the same venue and session,
+  -- who are mutual friends, get an edge. The join is symmetric on purpose,
+  -- producing both directions, and feeds the closure below.
   select p1.venue_id, p1.session, p1.user_id as a, p2.user_id as b
   from presences p1
   join presences p2
@@ -107,7 +112,8 @@ edges as (
    and greatest(f.user_a, f.user_b) = greatest(p1.user_id, p2.user_id)
 ),
 reaches as (
-  -- Transitive closure within a single (venue, session).
+  -- This CTE computes the transitive closure within a single (venue, session)
+  -- pair.
   select venue_id, session, a, b from edges
   union
   select r.venue_id, r.session, r.a, e.b
@@ -116,8 +122,8 @@ reaches as (
     on e.venue_id = r.venue_id and e.session = r.session and e.a = r.b
 ),
 labeled as (
-  -- A party is named by its smallest reachable user id; everyone in it gets
-  -- the same label. No edges = a party of one.
+  -- A party takes the name of its smallest reachable user id. Everyone in it
+  -- gets the same label. No edges means a party of one.
   select
     p.venue_id, p.session, p.user_id, p.first_seen, p.last_seen,
     least(p.user_id::text, coalesce(min(r.b::text), p.user_id::text)) as party
@@ -127,7 +133,8 @@ labeled as (
   group by p.venue_id, p.session, p.user_id, p.first_seen, p.last_seen
 ),
 party_sessions_ as (
-  -- MODEL.md §4: concave weight per party, computed here so Σ√k ≠ √Σk holds.
+  -- MODEL.md section 4: this CTE computes the concave weight per party, so
+  -- that Σ√k differs from √Σk, as the model requires.
   select
     venue_id, session, party,
     count(*)        as size,
@@ -138,15 +145,16 @@ party_sessions_ as (
   group by 1, 2, 3
 ),
 shares as (
-  -- Each party's weight split evenly among its members — feeds the
-  -- per-person diversity term below (MODEL.md §5).
+  -- Each party's weight splits evenly among its members. This split feeds
+  -- the per-person diversity term below (MODEL.md section 5).
   select ps.venue_id, l.user_id, ps.w / ps.size as share
   from party_sessions_ ps
   join labeled l
     on l.venue_id = ps.venue_id and l.session = ps.session and l.party = ps.party
 ),
 diversity as (
-  -- MODEL.md §5: Hill number of order 2 (inverse Simpson) over shares.
+  -- MODEL.md section 5: this CTE computes a Hill number of order 2 (the
+  -- inverse Simpson index) over the shares.
   select
     venue_id,
     power(sum(share), 2) / nullif(sum(power(share, 2)), 0) as distinct_people_eff
@@ -167,9 +175,9 @@ people_per_venue as (
   from labeled group by venue_id
 ),
 exposure as (
-  -- How many sessions this venue COULD have been observed in. A venue that
-  -- showed up 3 days ago shouldn't be scored as if it had been silent for
-  -- the whole window.
+  -- This CTE computes how many sessions could have observed this venue. A
+  -- venue that first showed up 3 days ago should not score as if it had
+  -- been silent for the whole window.
   select
     r.venue_id,
     least(
@@ -180,9 +188,11 @@ exposure as (
   group by r.venue_id
 ),
 now_score as (
-  -- MODEL.md §6: Weibull conditional survival, not plain exponential decay.
-  -- κ=1.8, η=3.03h fit a "people usually stay ~2.5h" domain — recalibrate
-  -- both for a different one. least(…, 700) just guards exp() underflow.
+  -- MODEL.md section 6: this CTE applies a Weibull conditional-survival
+  -- function, not a plain exponential decay. The values κ = 1.8 and
+  -- η = 3.03 hours fit a domain where people usually stay about 2.5 hours;
+  -- recalibrate both for a different domain. The least(..., 700) call
+  -- guards against exp() underflow only.
   select
     venue_id,
     sum(
@@ -202,7 +212,7 @@ globals as (
   from party_sessions_
 ),
 scale as (
-  -- MODEL.md §7-§8: the knobs that ramp with θ.
+  -- MODEL.md sections 7 and 8: this CTE sets the knobs that ramp with θ.
   select
     r.theta,
     g.mean_w,
@@ -220,9 +230,10 @@ effective as (
   cross join scale s
 ),
 hyperparams as (
-  -- MODEL.md §8: Gamma(α, β) prior on the venue's rate. β is "how many
-  -- sessions' worth of exposure the prior is worth" — 3x the typical
-  -- exposure in the conservative regime, 1x in the data-rich one.
+  -- MODEL.md section 8: a Gamma(α, β) prior on the venue's rate. β states
+  -- how many sessions' worth of exposure the prior is worth: 3 times the
+  -- typical exposure in the conservative regime, 1 time in the data-rich
+  -- one.
   select
     percentile_cont(0.5) within group (order by e.e_eff) * (3.0 - 2.0 * s.theta) as beta,
     coalesce(sum(e.s_eff) / nullif(sum(e.e_eff), 0), 0.0)                        as global_rate
@@ -248,12 +259,13 @@ select
   v.lon,
   coalesce(ns.now_raw, 0.0)::double precision,
   (
-    -- MODEL.md §8: posterior mean, square-rooted for display (the concave
-    -- utility again — applied last, not inside the estimate).
+    -- MODEL.md section 8: the posterior mean, square-rooted for display.
+    -- This is the concave utility argument again, applied last, not inside
+    -- the estimate.
     power((hp.beta * hp.global_rate + e.s_eff) / nullif(hp.beta + e.e_eff, 0), 0.5)
     *
-    -- MODEL.md §5: diversity, shrunk toward the global average with a
-    -- small-sample prior (n0 = 5 party-sessions).
+    -- MODEL.md section 5: diversity, shrunk toward the global average with
+    -- a small-sample prior (n0 = 5 party-sessions).
     power(
       (5.0 * md.avg_diversity + pv.n_party_sessions * coalesce(d.distinct_people_eff, md.avg_diversity))
         / (5.0 + pv.n_party_sessions),
@@ -262,8 +274,8 @@ select
   )::double precision,
   pv.n_party_sessions,
   ppv.distinct_people,
-  -- MODEL.md §7: ~11 party-sessions needed to tell two rates apart at a 2:1
-  -- ratio with reasonable confidence.
+  -- MODEL.md section 7: telling two rates apart at a 2:1 ratio with
+  -- reasonable confidence needs about 11 party-sessions.
   least(pv.n_party_sessions::double precision / 11.0, 1.0),
   sc.theta::double precision
 from venues v
