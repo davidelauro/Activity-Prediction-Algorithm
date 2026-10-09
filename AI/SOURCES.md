@@ -69,6 +69,8 @@ Suggested statuses are `LEAD`, `CHECKED`, `USED`, and `REJECTED`.
 | SRC-057 | Zahnow, Corcoran (2025) | paper | LEAD | repeat visitation and familiar strangers |
 | SRC-058 | Bell, Pliner (2003) | paper | LEAD | dwell time correlates with group size |
 | SRC-059 | Gabriel et al. (2020) | paper | LEAD | headcount a weak predictor of felt connection |
+| SRC-060 | Eurostat city statistics | dataset | LEAD | population and student counts per city |
+| SRC-061 | OpenStreetMap via Overpass | dataset | LEAD | nightlife venue counts per city |
 
 ## Entry template
 
@@ -1082,6 +1084,83 @@ that filter; roughly thirty did not and are listed afterward, not individually l
   Sacredness subscales themselves are not something this project can measure
 - **Where it is used in the report or code:** not yet used
 - **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### SRC-060 Eurostat city statistics
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Eurostat, "City statistics" collection, datasets
+  `urb_cpop1` (Population, cities and greater cities) and `urb_ceduc` (Education, cities and
+  greater cities).
+- **Stable link, DOI, or version:** `ec.europa.eu/eurostat/databrowser/product/view/urb_cpop1`
+  and `ec.europa.eu/eurostat/databrowser/product/view/urb_ceduc`. The `urb_ceduc` response
+  reported itself as updated 2026-10-02.
+- **Checked by and date:** retrieved and read by Claude Code on 2026-10-09, through the
+  Eurostat dissemination API. The owner has not re-run the query, so the numbers below are not
+  independently confirmed.
+- **Exact relevant location:** indicator `DE1001V` for total population, `DE1049V` and
+  `DE1101V` for the 20-24 and 25-29 age bands, `TE1026V` for students in higher education at
+  ISCED levels 5 to 8, and `TE1026I` for students per 1,000 residents.
+- **What it supports:** the scale calibration recorded in DEC-006. Across eleven European
+  university cities, median population is 131,591 and median resident population aged 20 to 29
+  is 27,731. Across the seven of those cities with current, core-city student figures, median
+  student enrolment is 33,262 and the mean is 33,894.
+- **What it does not support or important limitations:** `TE1026V` counts students enrolled at
+  institutions located in the city, not students resident there. Leuven returns 58,601 students
+  against a total population of 104,239 and a resident 20-24 population of 8,636, so the
+  indicator cannot be read as a resident share. Uppsala's student figure dates from 2011 and
+  Olomouc's from 2017. Coimbra appears only as a greater city, so it is not comparable to the
+  core-city rows. Eurostat publishes a reuse policy allowing reuse with attribution, and no one
+  has yet checked the exact licence text for this collection.
+- **Where it is used in the report or code:** not yet used. DEC-006 cites it for scale.
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-map-design-decisions.md`
+
+#### Query used
+
+    https://ec.europa.eu/eurostat/api/dissemination/statistics/1.0/data/urb_ceduc
+      ?format=JSON&lang=en
+      &cities=BE008C&cities=NL018C&cities=SE006C&cities=SE013C&cities=DE020C
+      &cities=DE047C&cities=DE100C&cities=CZ006C&cities=NL031C&cities=NL033C&cities=PT005C
+
+The same city list, against `urb_cpop1`, returned the population figures. City codes map as
+follows: BE008C Leuven, CZ006C Olomouc, DE020C Goettingen, DE047C Tuebingen, DE100C Heidelberg,
+NL018C Groningen, NL031C Maastricht, NL033C Nijmegen, PT005C Coimbra greater city, SE006C
+Uppsala, SE013C Lund.
+
+### SRC-061 OpenStreetMap via Overpass
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** OpenStreetMap contributors, queried through the
+  public Overpass API at `overpass-api.de`.
+- **Stable link, DOI, or version:** `openstreetmap.org`. OpenStreetMap carries no version
+  number, so the access date is the only identifier. Repeating the query later will return a
+  different count.
+- **Checked by and date:** retrieved by Claude Code on 2026-10-09. The owner has not re-run the
+  query.
+- **Exact relevant location:** count of elements tagged `amenity=bar`, `amenity=pub`, or
+  `amenity=nightclub` inside each city's administrative boundary.
+- **What it supports:** the venue-count calibration in DEC-006. Leuven returned 121, Groningen
+  122, and Heidelberg 75.
+- **What it does not support or important limitations:** three cities form a thin sample, and
+  the public endpoint began refusing further requests, which is why the sample stopped at three.
+  OpenStreetMap coverage depends on volunteer mapping and varies by city. Heidelberg resolved
+  only at boundary level 6 while Leuven and Groningen resolved at level 8, so the three areas
+  are not strictly comparable. Only the counts were retrieved. No venue name and no coordinate
+  was requested, stored, or written anywhere, which keeps the simulator synthetic as `AGENTS.md`
+  requires. OpenStreetMap data carries the Open Database Licence 1.0, and no one has yet checked
+  whether reusing an aggregate count of this kind triggers any obligation under it.
+- **Where it is used in the report or code:** not yet used. DEC-006 cites it for venue count.
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-map-design-decisions.md`
+
+#### Query used
+
+    [out:json][timeout:120];
+    area["name"="<city>"]["boundary"="administrative"]["admin_level"="<level>"]->.a;
+    ( nwr["amenity"="bar"](area.a);
+      nwr["amenity"="pub"](area.a);
+      nwr["amenity"="nightclub"](area.a); );
+    out count;
+
+Levels used: Leuven 8, Groningen 8, Heidelberg 6.
 
 ### Discarded as not measurable in this project's setting
 

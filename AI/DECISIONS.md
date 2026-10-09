@@ -26,6 +26,76 @@ Use IDs `DEC-001`, `DEC-002`, and so on.
 
 Add new entries above older entries.
 
+### DEC-006 Fix the synthetic map's structure and scale
+
+- **Date:** 2026-10-09
+- **Status:** active
+- **Decision:** eight choices define the synthetic venue map.
+  1. The map carries community members only. The simulator models no general public.
+  2. Venues form an abstract adjacency graph. The map assigns no geographic coordinates.
+  3. Venues cluster into districts rather than spreading uniformly.
+  4. Spatial substitution between nearby venues exists in the simulated ground truth.
+  5. Every venue exists from the first timestep. No venue opens or closes during the window.
+  6. One fixed map serves every repetition, for now.
+  7. Each venue's intrinsic draw comes from a distribution rather than a shared constant.
+  8. Scale follows an average European university city. The community holds about 30,000
+     members, and the map holds 75 to 125 venues. Community size equals the student population.
+- **Alternatives considered:** geographic coordinates instead of an abstract graph; a uniform
+  random layout instead of districts; no substitution between venues; venues entering during the
+  window; a freshly drawn map for each repetition; an identical intrinsic draw for every venue;
+  a simulated general public alongside the community.
+- **Reason:** choice 8 follows the data in SRC-060 and SRC-061. Eleven European university
+  cities give a median population of 131,591 and a median resident population aged 20 to 29 of
+  27,731. Seven of them with current core-city figures give a median student enrolment of
+  33,262. Both routes converge on roughly 30,000, which the owner adopted as community size.
+  Three of those cities returned 121, 122, and 75 nightlife venues. The owner stated no reason
+  for choices 1 through 7, and this entry records them as choices rather than as conclusions.
+- **Consequences or limitations:** choice 4 couples venues to each other, so one venue's count
+  carries information about its neighbours, and the graph structure becomes informative rather
+  than decorative. Choice 6 makes every result conditional on the one map drawn, so no finding
+  generalizes across maps until the map is resampled; SRC-027 treats this as a data-generating
+  choice to declare in advance, which this entry does. Choice 7 names no distribution, so the
+  map cannot be built yet. Three further items stay unspecified and also block implementation:
+  the district count and venues per district, whether a graph edge is binary or weighted, and
+  which busyness a substituting person reacts to, the real crowd or the displayed heat map. That
+  last item overlaps the deferred feedback-loop question below.
+- **Deferred, not decided:** two questions wait on a prior decision about how the simulator
+  constructs the subset of people who hold the app. The first is whether displayed heat changes
+  where people go. The second is whether check-in probability is one global number or one per
+  venue. The owner deferred both on the ground that the literature must settle how check-ins get
+  modeled first. DEC-004 already defines the per-venue quantity as the probability that a
+  present community member checks in, which bundles holding the app and choosing to post into
+  one number.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** SRC-027, SRC-042, SRC-043,
+  SRC-045, SRC-046, SRC-060, SRC-061; DEC-004; DEC-005
+- **Related prompt log, commit, or pull request:**
+  `AI/PROMPTS/2026-10-09-map-design-decisions.md`
+
+### DEC-005 Keep the baseline out of the simulator's design
+
+- **Date:** 2026-10-09
+- **Status:** active
+- **Decision:** the baseline, meaning `sql/activity_score.sql` and `MODEL.md` together, informs
+  no part of the simulator's design. It enters only at comparison time, at the end.
+- **Alternatives considered:** reading the baseline's input requirements first and designing the
+  simulator to suit them, which is what an assistant had started doing in this session.
+- **Reason:** designing the simulated world around what the baseline can represent would rig the
+  comparison in the baseline's favour. The faithful order builds the world from the problem
+  statement, then reports at the end which mechanisms each model could and could not represent.
+- **Consequences or limitations:** three facts about the baseline, surfaced before this rule was
+  stated, now count as comparison-time concerns rather than design inputs. The baseline computes
+  no distance between venues and reads coordinates only to filter and to average. It discards
+  any event with a null coordinate. It divides by how long each venue has been observable. The
+  simulator may therefore need an adapter at the end, written then, not now. A separate
+  consequence is that the eventual writeup must disclose which mechanisms in the simulated truth
+  each model was able to represent, since a margin earned on an unrepresented mechanism measures
+  coverage rather than quality.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** ATT-001; DEC-006
+- **Related prompt log, commit, or pull request:**
+  `AI/PROMPTS/2026-10-09-map-design-decisions.md`
+
 ### DEC-004 Scope the target to the community, settle three activity parameters
 
 - **Date:** 2026-10-09

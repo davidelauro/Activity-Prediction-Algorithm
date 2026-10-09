@@ -5,7 +5,9 @@ work session. Replace stale details instead of letting this file become a diary.
 
 - **Last updated:** 2026-10-09
 - **Updated by:** Claude Code
-- **Current branch:** literature/search-topics, pushed through `70086f1`
+- **Current branch:** literature/search-topics, pushed through `f799ce9`. The map-design
+  records from the 2026-10-09 session sit on top of that, not yet pushed at the time of
+  writing.
 - **Current stage:** planning
 
 ## Done and checked
@@ -77,19 +79,41 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## In progress
 
-- Nothing active. The activity parameter set just settled.
+- The synthetic map's structure is decided, and the map is not built. `DEC-006` records eight
+  choices and names what still blocks implementation.
 
 ## Settled since the last major update
 
 - `DEC-004`: venue activity has three parameters, headcount, groups, and familiarity.
   Familiarity is a known covariate from check-in history, not a predicted quantity. Logged in
   `AI/DECISIONS.md` and `AI/PROJECT.md`.
+- `DEC-005`: the baseline informs no part of the simulator's design. It enters only at
+  comparison time. This rule withdrew an assistant's earlier argument that the simulated truth
+  should avoid mechanisms the baseline cannot represent, since designing around the baseline
+  would rig the comparison in the baseline's favour.
+- `DEC-006`: eight choices fix the map. Community members only. An abstract adjacency graph with
+  no coordinates. Venues clustered into districts. Substitution between nearby venues present in
+  the ground truth. Every venue existing from the first timestep. One fixed map. Intrinsic draw
+  from a distribution. Scale of about 30,000 community members and 75 to 125 venues.
+- Community size equals the student population, an owner decision. `SRC-060` and `SRC-061` carry
+  the data: eleven European university cities give a median student enrolment of 33,262 and a
+  median resident population aged 20 to 29 of 27,731, and three of them returned 121, 122, and
+  75 nightlife venues.
 
 ## Blockers or open questions
 
 - The owner leads the model design; not started. See `AI/PROJECT.md`, "Chosen extension: to be
   decided."
-- The simulator design, map generator, arrival process, synthetic social graph, not started.
+- The simulator is not built. The map's structure is decided per `DEC-006`, and the arrival
+  process and the synthetic social graph are not started.
+- `DEC-006` leaves the intrinsic-draw distribution unnamed, so the map cannot be built yet.
+  Three implementation details also stay open: the district count and venues per district,
+  whether a graph edge is binary or weighted, and which busyness a substituting person reacts
+  to, the real crowd or the displayed heat map.
+- Two map questions are deferred behind a prior decision about how the simulator constructs
+  the subset of people who hold the app: whether displayed heat changes where people go, and
+  whether check-in probability is one global number or one per venue. The owner deferred both
+  on the ground that the literature must settle how check-ins get modeled first.
 - The comparison metric against the baseline not yet defined.
 - The priority tiebreaker rule is flagged but not formalized: open question is whether the
   friend-presence check is personalized per viewer or global across all viewers.
@@ -105,19 +129,26 @@ work session. Replace stale details instead of letting this file become a diary.
 
 - SRC-001 through SRC-051 in `AI/SOURCES.md` are all still `LEAD` or `REJECTED`; none read and
   personally checked by the owner yet, regardless of how thoroughly the search itself read them.
+- `SRC-060` and `SRC-061` were retrieved by Claude Code on 2026-10-09 through the Eurostat and
+  Overpass APIs, and the owner has not re-run either query. Both entries carry the exact query
+  used. `SRC-060` has one load-bearing limitation: the Eurostat student indicator counts
+  enrolment at institutions in the city, not residence.
 - Several entries carry their own internal caveats: unconfirmed DOIs or page ranges, content
   recalled from the search's memory rather than reread, or extensions worked out during the
   search rather than quoted from the source (most notably the ordinal-category derivation under
   SRC-032, Gneiting 2011).
 
-## Next three actions
+## Next actions
 
-1. Decide the shape question `DEC-004` left open: how headcount enters the model, linearly or
+1. Decide how the simulator constructs the subset of people who hold the app. Two deferred map
+   questions wait on it.
+2. Name the intrinsic-draw distribution `DEC-006` left open, which unblocks building the map.
+3. Decide the shape question `DEC-004` left open: how headcount enters the model, linearly or
    with the inverted-U shape `SRC-053` and `SRC-054` point toward.
-2. Decide, with a stated reason, whether and how to trim the 51 logged sources from the first
+4. Decide, with a stated reason, whether and how to trim the 51 logged sources from the first
    two searches before writing the literature review narrative in
    `paper/sections/02-literature-review.tex`.
-3. Grab the three bot-blocked open-access papers from the first search (Clement et al.,
+5. Grab the three bot-blocked open-access papers from the first search (Clement et al.,
    Timokhin et al., Zhuang and Mateu) by hand in a browser; links are in `AI/SOURCES.md`.
 
 ## Files to open first
@@ -126,7 +157,7 @@ work session. Replace stale details instead of letting this file become a diary.
   problem statement, community-scoped, not yet in the paper.
 - [`drafts/social-aliveness-search.md`](../drafts/social-aliveness-search.md): the parameter
   search, full results.
-- [`AI/SOURCES.md`](SOURCES.md): 59 logged sources, all still leads or rejected.
+- [`AI/SOURCES.md`](SOURCES.md): 61 logged sources, all still leads or rejected.
 - [`drafts/literature-review-results.md`](../drafts/literature-review-results.md): the first
   search's full prose findings, organized by question.
 - [`drafts/literature-search-topics.md`](../drafts/literature-search-topics.md): the 13
@@ -134,7 +165,8 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## Related records
 
-- DEC-001, DEC-002, DEC-003 in `AI/DECISIONS.md`.
+- DEC-001 through DEC-006 in `AI/DECISIONS.md`.
 - ATT-001 in `AI/ATTEMPTS.md`.
-- `AI/PROMPTS/2026-10-08-project-scaffolding.md` and
-  `AI/PROMPTS/2026-10-09-literature-search-topics.md`.
+- `AI/PROMPTS/2026-10-08-project-scaffolding.md`,
+  `AI/PROMPTS/2026-10-09-literature-search-topics.md`, and
+  `AI/PROMPTS/2026-10-09-map-design-decisions.md`.
