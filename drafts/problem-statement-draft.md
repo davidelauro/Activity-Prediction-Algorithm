@@ -11,8 +11,9 @@ activity, with several discrete levels. People deciding where to go out react to
 opposite ways. Some are drawn to venues that look busy. Others avoid venues that look crowded.
 
 The goal is to predict the number of people present at each venue right now. Only a small
-fraction of people check in. We assume each person present checks in independently, with the
-same probability for everyone. With very few check-ins or none, the map stays empty. An empty
+fraction of people check in. We assume independence between people who are not friends in the
+app, each checking in with the same probability. Friends present together are not assumed to
+check in independently. With very few check-ins or none, the map stays empty. An empty
 map cannot tell users where to go. Groups of friends receive priority only in how the map
 displays venues, not in the predicted number itself. We leave venue capacity for later work,
 once venues can provide it themselves.
@@ -21,3 +22,11 @@ No real check-in data exists. We will simulate both real presence and check-ins,
 as a subset of real presence. A prediction is good if the map shows each venue at the right heat
 level. We prefer underestimating over overestimating. The number of distinct people who have
 checked in sets a lower bound: the prediction never goes below it.
+
+## Open items, not yet decided
+
+- The priority tiebreaker: confirmed as a tiebreaker among venues at the same heat level, not
+  yet formalized. Open question inside it: is the friend-presence check personalized per
+  viewer, the viewing user's own friends, so the heat level stays identical for everyone but
+  the ordering within a level differs per viewer, or is it a single global tiebreak the same
+  for every viewer regardless of whose friends they are.

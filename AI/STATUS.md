@@ -3,63 +3,84 @@
 This file is the short handoff to the next session. Refresh it at the end of each substantial
 work session. Replace stale details instead of letting this file become a diary.
 
-- **Last updated:** 2026-10-08
-- **Updated by:** Claude Code (scaffolding session)
-- **Current branch:** TheProblem
+- **Last updated:** 2026-10-09
+- **Updated by:** Claude Code
+- **Current branch:** literature/search-topics (branched from TheProblem)
 - **Current stage:** planning
 
 ## Done and checked
 
-- Baseline review: a session read `sql/activity_score.sql` and `MODEL.md` and sanity-checked
-  them. The session found no syntax or logic bugs on inspection. The session noted and
-  understood the structural limit around ρ_v.
-- AI-audit workflow scaffolding: a session adapted the TU Delft WI4465 student project template
-  into a solo-project version, committed on `master` as `0f090f0`.
-- Paper scaffolding on branch `TheProblem`: a LaTeX skeleton at `paper/main.tex`, split into one
-  file per section under `paper/sections/`, with `paper/references.bib` and a
-  `.vscode/settings.json` recipe that builds with `pdflatex` and `bibtex` directly, since this
-  machine's TeX distribution has no `latexmk`. The build was tested once and produced a clean
-  PDF; the test artifacts were removed afterward. Every section file past the literature review
-  is an empty stub, owner-authored, not yet written.
+- Baseline review: `sql/activity_score.sql` and `MODEL.md` read and sanity-checked. No syntax
+  or logic bugs found. The structural limit around ρ_v is understood.
+- AI-audit workflow scaffolding, on `master`/`main` as `0f090f0`, and a later correction, on
+  `TheProblem` as `8e34e82`, removing every claim that the new model is grounded in random
+  graphs or point processes; the mathematical framework stays undecided.
+- Paper scaffolding on `TheProblem`: `paper/main.tex` with one file per section, builds clean
+  with `pdflatex` and `bibtex` at their exact binary paths in `.vscode/settings.json`, since
+  this machine's TeX install is invisible to VS Code's own `PATH`. `paper/references.bib` fixed
+  for a BibTeX parsing bug, an at-sign character anywhere in the file, even in a comment,
+  starts entry parsing.
+- `paper/sections/03-problem-statement.tex` stays an owner-authored stub, by choice; the actual
+  problem statement, rewritten in the USPArC style and since corrected (the independence
+  assumption now excludes friends), lives in `drafts/problem-statement-draft.md` instead, not
+  placed in the paper yet.
+- A first literature search, run externally against three research questions, returned about
+  90 candidates, trimmed to 8 priority papers, logged in `AI/SOURCES.md` as `SRC-001` through
+  `SRC-008`. Four are downloaded to `paper/literature/` (gitignored, not redistributed through
+  git); three are confirmed open access but blocked by bot protection for automated download,
+  need grabbing by hand; one is confirmed closed access.
+- `main` and `TheProblem` are both pushed to `origin`.
+- `DEC-003` logged: whether to adopt any part of an externally proposed model stays the owner's
+  decision, not an assistant's.
+- A second, paragraph-by-paragraph pass through the problem statement, owner-led, identified 13
+  candidate search topics across all three paragraphs, logged in
+  `drafts/literature-search-topics.md`. This list is explicit that it does not assume the
+  SRC-001 to SRC-008 search carries over; it answers a different set of questions. One
+  unformalized open item came out of this pass: the priority tiebreaker among venues at the
+  same heat level.
 
 ## In progress
 
-- The literature review and problem statement sections (`paper/sections/02-literature-review.tex`
-  and `03-problem-statement.tex`) are open for the owner to write, starting from a literature
-  review of population models.
+- Deciding which of the 13 logged topics actually get searched; none have been searched yet
+  under this second pass.
 
 ## Blockers or open questions
 
-- The owner leads the model design, and that work has not started. See `AI/PROJECT.md`, under
-  "Chosen extension: to be decided."
-- The simulator design, covering the map generator, the arrival process, and the synthetic
-  social graph, has not started.
-- The comparison metric against the baseline is not yet defined. It needs definition before any
-  model gets built, to keep the eventual comparison honest.
-- The paper scaffolding is not yet committed on `TheProblem`.
+- The owner leads the model design; not started. See `AI/PROJECT.md`, "Chosen extension: to be
+  decided."
+- The simulator design, map generator, arrival process, synthetic social graph, not started.
+- The comparison metric against the baseline not yet defined.
+- The priority tiebreaker rule is flagged but not formalized: open question is whether the
+  friend-presence check is personalized per viewer or global across all viewers.
+- This branch, `literature/search-topics`, is not yet committed or pushed.
 
 ## Unverified claims or results
 
-- None yet.
+- SRC-001 through SRC-008 in `AI/SOURCES.md` are all still `LEAD`, none read and checked by the
+  owner yet.
+- The 13 items in `drafts/literature-search-topics.md` are candidate topics, not confirmed
+  search results; two early AI-suggested leads from an earlier pass were removed after the
+  owner caught that they came from searches run without being asked for.
 
 ## Next three actions
 
-1. Write the literature review on population models and the problem statement in `paper/`,
-   owner-led.
-2. Pin down the comparison metric and the success criterion against the baseline, in writing,
-   before building the new model.
-3. Start designing the new model. The owner leads this work; AI assists only on request, per
-   `AGENTS.md`.
+1. Decide which of the 13 logged topics to actually search, then run that search.
+2. Grab the three bot-blocked open-access papers (Clement et al., Timokhin et al., Zhuang and
+   Mateu) by hand in a browser; links are in `AI/SOURCES.md`.
+3. Formalize the priority tiebreaker rule, once the owner is ready to decide the open question
+   inside it.
 
 ## Files to open first
 
-- [`paper/sections/02-literature-review.tex`](../paper/sections/02-literature-review.tex) and
-  [`paper/sections/03-problem-statement.tex`](../paper/sections/03-problem-statement.tex): the
-  two sections open for writing on `TheProblem`.
-- [`MODEL.md`](../MODEL.md): the baseline's reasoning, to see what it handles and what it does
-  not.
-- [`AI/PROJECT.md`](PROJECT.md): the project scope and conventions.
+- [`drafts/problem-statement-draft.md`](../drafts/problem-statement-draft.md): the current
+  problem statement, not yet in the paper.
+- [`drafts/literature-search-topics.md`](../drafts/literature-search-topics.md): the 13
+  candidate search topics, organized by paragraph and by who identified them.
+- [`AI/SOURCES.md`](SOURCES.md): the first search's 8 references, all still leads.
 
 ## Related records
 
-- None yet.
+- DEC-001, DEC-002, DEC-003 in `AI/DECISIONS.md`.
+- ATT-001 in `AI/ATTEMPTS.md`.
+- `AI/PROMPTS/2026-10-08-project-scaffolding.md`, including its addendum on the removed
+  methodology assumption.
