@@ -26,6 +26,40 @@ Use IDs `DEC-001`, `DEC-002`, and so on.
 
 Add new entries above older entries.
 
+### DEC-004 Scope the target to the community, settle three activity parameters
+
+- **Date:** 2026-10-09
+- **Status:** active
+- **Decision:** the project estimates presence of the app's own target community, an unknown
+  demographic (young adults who want to socialize with friends), not general venue attendance
+  and not a known, closed population. Venue activity is described by three parameters:
+  headcount, groups, and familiarity. Familiarity is computed from check-in history and is a
+  known covariate, not an uncertain quantity requiring prediction the way headcount and groups
+  are.
+- **Alternatives considered:** treating the general public as the target population (the
+  original, unscoped reading); momentum as a fourth parameter, proposed and then dropped by the
+  owner without a stated reason; dwell time as a parameter, considered weaker since Bell and
+  Pliner (`SRC-058`) found it tracks group size rather than adding independent information.
+- **Reason:** scoping to the community resolves part of the baseline's own ρ_v identifiability
+  problem from `MODEL.md`: ρ_v now means "probability a community member who is present checks
+  in," a narrower and more answerable question than "probability any real attendee uses this
+  app." Familiarity was added because it is the strongest newly surfaced, directly measurable
+  candidate from a dedicated search on what makes a place feel socially alive
+  (`drafts/social-aliveness-search.md`); Hristova et al. (`SRC-056`) gives computable metrics
+  for it from exactly this project's own data, and Dunbar et al. (`SRC-055`) gives a reason to
+  care, familiar venues showed more actual engagement than high-turnover ones at comparable or
+  larger headcount.
+- **Consequences or limitations:** "community" stays an unknown target population, not a closed
+  registry, so the identifiability concerns in `SRC-009` through `SRC-015` still apply, narrowed
+  but not eliminated. Headcount's own role is also now in question, not whether to include it,
+  but whether it should enter linearly: Blut and Iyer (`SRC-053`) and Cheng et al. (`SRC-054`)
+  both point toward a non-linear relationship, and Gabriel et al. (`SRC-059`) found raw headcount
+  only weakly predicted felt social connection once other factors were controlled. That shape
+  question is not resolved by this decision.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** SRC-053 through SRC-059
+- **Related prompt log, commit, or pull request:** `ab4c549` on `literature/search-topics`
+
 ### DEC-003 Reserve the choice of whether to adopt the four-layer model
 
 - **Date:** 2026-10-09

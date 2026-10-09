@@ -77,8 +77,13 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## In progress
 
-- Naming the actual parameter set for venue activity (headcount, groups, and whatever else
-  survives the discussion) has not concluded.
+- Nothing active. The activity parameter set just settled.
+
+## Settled since the last major update
+
+- `DEC-004`: venue activity has three parameters, headcount, groups, and familiarity.
+  Familiarity is a known covariate from check-in history, not a predicted quantity. Logged in
+  `AI/DECISIONS.md` and `AI/PROJECT.md`.
 
 ## Blockers or open questions
 
@@ -107,8 +112,8 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## Next three actions
 
-1. Finish naming the parameter set for venue activity (headcount, groups, and whatever else
-   gets confirmed from or beyond the social-aliveness search).
+1. Decide the shape question `DEC-004` left open: how headcount enters the model, linearly or
+   with the inverted-U shape `SRC-053` and `SRC-054` point toward.
 2. Decide, with a stated reason, whether and how to trim the 51 logged sources from the first
    two searches before writing the literature review narrative in
    `paper/sections/02-literature-review.tex`.

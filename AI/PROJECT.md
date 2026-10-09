@@ -36,6 +36,10 @@ once chosen, rather than assume it in advance.
   stands in for ground truth. Define a fair comparison metric against the baseline.
 - **Chosen extension:** to be decided. The owner picks this once the baseline's failure modes
   are mapped out.
+- **Activity parameters, confirmed 2026-10-09 (DEC-004):** headcount, groups, and familiarity.
+  Momentum was proposed, then dropped without a stated reason. Familiarity is a known covariate
+  computed from check-in history, not an uncertain quantity needing prediction the way headcount
+  and groups are; see `AI/SOURCES.md`, `SRC-056`, for the computable metrics behind it.
 - **What would count as a successful project:** the new model beats the baseline by a wide
   margin on the simulator's known ground truth, on a metric defined and justified before looking
   at results. This order avoids post-hoc metric shopping.
@@ -43,6 +47,10 @@ once chosen, rather than assume it in advance.
 ## Definitions and conventions
 
 - "Baseline" always refers to `sql/activity_score.sql` and `MODEL.md`, frozen as they stand.
+- "The community" means the app's own unknown target demographic, young adults who want to
+  socialize with friends, not general venue attendance and not a known, closed set of registered
+  users. Every parameter and every estimate in this project is scoped to the community, not the
+  general public.
 - "Ground truth" exists only inside the synthetic simulation. This project has no real-world
   check-in dataset. Any claim about real venues is out of scope.
 - The project reuses the baseline's data shape unless a decision states otherwise: events as
