@@ -44,3 +44,7 @@ _minted-*/
 # history, which a push could make public regardless of this repository's
 # current visibility.
 paper/literature/
+
+# A style reference kept locally for its introduction structure (literature
+# review, research gap), not project content; same reasoning as above.
+/Model-Free Bounds for Multi-Asset Options Using Option-Implied Information and Their Exact Computation.pdf
