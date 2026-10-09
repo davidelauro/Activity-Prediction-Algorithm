@@ -2,13 +2,12 @@
 % Never add an entry for a source you have not opened; the librarian role in
 % AGENTS.md treats a search result as a lead only, until checked.
 %
-% Example entry shape (commented out, not a real citation):
+% BibTeX scans this file for the at-sign character, wherever it appears, and
+% tries to parse an entry starting there, even inside a comment. For that
+% reason this file names the character instead of writing it, below.
 %
-% @article{example2024,
-%   author  = {Surname, First},
-%   title   = {Title of the paper},
-%   journal = {Journal name},
-%   year    = {2024},
-%   volume  = {1},
-%   pages   = {1--10}
-% }
+% An entry starts with the at-sign character directly followed by the entry
+% type and an opening brace, for example: article, followed directly by
+% {example2024, then fields such as author, title, journal, year, volume,
+% and pages, each as name = {value}, separated by commas, closed with a
+% final brace.

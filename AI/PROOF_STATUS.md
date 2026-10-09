@@ -1,9 +1,10 @@
 # Proof status: theory module
 
-This file tracks any theoretical claim behind the new model. Examples include properties of the
-random graph or point process in use, convergence or consistency arguments, and bounds relating
-the model's estimate to the simulator's ground truth. Keep each claim small enough that its
-status can be checked. A fluent AI-generated proof is not automatically a proved result.
+This file tracks any theoretical claim behind the new model. Examples include properties of
+whichever mathematical framework the owner chooses, convergence or consistency arguments, and
+bounds relating the model's estimate to the simulator's ground truth. Keep each claim small
+enough that its status can be checked. A fluent AI-generated proof is not automatically a proved
+result.
 
 ## Status words
 

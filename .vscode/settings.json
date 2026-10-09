@@ -3,7 +3,7 @@
   "latex-workshop.latex.tools": [
     {
       "name": "pdflatex",
-      "command": "pdflatex",
+      "command": "/Library/TeX/texbin/pdflatex",
       "args": [
         "-interaction=nonstopmode",
         "-synctex=1",
@@ -13,7 +13,7 @@
     },
     {
       "name": "bibtex",
-      "command": "bibtex",
+      "command": "/Library/TeX/texbin/bibtex",
       "args": ["%DOCFILE%"]
     }
   ],

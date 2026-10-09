@@ -30,7 +30,12 @@ prompt logs, commits, or pull requests.
 
 Describe important AI suggestions that I rejected, corrected, or substantially modified.
 
--
+- On 2026-10-08, I caught the scaffolding draft assuming the new model would use random graphs
+  and point processes, carried over from the name of the course the AI-audit workflow came
+  from, not from any decision I made. I had the AI rewrite every instance across `AGENTS.md`,
+  `AI/PROJECT.md`, `AI/PROOF_STATUS.md`, `AI/SOURCES.md`, and the literature review stub to state
+  that the mathematical framework is still open. See the addendum in
+  `AI/PROMPTS/2026-10-08-project-scaffolding.md`.
 
 ## How I checked the work
 

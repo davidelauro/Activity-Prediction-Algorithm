@@ -15,12 +15,16 @@ Update it only when the project question, scope, conventions, or file structure 
 
 ## Research question
 
-Can a venue-activity model grounded in random-graph and point-process theory, fit and evaluated
-against a fully synthetic simulation with known ground truth, substantially outperform an
-earlier heuristic model? The simulation generates Poisson-process arrivals over a fake venue map
-and a synthetic social graph. The earlier model, `sql/activity_score.sql` (see
-[`MODEL.md`](../MODEL.md)), was designed entirely by an AI, without a simulation to validate it
-against.
+Can a new venue-activity model, fit and evaluated against a fully synthetic simulation with
+known ground truth, substantially outperform an earlier heuristic model? The simulation
+generates Poisson-process arrivals over a fake venue map and a synthetic social graph. The
+earlier model, `sql/activity_score.sql` (see [`MODEL.md`](../MODEL.md)), was designed entirely
+by an AI, without a simulation to validate it against.
+
+The mathematical framework for the new model is not yet chosen. The AI-audit workflow in this
+repository comes from a random-graphs course, but that is the source of the workflow, not a
+commitment about the model's method. The owner picks the framework, and this file will name it
+once chosen, rather than assume it in advance.
 
 ## Planned contribution
 

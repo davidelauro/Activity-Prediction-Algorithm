@@ -37,4 +37,10 @@ _minted-*/
 # Important project files are deliberately not ignored. Commit the LaTeX
 # source, final report PDF, Python code, figures, Markdown records, and any
 # data that is permitted and expected to be shared. The simulator itself is
-# synthetic by design (see AI/PROJECT.md) — no real check-in data belongs here.
+# synthetic by design, see AI/PROJECT.md. No real check-in data belongs here.
+
+# Downloaded papers. These are legitimately open-access copies, downloaded
+# for personal reading, not republished here; keep them local, not in git
+# history, which a push could make public regardless of this repository's
+# current visibility.
+paper/literature/

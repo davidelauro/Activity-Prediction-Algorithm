@@ -26,6 +26,26 @@ Use IDs `DEC-001`, `DEC-002`, and so on.
 
 Add new entries above older entries.
 
+### DEC-003 Reserve the choice of whether to adopt the four-layer model
+
+- **Date:** 2026-10-09
+- **Status:** active
+- **Decision:** whether to adopt any part of the four-layer generative model proposed in the
+  external AI-assisted literature search (seasonal baseline, latent nightly busyness, group
+  arrivals, detection, summarized in `venuesReferences`) is a choice the owner reserves for
+  themselves. An assistant may explain the proposal, surface the literature behind it, and help
+  with everything around it, but does not pick it, any part of it, or an alternative, on its
+  own.
+- **Alternatives considered:** letting an assistant propose a recommendation once the literature
+  review is further along.
+- **Reason:** matches the ownership rule already in `AGENTS.md`: the mathematical framework is
+  the owner's call, and the course the AI-audit workflow came from must not quietly become a
+  commitment to a specific model.
+- **Consequences or limitations:** none identified yet.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** SRC-001 through SRC-008
+- **Related prompt log, commit, or pull request:** none yet
+
 ### DEC-002 Adopt a fixed prose style (USPArC) for all repository writing
 
 - **Date:** 2026-10-08

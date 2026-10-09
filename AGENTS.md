@@ -11,19 +11,22 @@ teammate, weekly checkpoint links, and GitHub Desktop instructions.
 - [`sql/activity_score.sql`](sql/activity_score.sql) and [`MODEL.md`](MODEL.md) form an earlier
   model. An AI designed it entirely. It scores venue activity from check-in triples and a friend
   graph. This model is the baseline to beat.
-- The goal is a new predictive model. The model builds on the random-graphs toolkit. A fully
-  synthetic simulation validates it: a fake venue map, a Poisson-process flow of simulated
-  people, and a synthetic social graph. The simulation fixes ground truth by construction. This
-  construction is what makes "outperform the baseline by a wide margin" a checkable claim
-  instead of an impression.
+- The goal is a new predictive model. I choose the mathematical framework myself; nothing in
+  this repository should assume random graphs, point processes, or any other specific toolkit
+  in advance, even though the AI-audit workflow in this file comes from a random-graphs course.
+  A fully synthetic simulation validates the model: a fake venue map, a Poisson-process flow of
+  simulated people, and a synthetic social graph. I chose the Poisson arrival process for the
+  simulator myself; the model that scores the resulting activity is a separate, still-open
+  choice. The simulation fixes ground truth by construction. This construction is what makes
+  "outperform the baseline by a wide margin" a checkable claim instead of an impression.
 - I design the predictive model myself. See "Owner ownership" below. An assistant should not
   propose or write the core scoring model, the graph formalism, or the statistical framework
   unless I explicitly ask for it. The baseline stays frozen as a reference. Do not edit it to
   make the comparison easier. Do not fold its formulas into the new model without my request.
 - Everything around the model is fair game by default. This includes the simulator (map,
   arrival process, social graph generator), test harnesses, scoring and comparison metrics,
-  plotting, refactoring, documentation, pointers to random-graph and point-process literature,
-  code review, and debugging.
+  plotting, refactoring, documentation, pointers to literature relevant to whichever framework I
+  pick, code review, and debugging.
 
 ## Owner ownership
 

@@ -1,0 +1,310 @@
+# Predicting Venue Activity from Sparse Check-in Data — Literature Review
+
+Oct 9, 2026 · @Dada
+
+## How to use this review
+
+This review collects about 90 references for a paper on ranking venues by activity from sparse, socially clustered check-ins. It answers three questions:
+
+1. **RQ1.** How do you estimate the true size or activity of a population at a location when only a fraction is observed?
+2. **RQ2.** How do you infer venue occupancy from event data when the observed users are a non-uniform sample?
+3. **RQ3.** Which point-process and arrival models describe bursty, clustered arrivals, and how do they treat groups rather than independent individuals?
+
+Each entry says what the paper shows and how you could use it. References were checked against publisher, repository or bibliographic pages. Details that could not be confirmed are marked **\[unverified\]**; check those before citing.
+
+## Core framing: check-ins are a thinned, biased record of real visits
+
+All three research threads converge on one model: a latent arrival process of *outings* (solo or group) at each venue, thinned by a check-in propensity that is neither constant nor random. Only the thinned events are observed. Absolute visitor counts cannot be identified from check-ins alone (Fithian & Hastie 2013), but venue *rankings* can be, which matches your goal.
+
+The recommended model has four layers:
+
+1. **Seasonal baseline.** An hour-of-week rate per venue (Fourier or spline terms), with a periodic background as in Zhuang & Mateu (2019).
+2. **Latent nightly busyness.** A random multiplicative factor (gamma or log-Gaussian Cox) for weather, events and overdispersion (Avramidis et al. 2004; Møller et al. 1998).
+3. **Group (cluster) arrivals.** Each outing carries a group-size mark, zero-truncated Poisson or negative binomial (Coleman & James 1961). Members' check-ins scatter around the outing time, as in a Neyman–Scott process. An optional Hawkes term lets outings trigger more outings.
+4. **Detection.** A group is observed if at least one member checks in, and its size is undercounted (Clement et al. 2017). The check-in probability depends on venue type, user covariates and social context; beta-binomial detection allows correlation within groups (Martin et al. 2011).
+
+&#91;embedded content: generative model per venue · 4 latent layers, 1 observed\]
+
+Only the bottom layer is observed; everything above it is inferred.
+
+Fit by EM or stochastic declustering (Veen & Schoenberg 2008; Zhuang et al. 2002), with the mutual-follow graph restricting which check-ins can share an outing. Little's law (arrivals × dwell time) then converts arrival rates into occupancy, as Chang et al. (2021) did with SafeGraph panels.
+
+Why groups deserve priority has formal support. Batch arrivals inflate variance and peak load relative to individual arrivals with the same mean (Daw & Pender 2019; Daw, Hampshire & Pender 2025). A venue with more group outings therefore has more extreme peak activity at the same average.
+
+## RQ1: Estimating true activity from partial detection
+
+The best fit is a hierarchical N-mixture model with groups as the detection unit. Capture-recapture on user IDs is a strong second, because Untappd users are individually identified.
+
+### Capture-recapture and multiple-systems estimation
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Yauck, Rivest & Rothman (2019)](https://doi.org/10.1080/01621459.2018.1469991), *JASA* 114(525):105–114 | Robust-design capture-recapture on app activations estimates unique visitors to car dealerships | **Closest analogue**: foot traffic at commercial venues from sparse device traces |
+| [Pledger (2000)](https://doi.org/10.1111/j.0006-341X.2000.00434.x), *Biometrics* 56(2):434–442 | Finite-mixture models for individual differences in catchability | Classes of heavy vs occasional check-in users |
+| [Chao (2001)](https://doi.org/10.1198/108571101750524670), *JABES* 6(2):158–175 | Review of closed models (M\_t, M\_b, M\_h) and lower-bound estimators | Citable source for a Chao-type lower bound per venue |
+| [Böhning & van der Heijden (2009)](https://doi.org/10.1214/08-AOAS214), *Ann. Appl. Stat.* 3:595–610 | Zelterman's estimator with covariates for one-source repeated counts | Fits a venue's user list with per-user check-in counts |
+| [Bird & King (2018)](https://doi.org/10.1146/annurev-statistics-031017-100641), *Annu. Rev. Stat. Appl.* 5:95–118 | Review of multiple-systems estimation for human populations | Treat several apps or sales data as overlapping lists |
+| [Silverman (2020)](https://doi.org/10.1111/rssa.12505), *JRSS A* 183(3):691–736 | Estimates are very sensitive to list-interaction modelling | Caution: platforms share the same sociable users |
+| [Manrique-Vallier (2016)](https://doi.org/10.1111/biom.12502), *Biometrics* 72(4):1246–1254 | Bayesian latent-class model for sparse multi-list data | Time windows or platforms as many sparse lists |
+| [Gibbon et al. (2024)](https://api.repository.cam.ac.uk/server/api/core/bitstreams/b09952fa-654e-46de-b7ba-cbb92853f355/content), WACCO \[venue and DOI unverified\] | True forum posters are 1.5–8.5× the observed number | Precedent for capture-recapture on online traces |
+
+### N-mixture and abundance-from-detection models
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Royle (2004)](https://doi.org/10.1111/j.0006-341X.2004.00142.x), *Biometrics* 60:108–115 | Site abundance as a latent variable; abundance from sparse replicated counts | Venues as sites, time windows as visits |
+| [Royle & Nichols (2003)](https://pubs.usgs.gov/publication/5224229), *Ecology* 84(3):777–790 | Detection probability rises with local abundance | Turns "any check-in in window t" into crowd size |
+| [Dail & Madsen (2011)](https://doi.org/10.1111/j.1541-0420.2010.01465.x), *Biometrics* 67(2):577–587 | Open N-mixture with arrivals and departures between surveys | Crowds that build and leave over an evening |
+| [Chandler, Royle & King (2011)](https://doi.org/10.1890/10-2433.1), *Ecology* 92(7):1429–1435 | Superpopulation → present now → detected | Regulars vs tonight's crowd vs who posted |
+| [Martin et al. (2011)](https://doi.org/10.1111/j.2041-210X.2011.00113.x), *Methods Ecol. Evol.* 2(6):595–601 | Beta-binomial detection; ignoring correlation inflates abundance | Friends post together, so detections correlate |
+| [Kéry & Royle (2016)](https://www.mbr-pwrc.usgs.gov/pubanalysis/keryroylebook), *Applied Hierarchical Modeling in Ecology* Vol. 1 | Textbook with code (unmarked R package) | Implementation reference |
+
+### Groups as the detection unit
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Clement, Converse & Royle (2017)](https://doi.org/10.1002/ece3.3284), *Ecol. Evol.* 7(18):7304–7310 | Two stages: is the group detected, and how many members are seen | **Exact match**: a group is seen if one friend checks in; its size is undercounted |
+| [Drummer & McDonald (1987)](https://doi.org/10.2307/2531944), *Biometrics* 43(1):13–21 | Detection depends on group size (size bias) | Big groups are over-represented; correct the observed size distribution |
+| [Buckland et al. (2001)](https://doi.org/10.1093/oso/9780198506492.001.0001), *Introduction to Distance Sampling*, OUP | Estimate clusters, then multiply by mean cluster size | Standard treatment of clustered populations |
+| [Rowcliffe et al. (2008)](https://doi.org/10.1111/j.1365-2664.2008.01451.x), *J. Appl. Ecol.* 45(4):1228–1236 \[DOI link unverified\] | Random encounter model; group density × group size for animals in groups | Formal analogue for counting friend groups separately |
+
+### Spatial and timestamp-based models
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Borchers & Efford (2008)](https://doi.org/10.1111/j.1541-0420.2007.00927.x), *Biometrics* 64(2):377–385 | Latent activity centres; detection falls with distance | Share information across neighbouring venues |
+| [Royle et al. (2009)](https://doi.org/10.1111/j.1365-2664.2008.01578.x), *J. Appl. Ecol.* | Hierarchical spatial capture-recapture for camera traps | Handles heterogeneity in exposure |
+| [Chandler & Royle (2013)](https://doi.org/10.1214/12-AOAS610), *Ann. Appl. Stat.* 7(2) \[pages unverified\] | Spatial capture-recapture without individual identity | Anonymised users or unmarked venue counts |
+| [Rowcliffe et al. (2014)](https://doi.org/10.1111/2041-210X.12278), *Methods Ecol. Evol.* 5(11):1170–1179 | Activity level from a circular kernel of detection times | Daily and weekly activity curves per venue |
+| [Nakashima, Fukasawa & Samejima (2018)](https://doi.org/10.1111/1365-2664.13059), *J. Appl. Ecol.* \[vol. 55, pages unverified\] | REST model: density = trapping rate ÷ (stay time × area) | Equivalent to Little's law for venues |
+
+### Presence-only data, data integration and small areas
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Warton & Shepherd (2010)](https://doi.org/10.1214/10-AOAS331), *Ann. Appl. Stat.* 4(3):1383–1402 | Presence-only records as an inhomogeneous Poisson process | Natural likelihood for check-ins |
+| [Fithian & Hastie (2013)](https://doi.org/10.1214/13-AOAS667), *Ann. Appl. Stat.* 7(4):1917–1939 | Observation bias is not identifiable from presence-only data alone | Justifies predicting **rankings**, not absolute counts |
+| [Renner et al. (2015)](https://doi.org/10.1111/2041-210X.12352), *Methods Ecol. Evol.* 6(4):366–379 | Practical guide to point-process models with bias covariates | Implementation guide |
+| [Fithian et al. (2015)](https://doi.org/10.1111/2041-210X.12242), *Methods Ecol. Evol.* 6(4):424–438 | Many species share one sampling-bias surface | Share a posting-propensity surface across venue types |
+| [Koshkina et al. (2017)](https://doi.org/10.1111/2041-210X.12738), *Methods Ecol. Evol.* 8:420–430 | Joins biased presence-only data to structured survey data | Fuse check-ins with a few door counts |
+| [Fletcher et al. (2019)](https://doi.org/10.1002/ecy.2710), *Ecology* 100(6):e02710 | Compares ways to combine data; recommends joint likelihood | Design of the data-fusion step |
+| [Isaac et al. (2020)](https://doi.org/10.1016/j.tree.2019.08.006), *Trends Ecol. Evol.* 35:56–67 | Review of integrated distribution models | Background citation |
+| [Fay & Herriot (1979)](https://www.jstor.org/stable/2286322), *JASA* 74(366):269–277 | Shrinks noisy area estimates toward a covariate regression | Low-traffic venues borrow strength from similar venues |
+
+Classics from the earlier discussion: Horvitz & Thompson (1952), *JASA* 47:663–685; Chao (1987), *Biometrics* 43:783–791; MacKenzie et al. (2002), *Ecology* 83:2248–2255 \[page numbers not re-verified\].
+
+## RQ2: Inferring venue occupancy from a non-uniform sample
+
+Digital traces reproduce venue *rank order* far better than absolute levels (rank correlations 0.75–0.84 in Tenkanen et al. 2017). Treat app users as a non-probability sample, correct with post-stratification where covariates allow, and validate against an independent count.
+
+### Validating digital proxies against ground truth
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Timokhin, Sadrani & Antoniou (2020)](https://doi.org/10.3390/smartcities3030042), *Smart Cities* 3(3):818–841 | Predicts Google Popular Times; validates it against Wi-Fi probe counts (r ≥ 0.9 at most venues) | **Closest analogue**; a low-cost ground-truth recipe |
+| [Tenkanen et al. (2017)](https://doi.org/10.1038/s41598-017-18007-4), *Sci. Rep.* 7:17615 | Instagram, Flickr and Twitter vs official park visitor counts | Rank agreement is reliable; combining platforms helps |
+| [Kontokosta & Johnson (2017)](https://doi.org/10.1016/j.compenvurbsys.2017.01.011), *CEUS* 64:144–153 | Wi-Fi records calibrated to census totals, within about 5% | Calibrating a sparse device sample |
+| [Moehring et al. (2021)](https://doi.org/10.1108/TR-10-2018-0152), *Tourism Review* 76(3):533–569 | Popular Times across 198 restaurants | Popular Times as a relative busyness label |
+| [Versichele et al. (2012)](https://doi.org/10.3390/s121014196), *Sensors* 12(10):14196–14213 | About 13% of spectators detectable by Bluetooth, from video head counts | Estimate a detection ratio and invert it |
+| [Schauer, Werner & Marcus (2014)](https://doi.org/10.4108/icst.mobiquitous.2014.257870), MobiQuitous, 171–177 | Raw MAC counts correlate weakly with true counts until filtered | Passive sensors also need correction |
+| [Ni, He & Gao (2017)](https://doi.org/10.1109/TITS.2016.2611644), *IEEE T-ITS* 18(6):1623–1632 | Tweets plus a seasonal model forecast event-driven subway flow | Fuse a sparse social signal with a seasonal baseline |
+| [Botta, Moat & Preis (2015)](https://doi.org/10.1098/rsos.150162), *R. Soc. Open Sci.* 2(5):150162 | Phone and Twitter activity track crowd size | Support for calibrated proportionality |
+| [Wood et al. (2013)](https://doi.org/10.1038/srep02976), *Sci. Rep.* 3:2976 | Flickr photo-user-days match visitor counts | De-duplicate to one unit per user per day |
+| [Deville et al. (2014)](https://doi.org/10.1073/pnas.1408439111), *PNAS* 111(45):15888–15893 | Phone records calibrated to census for dynamic population maps | Scaling partial traces to totals |
+
+### Correcting a non-representative sample
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Wang, Rothschild, Goel & Gelman (2015)](https://doi.org/10.1016/j.ijforecast.2014.06.001), *Int. J. Forecasting* 31(3):980–991 | MRP turns a skewed Xbox panel into accurate estimates | Cells of venue type × area × time slot × user covariates |
+| [Elliott & Valliant (2017)](https://doi.org/10.1214/16-STS598), *Stat. Sci.* 32(2) \[pages unverified\] | Quasi-randomisation vs superpopulation modelling | Theoretical frame for app users as a non-probability sample |
+| [Meng (2018)](https://doi.org/10.1214/18-AOAS1161SF), *Ann. Appl. Stat.* 12(2):685–726 | A weak link between being recorded and the outcome erases the benefit of big samples | The core warning for check-in data |
+| [Giorgi et al. (2022)](https://doi.org/10.1609/icwsm.v16i1.19287), *ICWSM* 16(1):228–240 | Naive reweighting fails with sparse cells; robust post-stratification works | Reweighting sparse venue-time cells |
+| [Zagheni & Weber (2015)](https://doi.org/10.1108/IJM-12-2014-0261), *Int. J. Manpower* 36(1):13–25 | Calibrate where benchmarks exist; otherwise use within-unit changes | Fallback when no absolute benchmark exists |
+| [Wang, Hale et al. (2019)](https://doi.org/10.1145/3308558.3313684), *WWW*, 2056–2067 | Infers demographics from profiles, then post-stratifies | Reweight users by inferred demographics |
+| [Coston et al. (2021)](https://doi.org/10.1145/3442188.3445881), *FAccT* | Audits SafeGraph coverage against voter turnout | Bias-audit design with administrative counts |
+| [Li et al. (2024)](https://doi.org/10.1371/journal.pone.0294430), *PLoS ONE* 19(1):e0294430 | SafeGraph sampling rate (\~7.5%) drifts over time and space | Model the sampling rate as varying |
+| [Zeighami & Shahabi (2024)](https://arxiv.org/abs/2402.11318), arXiv \[venue unverified\] | Neural debiasing of location statistics | Learned alternative to MRP |
+| [Ferres & Gauvin (2026)](https://arxiv.org/abs/2604.16193), arXiv preprint | MRP pooled by geography removes much of the bias in phone data | MRP without individual demographics |
+
+### Who checks in, and treating check-ins as thinned visits
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Lindqvist et al. (2011)](https://doi.org/10.1145/1978942.1979295), *CHI*, 2409–2418 | Check-ins driven by badges, self-presentation and coordination; mundane places skipped | Check-in probability depends on venue type and context |
+| Guha & Birnholtz (2013), *MobileHCI*, 183–192 \[DOI unverified\] | Sharing depends on how visible the check-in is | Socially desirable venues are over-reported |
+| Bilogrevic et al. (2015), *NDSS* \[DOI unverified\] | Predicts the motivation behind each check-in | Motivation as a propensity covariate |
+| [Xi et al. (2019)](https://doi.org/10.1609/aaai.v33i01.33015458), *AAAI* 33:5458–5465 | Infers missing venue visits in check-in sequences | Imputation before aggregating to venues |
+| [Gu et al. (2017)](https://doi.org/10.1145/3139958.3140034), *SIGSPATIAL*, Art. 81 | Matches GPS stops to Foursquare check-ins | Estimate the check-in-to-visit rate directly |
+| [Shelton, Qin & Shetty (2018)](https://doi.org/10.1609/aaai.v32i1.12116), *AAAI* 32(1) | Hawkes process inference with unobserved events | Check-ins as thinned observations of visits |
+
+### Occupancy via Little's law and queue inference
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Little (1961)](https://doi.org/10.1287/opre.9.3.383), *Oper. Res.* 9(3):383–387 | Occupancy = arrival rate × mean stay | Convert corrected arrivals into occupancy |
+| [Larson (1990)](https://doi.org/10.1287/mnsc.36.5.586), *Manag. Sci.* 36(5):586–601 | Reconstructs queue length from transaction timestamps | Hidden occupancy from partial event logs |
+| [Chang et al. (2021)](https://doi.org/10.1038/s41586-020-2923-3), *Nature* 589:82–87 | Hourly POI occupancy from a rescaled SafeGraph panel and dwell times | A worked occupancy estimate from a biased panel |
+| [Asanjarani, Nazarathy & Taylor (2020)](https://arxiv.org/abs/2012.14614), arXiv \[journal version unverified\] | Survey of queue state and parameter estimation | Background |
+
+### Forecasting and data fusion
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Zhang, Zheng & Qi (2017)](https://doi.org/10.1609/aaai.v31i1.10735), *AAAI* 31(1) | ST-ResNet for city-wide crowd flows with external factors | Deep-learning baseline |
+| [Hajisafi et al. (2023)](https://doi.org/10.1145/3589132.3625567), *SIGSPATIAL*, Art. 22 | Dynamic graph network for POI visit forecasting | State-of-the-art venue-level baseline |
+| [Georgiev, Noulas & Mascolo (2014)](https://doi.org/10.1609/icwsm.v8i1.14523), *ICWSM* 8(1):151–160 | Predicts event-driven gains for local retailers from check-ins | Event features for venue activity |
+
+## RQ3: Bursty and group arrival processes
+
+Check-in clustering has three possible sources: daily and weekly seasonality, self-excitation (one visit triggers others), and group arrivals. Separate them before attributing bursts to social mechanisms. In crime data, Zhuang & Mateu (2019) found only about 3% of clustering came from self-excitation; daily routine explained most of it.
+
+### Foundations: Poisson and Cox processes
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Cox (1955)](https://doi.org/10.1111/j.2517-6161.1955.tb00188.x), *JRSS B* 17(2):129–164 | Doubly stochastic Poisson process with a random rate | Formal basis for a latent, varying venue popularity |
+| [Daley & Vere-Jones (2003)](https://doi.org/10.1007/b97277), *Intro. to the Theory of Point Processes* Vol. I, 2nd ed., Springer | Standard textbook: Cox, cluster, Hawkes and marked processes | Single source for definitions |
+| [Møller, Syversveen & Waagepetersen (1998)](https://vbn.aau.dk/en/publications/log-gaussian-cox-processes), *Scand. J. Stat.* 25(3):451–482 \[DOI unverified\] | Log-Gaussian Cox process | Smooth latent venue "heat" across hours and nearby venues |
+
+### Self-exciting (Hawkes and ETAS) processes
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Hawkes (1971)](https://doi.org/10.1093/biomet/58.1.83), *Biometrika* 58(1):83–90 | Each event raises the short-term rate of further events | Base model for "a check-in makes more likely soon" |
+| [Hawkes & Oakes (1974)](https://doi.org/10.2307/3212693), *J. Appl. Probab.* 11(3):493–503 | Hawkes = a Poisson cluster (immigrant-offspring) process | Links Hawkes to group arrivals; basis for declustering |
+| [Ogata (1988)](https://doi.org/10.1080/01621459.1988.10478560), *JASA* 83(401):9–27 \[vol/pages unverified\] | ETAS: the mark scales offspring; time-rescaling residuals | Mark = group size; goodness-of-fit diagnostic |
+| [Zhuang, Ogata & Vere-Jones (2002)](https://ideas.repec.org/a/bes/jnlasa/v97y2002mjunep369-380.html), *JASA* 97(458):369–380 | Probability each event is background vs triggered | Probabilistic alternative to a hard co-arrival window |
+| [Veen & Schoenberg (2008)](https://escholarship.org/uc/item/9bw93556), *JASA* 103(482):614–624 \[DOI unverified\] | EM over the latent branching structure | Stable estimation; compare "who triggered whom" to the follow graph |
+| [Mohler et al. (2011)](https://doi.org/10.1198/jasa.2011.ap09546), *JASA* 106(493):100–108 | Spatio-temporal Hawkes with separable background | Template: venue attractiveness × time of week + triggering |
+| [Zhuang & Mateu (2019)](https://doi.org/10.1111/rssa.12429), *JRSS A* 182(3):919–942 | Hawkes with explicit daily and weekly periodic background | **Closest match** for separating seasonality from excitation |
+| [Reinhart (2018)](https://doi.org/10.1214/17-STS629), *Stat. Sci.* 33(3):299–318 | Review of self-exciting spatio-temporal models | Methods-section citation |
+| [Zhou, Zha & Song (2013)](https://proceedings.mlr.press/v31/zhou13a.html), *AISTATS*, PMLR 31:641–649 | Infers a user influence network with multivariate Hawkes | Test whether inferred triggering follows mutual follows |
+| [Cho, Ver Steeg & Galstyan (2014)](https://doi.org/10.1609/aaai.v28i1.8746), *AAAI* 28(1):269–275 | Per-venue Hawkes separating self, social and exogenous effects | Direct precedent on check-in data |
+| [Higuchi et al. (2018)](https://doi.org/10.1007/978-3-030-10928-8_31), *ECML-PKDD* | Hawkes + time-varying Gaussian mixture for POI visits | Spatio-temporal variant |
+
+### Cluster, batch and group arrivals
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Neyman & Scott (1958)](https://doi.org/10.1111/j.2517-6161.1958.tb00272.x), *JRSS B* 20(1):1–29 | Poisson parents each produce a random number of scattered children | **Canonical group model**: outing, group size, spread of check-in times |
+| Coleman & James (1961), *Sociometry* 24:36–45 \[DOI unverified\] | Freely forming groups follow a zero-truncated Poisson size distribution | Group-size mark distribution |
+| [Daw & Pender (2019)](https://doi.org/10.1007/s11134-019-09603-4), *Queueing Systems* 91(3–4):367–401 | Infinite-server queues with batch arrivals | Batch arrivals inflate occupancy variance |
+| [Daw, Hampshire & Pender (2025)](https://doi.org/10.1287/mnsc.2021.03979), *Manag. Sci.* 71(8):6580–6601 | Batch arrivals give heavier-tailed demand | Formal argument for prioritising groups |
+| [Daw & Pender (2018)](https://doi.org/10.1287/stsy.2018.0014), *Stochastic Systems* 8(3):192–229 | Queues driven by Hawkes arrivals; nightclub example | Bridges excitation to venue occupancy |
+
+### Burstiness in human activity
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Barabási (2005)](https://doi.org/10.1038/nature03459), *Nature* 435:207–211 | Heavy-tailed gaps from priority-queue decisions | The intrinsic-burstiness view |
+| [Vázquez et al. (2006)](https://doi.org/10.1103/PhysRevE.73.036127), *Phys. Rev. E* 73:036127 | Priority-queue models of human timing | Cite with Barabási (2005) |
+| [Goh & Barabási (2008)](https://doi.org/10.1209/0295-5075/81/48002), *EPL* 81(4):48002 | Burstiness coefficient B = (σ − m)/(σ + m) | Measure how much each model layer removes burstiness |
+| [Malmgren et al. (2008)](https://doi.org/10.1073/pnas.0800332105), *PNAS* 105(47):18153–18158 | Periodic Poisson plus short bursts reproduces heavy tails | Counterpoint: a "night out" is a periodic cluster process |
+| [Karsai, Jo & Kaski (2018)](https://doi.org/10.1007/978-3-319-68540-3), *Bursty Human Dynamics*, Springer | Review of measures, cycles and de-seasoning | De-season before attributing bursts to social causes |
+| [Crane & Sornette (2008)](https://doi.org/10.1073/pnas.0803685105), *PNAS* \[vol/pages unverified\] | Separates exogenous from endogenous bursts | Event-driven spikes vs social cascades |
+
+### Arrival forecasting in service systems
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Avramidis, Deslauriers & L'Ecuyer (2004)](https://doi.org/10.1287/mnsc.1040.0236), *Manag. Sci.* 50(7):896–908 | Random daily busyness × intraday profile | Template for hourly venue counts |
+| [Brown et al. (2005)](https://doi.org/10.1198/016214504000001808), *JASA* 100(469):36–50 | Tests for Poisson arrivals; square-root forecasting | Shows check-ins are not Poisson because of groups |
+| [Ibrahim et al. (2016)](https://doi.org/10.1016/j.ijforecast.2015.11.012), *Int. J. Forecasting* 32(3):865–874 | Survey of arrival forecasting | Justifies baselines and evaluation |
+| [Kim & Whitt (2014)](https://doi.org/10.1287/msom.2014.0490), *MSOM* 16(3):464–480 | Rounding and pooled days can fake non-Poisson behaviour | Rule out minute-rounded timestamps first |
+| [Jongbloed & Koole (2001)](https://doi.org/10.1002/asmb.444), *ASMBI* 17(4):307–318 | Poisson-mixture arrivals and prediction intervals | Overdispersed baseline |
+| Weinberg, Brown & Stroud (2007), *JASA* 102:1185–1199 \[DOI unverified\] | Bayesian day effect × intraday profile | Bayesian baseline |
+| [Ihler, Hutchins & Smyth (2006)](https://doi.org/10.1145/1150402.1150428), *KDD* \[pages unverified\] | Periodic Poisson + Markov-modulated event process | Flag special-event nights |
+
+### Neural point processes
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Du et al. (2016)](https://doi.org/10.1145/2939672.2939875), *KDD*, 1555–1564 | RNN-based intensity for marked event sequences | Neural baseline; mark = solo vs group |
+| [Mei & Eisner (2017)](https://proceedings.neurips.cc/paper/2017/hash/6463c88460bd63bbe256e495c63aa40b-Abstract.html), *NeurIPS* 30 | Neural Hawkes with excitation and inhibition | Flexible comparison model |
+| [Rizoiu et al. (2017)](https://arxiv.org/abs/1708.06401), arXiv | Tutorial on Hawkes processes for social media | Practical fitting guide |
+
+## Social ties, co-location and the co-arrival window
+
+Prior work defines group check-ins with windows from 15 minutes (GroupIM) to one hour (Brown et al. 2014). Choose yours empirically and report robustness across that range.
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Brown, Lathia, Noulas, Mascolo & Blondel (2014)](https://doi.org/10.1371/journal.pone.0105816), *PLoS ONE* 9 | "Social check-in" = friends at the same venue within 1 hour; larger groups meet at familiar places | **Main precedent** for your group definition |
+| [Sankar et al. (2020)](https://arxiv.org/abs/2006.03736), *SIGIR* (GroupIM) | Group interaction = same POI within 15 minutes with friends | Second precedent; brackets the window |
+| [Ayala-Gomez et al. (2017)](https://doi.org/10.1145/3091478.3091485), *WebSci*, 93–102 | About 1 million explicit Swarm group check-ins; groups are mostly pairs and prefer different venues | Labelled data to validate your heuristic |
+| [Crandall et al. (2010)](https://doi.org/10.1073/pnas.1006155107), *PNAS* 107(52):22436–22441 | A few co-occurrences in space and time strongly predict a social tie | Co-location as a social signal; calibrate the window |
+| [Pham, Shahabi & Liu (2013)](https://www.cs.albany.edu/~jhh/courses/readings/fam.sigmod13.strength.pdf), *SIGMOD* | Entropy-based tie strength from co-occurrences | Weight groups by tie strength |
+| [Cho, Myers & Leskovec (2011)](https://doi.org/10.1145/2020408.2020579), *KDD*, 1082–1090 | Social ties explain about 10–30% of movement | Friends' check-ins as a predictor |
+| [Gao, Tang & Liu (2012)](https://doi.org/10.1609/icwsm.v6i1.14240), *ICWSM* 6(1):114–121 | Check-ins mix personal history and social influence | Social-historical features |
+| [Brown et al. (2012)](https://doi.org/10.1609/icwsm.v6i1.14301), *ICWSM* 6(1):415–418 | Communities in location-based networks | Background on place-based groups |
+| [Brown et al. (2013)](https://arxiv.org/abs/1303.6460), *EPJ B* | Social and place-focused communities barely overlap | Background |
+
+**Procedure for choosing the window:**
+
+1. Correct for timestamp rounding first (Kim & Whitt 2014).
+2. For each venue-night, compute check-in time gaps for mutually following pairs and for non-following pairs.
+3. Take the excess of follower gaps over the non-follower baseline. Set the window where that excess decays to near zero, for example its 90–95th percentile.
+4. Report venue rankings at 15, 30 and 60 minutes.
+5. Present the fitted dispersion kernel of the cluster model as the data-driven version of the window.
+
+## Domain: Untappd, venue studies and check-in bias
+
+Chorley et al. (2016) is the main prior Untappd study. Check-in data both misses many real visits and contains fake or superfluous ones.
+
+| Reference | What it shows | Use in your paper |
+| --- | --- | --- |
+| [Chorley, Rossi, Tyson & Williams (2016)](https://doi.org/10.1609/icwsm.v10i1.14724), *ICWSM* 10(1):62–71 | 112-day crawl of Untappd across 40 cities, about 369k users | **Anchor citation** for the data source |
+| "Cheers to Untappd!" (2018), *AMCIS* \[authors unverified\] | Beer preferences on Untappd reflect cultural differences | Domain background |
+| [Beer Street Curitiba, arXiv:2004.10590](https://arxiv.org/abs/2004.10590) | DBSCAN on Untappd check-ins; one check-in per user per place | Deduplication choice to discuss |
+| [Noulas et al. (2011)](https://doi.org/10.1609/icwsm.v5i1.14175), *ICWSM* 5(1) | Daily and weekly check-in patterns of about 700k Foursquare users | Temporal baselines |
+| [Karamshuk et al. (2013)](https://doi.org/10.48550/arXiv.1306.1704), *KDD* (Geo-Spotting) | Predicts store popularity from check-in features | Venue-feature baseline |
+| [D'Silva et al. (2018)](https://doi.org/10.1140/epjds/s13688-018-0142-z), *EPJ Data Sci.* 7:13 | Gaussian-process forecasts of new-venue popularity | Sparse-venue forecasting |
+| [Yao et al. (2016)](https://par.nsf.gov/servlets/purl/10030208), *ICDM* | Time-varying POI popularity under sparsity | Temporal popularity profiles |
+| [Zhang et al. (2013)](https://sites.cs.ucsb.edu/~ravenben/publications/abstracts/foursquare-hotnets13.html), *HotNets* | GPS vs Foursquare: many visits missing, many check-ins forged | Evidence for the "sparse, biased" framing |
+| [Wang, Schoenebeck, Zheng & Zhao (2016)](https://doi.org/10.1609/icwsm.v10i1.14718), *ICWSM* 10(1):417–426 | Missing check-ins from privacy; extra ones from rewards | Untappd badges create similar incentives |
+| Rost, Barkhuus, Cramer & Brown (2013), *CSCW*, 357–362 | Challenges interpreting large social media datasets | Interpretation caveats |
+| [Cramer, Rost & Holmquist (2011)](https://researchportal.northumbria.ac.uk/en/publications/performing-a-check-in-emerging-practices-norms-and-conflicts-in-l/), *MobileHCI* | Check-ins are partly performative | Why check-in propensity varies |
+
+## Validation plan and assumptions likely violated
+
+Evaluate with rank metrics (Spearman correlation, NDCG@k), because rankings from social data are more reliable than absolute counts.
+
+**Ground-truth options, cheapest first:**
+
+- Google Popular Times as a relative busyness label, validated against Wi-Fi counts (Timokhin et al. 2020).
+- Explicit Swarm "with" group check-ins to validate the group heuristic (Ayala-Gomez et al. 2017).
+- Wi-Fi or Bluetooth probe sensors at a sample of bars, calibrated with manual head counts (Versichele et al. 2012; Schauer et al. 2014).
+- Door counters or point-of-sale logs from partner venues.
+- Ticketed events where attendance is known.
+
+| Assumption | Why it fails here | Fix |
+| --- | --- | --- |
+| Closure (population fixed during sampling) | Bar crowds turn over within hours | Within-night closure, or open models (Dail & Madsen 2011) |
+| Independent detection | Friends post together; badges add incentives | Beta-binomial or group-level detection (Martin et al. 2011; Clement et al. 2017) |
+| Random sampling of users | Untappd users are self-selected craft-beer enthusiasts; bias varies by venue type | Post-stratification (Giorgi et al. 2022); state the estimand; report rankings |
+| Constant sampling rate | Rates drift over time and space | Time- and area-varying rate (Li et al. 2024) |
+| Poisson arrivals | Groups and rounding distort tests | Cluster models; correct rounding first (Kim & Whitt 2014) |
+
+## Priority reading list and items to verify
+
+Read these eight in full; they shape the method. Skim the rest at abstract level.
+
+- [ ] Brown et al. (2014), *PLoS ONE*: group check-in definition
+- [ ] Chorley et al. (2016), *ICWSM*: the Untappd data source
+- [ ] Cho, Ver Steeg & Galstyan (2014), *AAAI*: per-venue Hawkes model
+- [ ] Clement, Converse & Royle (2017), *Ecol. Evol.*: group and member detection
+- [ ] Zhuang & Mateu (2019), *JRSS A*: periodic background vs self-excitation
+- [ ] Yauck, Rivest & Rothman (2019), *JASA*: capture-recapture on app traces at venues
+- [ ] Timokhin, Sadrani & Antoniou (2020), *Smart Cities*: venue popularity and ground truth
+- [ ] Daw & Pender (2019), *Queueing Systems*: batch arrivals and occupancy variance
+
+**Verify before citing:**
+
+- [ ] Rowcliffe et al. (2008) DOI link
+- [ ] Ogata (1988) volume, issue and pages
+- [ ] DOIs for Møller et al. (1998), Veen & Schoenberg (2008), Coleman & James (1961), Weinberg et al. (2007), Guha & Birnholtz (2013), Bilogrevic et al. (2015)
+- [ ] Page ranges for Elliott & Valliant (2017), Chandler & Royle (2013), Reinhart (2018), Crane & Sornette (2008), Ihler et al. (2006)
+- [ ] Venue for Gibbon et al. (2024), Zeighami & Shahabi (2024) and Asanjarani et al. (2020)
+- [ ] Author list for "Cheers to Untappd!" (AMCIS 2018)
+- [ ] Not yet sourced: Bartlett–Lewis originals and Shanbhag's batch-queue paper; Daley & Vere-Jones covers Bartlett–Lewis

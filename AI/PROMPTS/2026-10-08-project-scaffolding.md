@@ -96,4 +96,12 @@ that a prompt record preserves original wording.
 
 ## Later corrections or addenda
 
-None yet.
+**2026-10-08, later the same day.** This session's draft of `AGENTS.md` and `AI/PROJECT.md`
+stated that the new model would build on "the random-graphs toolkit" and be "grounded in
+random-graph and point-process theory." The owner flagged this as an unwarranted assumption: the
+AI-audit workflow came from a random-graphs course, but that is the source of the workflow, not
+a decision about this project's method. A follow-up session rewrote every instance in
+`AGENTS.md`, `AI/PROJECT.md`, `AI/PROOF_STATUS.md`, `AI/SOURCES.md`, and
+`paper/sections/02-literature-review.tex` to state plainly that the mathematical framework is
+not yet chosen, while leaving the Poisson arrival process for the simulator in place, since the
+owner specified that detail directly, in the first prompt of this project, not this session.

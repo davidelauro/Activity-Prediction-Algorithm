@@ -1,10 +1,54 @@
 \section{Literature Review}
 
-% Owner-authored. This is the current branch, TheProblem.
-%
-% Survey models that describe population dynamics and arrival processes
-% relevant to venue activity: Poisson and other point processes, random graph
-% models of social structure, and any prior work on inferring activity from
-% sparse check-in-like data. Use \citep{} and \citet{} from natbib once
-% entries exist in references.bib. Log every source actually checked in
-% AI/SOURCES.md, with its exact theorem, section, or page location.
+% Owner-authored section. This is the current branch, TheProblem. The search
+% methodology and trimming criteria below are stated as fact because the
+% owner ran this search and asked for this trimming; the specific papers
+% named are still leads, not checked sources, until opened individually and
+% logged in AI/SOURCES.md. The mathematical framework for this project's own
+% model remains undecided; nothing below commits to one.
+
+\subsection{Search methodology}
+
+Claude searched the literature against three research questions, stated here in full since the
+trimming below depends on them:
+
+\begin{enumerate}
+  \item[RQ1.] How do you estimate the true size or activity of a population at a location when
+    only a fraction is observed?
+  \item[RQ2.] How do you infer venue occupancy from event data when the observed users are a
+    non-uniform sample?
+  \item[RQ3.] Which point-process and arrival models describe bursty, clustered arrivals, and
+    how do they treat groups rather than independent individuals?
+\end{enumerate}
+
+This search returned approximately 90 candidate references.
+
+\subsection{Trimming the candidate set}
+
+Reading 90 papers in full is not feasible at this stage. The set was trimmed to the 8 references
+that the search itself flagged as shaping the method most directly, leaving the rest at
+abstract-level triage, to revisit only if a specific gap in the model requires it. Each entry
+below is still a lead, not a checked source; every one needs to be opened and logged in
+\texttt{AI/SOURCES.md} before any claim in this paper cites it.
+
+\begin{itemize}
+  \item Brown et al. (2014), on defining a group check-in by a time window. No confirmed
+    bibliographic detail (DOI, venue, page range) has surfaced yet; the paper still needs
+    locating, not just reading.
+  \item Chorley et al. (2016), \textit{ICWSM}, the main prior study of Untappd check-in data.
+    Full bibliographic detail is likewise not yet confirmed.
+  \item Cho, Ver Steeg, and Galstyan (2014), \textit{AAAI} 28(1):269--275, on a per-venue Hawkes
+    model separating self-excitation, social, and exogenous effects in check-in data.
+  \item Clement, Converse, and Royle (2017), \textit{Ecological and Evolution} 7(18):7304--7310,
+    on two-stage detection: whether a group is observed at all, and how many of its members are.
+  \item Zhuang and Mateu (2019), \textit{JRSS A} 182(3):919--942, on separating a periodic
+    seasonal background from genuine self-excitation in clustered event data.
+  \item Yauck, Rivest, and Rothman (2019), \textit{JASA} 114(525):105--114, on capture-recapture
+    applied to app-activation traces to estimate unique visitors to a commercial venue.
+  \item Timokhin, Sadrani, and Antoniou (2020), \textit{Smart Cities} 3(3):818--841, on
+    validating a popularity signal against an independent ground truth, a low-cost recipe for
+    exactly the ground-truth problem this project's synthetic simulator is meant to solve by
+    construction instead.
+  \item Daw and Pender (2019), \textit{Queueing Systems} 91(3--4):367--401, on how batch
+    arrivals inflate occupancy variance relative to individual arrivals with the same mean.
+\end{itemize}
