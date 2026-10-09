@@ -5,7 +5,7 @@ work session. Replace stale details instead of letting this file become a diary.
 
 - **Last updated:** 2026-10-09
 - **Updated by:** Claude Code
-- **Current branch:** literature/search-topics (branched from TheProblem)
+- **Current branch:** literature/search-topics, committed as `798ed8f` and pushed
 - **Current stage:** planning
 
 ## Done and checked
@@ -38,11 +38,17 @@ work session. Replace stale details instead of letting this file become a diary.
   SRC-001 to SRC-008 search carries over; it answers a different set of questions. One
   unformalized open item came out of this pass: the priority tiebreaker among venues at the
   same heat level.
+- `drafts/search-prompts.md`: ten search prompts drawn from the 13 logged topics, each meant to
+  run as its own independent query. Includes a single paste-ready message bundling all ten with
+  citation-honesty instructions, for running in a fresh chat. Decided to run this batch in a new
+  chat on Claude Opus, not through this project's own Agent tool, specifically so the search has
+  no exposure to anything already discussed in this project's main session; that matters because
+  of the El Farol guess, a claim that leaked from background knowledge into the project only
+  because of context already present in that conversation.
 
 ## In progress
 
-- Deciding which of the 13 logged topics actually get searched; none have been searched yet
-  under this second pass.
+- The owner is about to run the ten prompts in a fresh chat. Results are not back yet.
 
 ## Blockers or open questions
 
@@ -52,7 +58,7 @@ work session. Replace stale details instead of letting this file become a diary.
 - The comparison metric against the baseline not yet defined.
 - The priority tiebreaker rule is flagged but not formalized: open question is whether the
   friend-presence check is personalized per viewer or global across all viewers.
-- This branch, `literature/search-topics`, is not yet committed or pushed.
+- The ten search prompts have not been run yet; results from the fresh Opus chat are pending.
 
 ## Unverified claims or results
 
@@ -64,7 +70,8 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## Next three actions
 
-1. Decide which of the 13 logged topics to actually search, then run that search.
+1. Run the ten prompts in `drafts/search-prompts.md` in a fresh Opus chat, then bring results
+   back to log into `AI/SOURCES.md` as leads.
 2. Grab the three bot-blocked open-access papers (Clement et al., Timokhin et al., Zhuang and
    Mateu) by hand in a browser; links are in `AI/SOURCES.md`.
 3. Formalize the priority tiebreaker rule, once the owner is ready to decide the open question
@@ -76,6 +83,8 @@ work session. Replace stale details instead of letting this file become a diary.
   problem statement, not yet in the paper.
 - [`drafts/literature-search-topics.md`](../drafts/literature-search-topics.md): the 13
   candidate search topics, organized by paragraph and by who identified them.
+- [`drafts/search-prompts.md`](../drafts/search-prompts.md): the ten prompts built from that
+  list, with the paste-ready version for the fresh Opus chat.
 - [`AI/SOURCES.md`](SOURCES.md): the first search's 8 references, all still leads.
 
 ## Related records
