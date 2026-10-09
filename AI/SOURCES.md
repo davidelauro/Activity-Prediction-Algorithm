@@ -61,6 +61,14 @@ Suggested statuses are `LEAD`, `CHECKED`, `USED`, and `REJECTED`.
 | SRC-049 | Pham, Shahabi, Liu (2013) | paper | LEAD | entropy-weighted co-occurrence, busy venues flagged |
 | SRC-050 | Eagle, Pentland, Lazer (2009) | paper | LEAD | friendship inference from dense co-presence |
 | SRC-051 | Arthur (1994) | paper | REJECTED | the original El Farol paper, not peer-reviewed |
+| SRC-052 | Machleit, Kellaris, Eroglu (1994) | paper | LEAD | human vs spatial crowding, the origin distinction |
+| SRC-053 | Blut, Iyer (2020) | paper | LEAD | meta-analysis: human crowding reads positive |
+| SRC-054 | Cheng, Liu, Bi (2021) | paper | LEAD | inverted-U between human crowding and experience |
+| SRC-055 | Dunbar et al. (2017) | paper | LEAD | group size and real conversation, by venue type |
+| SRC-056 | Hristova et al. (2016) | paper | LEAD | computable metrics for familiarity vs turnover |
+| SRC-057 | Zahnow, Corcoran (2025) | paper | LEAD | repeat visitation and familiar strangers |
+| SRC-058 | Bell, Pliner (2003) | paper | LEAD | dwell time correlates with group size |
+| SRC-059 | Gabriel et al. (2020) | paper | LEAD | headcount a weak predictor of felt connection |
 
 ## Entry template
 
@@ -914,3 +922,179 @@ owner does.
   through SRC-036 and SRC-037, but not through this paper.
 - **Where it is used in the report or code:** not used, superseded by SRC-036 and SRC-037
 - **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+---
+
+SRC-052 through SRC-059 surfaced from a search on what makes a place feel socially alive,
+run 2026-10-09 via a fresh subagent, independent of this project's main session. Full prose
+detail for every source the search returned lives in `drafts/social-aliveness-search.md`. The
+owner asked for a second pass: keep only the ones measurable from this project's actual data,
+check-ins (user, timestamp, venue) and a mutual-follow social graph, nothing else. No audio,
+survey, physical-venue, or capacity data exists in this project's scope. The eight below passed
+that filter; roughly thirty did not and are listed afterward, not individually logged.
+
+### SRC-052 Machleit, Kellaris, Eroglu (1994)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Machleit, K.A., Kellaris, J.J., Eroglu, S.A.,
+  "Human versus spatial dimensions of crowding perceptions in retail environments," Marketing
+  Letters 5(2):183-194.
+- **Stable link, DOI, or version:** doi.org/10.1007/BF00994108
+- **Checked by and date:** record read by the 2026-10-09 search
+- **Exact relevant location:** originates the distinction between human crowding (perceived
+  presence of other people) and spatial crowding (perceived constraint of physical space)
+- **What it supports:** headcount, which this project can measure directly, maps to human
+  crowding, the half of the construct with positive effects in the later literature; spatial
+  crowding, which this project cannot measure without capacity data, is the half with negative
+  effects
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### SRC-053 Blut, Iyer (2020)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Blut, M., Iyer, G.R., "Consequences of perceived
+  crowding: A meta-analytical perspective," Journal of Retailing 96(3):362-382.
+- **Stable link, DOI, or version:** doi.org/10.1016/j.jretai.2019.11.007
+- **Checked by and date:** record read by the 2026-10-09 search
+- **Exact relevant location:** meta-analysis of 73 samples, over 19,000 shoppers
+- **What it supports:** human crowding has positive effects on evaluation and does not reduce
+  perceived control, unlike spatial crowding; the strongest quantitative backing found for
+  treating headcount itself as a positive signal, not just a neutral one
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### SRC-054 Cheng, Liu, Bi (2021)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Cheng, H., Liu, Q., Bi, J.-W., "Perceived
+  crowding and festival experience: The moderating effect of visitor-to-visitor interaction,"
+  Tourism Management Perspectives 40:100888.
+- **Stable link, DOI, or version:** doi.org/10.1016/j.tmp.2021.100888
+- **Checked by and date:** seen via search results by the 2026-10-09 search; fetch of the full
+  text blocked, author list and article number not independently confirmed
+- **Exact relevant location:** 555 questionnaires at Chinese cultural festivals
+- **What it supports:** an inverted-U relationship between perceived human crowding and festival
+  experience, the only direct test of a non-linear headcount effect found in this search; a
+  candidate functional form for a headcount feature, not a straight line
+- **What it does not support or important limitations:** a single self-report study; no
+  meta-analysis has tested a quadratic term on human crowding
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### SRC-055 Dunbar et al. (2017)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Dunbar, R.I.M., Launay, J., Wlodarski, R.,
+  Robertson, C., Pearce, E., Carney, J., MacCarron, P., "Functional benefits of (modest)
+  alcohol consumption," Adaptive Human Behavior and Physiology 3(2):118-133.
+- **Stable link, DOI, or version:** doi.org/10.1007/s40750-016-0058-4 (open access)
+- **Checked by and date:** full text read by the 2026-10-09 search
+- **Exact relevant location:** observational study contrasting small community pubs against
+  large city-centre bars
+- **What it supports:** both group size and venue type are directly measurable from this
+  project's check-in data. Found mean group size 3.94 at a regular's local venue versus 6.73 at
+  casual city-centre bars, and significantly more people physically present in a conversation
+  without participating, more time not talking, and shorter conversations in the
+  higher-turnover venues. Bigger, higher-turnover groups are not the same thing as more actual
+  social engagement.
+- **What it does not support or important limitations:** the conversation-quality measures
+  themselves are not something this project can observe; only group size and venue-level
+  turnover are
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### SRC-056 Hristova et al. (2016)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Hristova, D., Williams, M.J., Musolesi, M.,
+  Panzarasa, P., Mascolo, C., "Measuring urban social diversity using interconnected geo-social
+  networks," WWW '16.
+- **Stable link, DOI, or version:** doi.org/10.1145/2872427.2883065
+- **Checked by and date:** seen via search results by the 2026-10-09 search, abstract and record
+  level
+- **Exact relevant location:** defines four computable place-level metrics: social brokerage,
+  entropy, visitor homogeneity, and serendipity
+- **What it supports:** the single most directly actionable source for a familiarity-versus-
+  turnover feature; every one of these four metrics is computable from exactly the data this
+  project has, check-in history per user per venue plus the social graph, with no additional
+  data collection needed
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### SRC-057 Zahnow, Corcoran (2025)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Zahnow, R., Corcoran, J., "From communal places to
+  comfort zones: Familiar stranger encounters in everyday life as a form of belonging," Urban
+  Studies 62(4):754-771.
+- **Stable link, DOI, or version:** doi.org/10.1177/00420980241265033
+- **Checked by and date:** seen via search results by the 2026-10-09 search; fetch blocked,
+  citation verified through two independent records
+- **Exact relevant location:** 2022 intercept survey, 278 Brisbane residents
+- **What it supports:** tests number of familiar strangers and frequency of visitation as
+  predictors of belonging; frequency of visitation is directly computable from this project's
+  check-in history, a repeat-visitor rate per venue
+- **What it does not support or important limitations:** the belonging outcome itself was
+  measured by survey, not something this project can observe; only the familiar-stranger and
+  visitation-frequency inputs translate
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### SRC-058 Bell, Pliner (2003)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Bell, R., Pliner, P.L., "Time to eat: The
+  relationship between the number of people eating and meal duration in three lunch settings,"
+  Appetite 41(2):215-218.
+- **Stable link, DOI, or version:** doi.org/10.1016/S0195-6663(03)00109-0
+- **Checked by and date:** seen via search results by the 2026-10-09 search, not independently
+  verified
+- **Exact relevant location:** observational study across a worksite cafeteria, a fast-food
+  restaurant, and a mid-priced restaurant
+- **What it supports:** a significant positive correlation between group size and meal duration;
+  since this project can proxy dwell time from first-seen to last-seen check-in timestamps, and
+  group size directly, this gives a testable relationship between two measurable quantities
+- **What it does not support or important limitations:** dwell time is an effect of group size
+  here, not an independent driver; any model using both needs to be explicit about which role
+  each plays
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### SRC-059 Gabriel et al. (2020)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Gabriel, S., Naidu, E., Paravati, E., Morrison,
+  C.D., Gainey, K., "Creating the sacred from the profane: Collective effervescence and everyday
+  activities," The Journal of Positive Psychology 15(1):129-154.
+- **Stable link, DOI, or version:** doi.org/10.1080/17439760.2019.1689412
+- **Checked by and date:** full text read in part by the 2026-10-09 search (scale development,
+  measures, and the Study 2d regression table specifically)
+- **Exact relevant location:** nine studies, eleven datasets, over 2,500 participants; Study 2d
+  hierarchical regression
+- **What it supports:** number of people present had only a small, significant relation to the
+  Connection subscale (beta = 0.16) and no significant relation to Sacredness; number of friends
+  present was non-significant for both. A caution against this project leaning on raw headcount
+  as the primary driver of a "socially alive" score, even though headcount is the easiest thing
+  to measure.
+- **What it does not support or important limitations:** a single regression inside a
+  scale-validation paper, not a dedicated test of this project's question; the Connection and
+  Sacredness subscales themselves are not something this project can measure
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-literature-search-topics.md`
+
+### Discarded as not measurable in this project's setting
+
+Roughly thirty sources from the same search were not logged individually, since none of them
+survive the filter above: they depend on audio or sound-level data (the Lombard-effect and
+music-tempo literature, the Axelsson et al. soundscape-vibrancy framework, Gueguen et al.,
+Daelemans et al., Milliman, Caldwell and Hibbert), survey or self-report data this project does
+not collect (the collective-effervescence meta-review, Paez et al., most of the crowding
+literature beyond SRC-052 through SRC-054), physical-venue or street-level observation data
+(Mehta's several papers, Montgomery, stadium-atmosphere research, Whyte, Grazian), or
+qualitative fieldwork that cannot be reduced to this project's check-in schema (Oldenburg,
+Blokland and Nast, Johnston). De Nadai et al. (2016), on urban vitality from mobile-phone data,
+is the closest methodological relative of this project among the discarded set, but its actual
+inputs, census and land-registry data, are still outside scope. Full detail on every discarded
+source, including citation status, is preserved in `drafts/social-aliveness-search.md`; nothing
+is lost, it is simply not part of the active source list.

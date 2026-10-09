@@ -54,10 +54,31 @@ work session. Replace stale details instead of letting this file become a diary.
   owner has not personally checked any yet. Full prose detail for all of them lives in
   `drafts/literature-review-results.md`; the `AI/SOURCES.md` entries are the citation record,
   not a duplicate of that prose.
+- Scope correction: the goal is not estimating general attendance, it is estimating presence of
+  the app's own target community, an unknown demographic (young adults who want to socialize
+  with friends), not a closed, known population. `drafts/problem-statement-draft.md` reworded
+  throughout to say so. This also resolves part of the baseline's own ρ_v identifiability
+  problem from `MODEL.md`: ρ_v now means "probability a community member who is present checks
+  in," a narrower, more answerable question than "probability any real attendee uses this app."
+- Started naming parameters for venue activity beyond headcount and group size. Momentum was
+  proposed, confirmed, then retracted by the owner without a stated reason; it is not on the
+  list. A search on what makes a place feel socially alive (run via a fresh subagent, independent
+  of this session, same citation discipline) returned about 38 sources, saved in full to
+  `drafts/social-aliveness-search.md`. Filtered to what this project can actually measure from
+  check-ins and the social graph alone (no audio, survey, or venue-characteristic data exists in
+  scope): 8 sources kept, logged as `SRC-052` through `SRC-059`; about 30 discarded, not
+  individually logged, reasons summarized in `AI/SOURCES.md` after `SRC-059`. The two load-bearing
+  findings: human crowding (measurable, headcount) and spatial crowding (not measurable, no
+  capacity data) have opposite effects in the literature, and raw headcount was only a weak
+  predictor of felt social connection in one validated study, a caution against leaning on it as
+  the primary signal. Hristova et al. (`SRC-056`) gives four computable familiarity/turnover
+  metrics directly usable on this project's own data, the most actionable single source found
+  across both searches.
 
 ## In progress
 
-- Nothing active. Logging from the second search just finished.
+- Naming the actual parameter set for venue activity (headcount, groups, and whatever else
+  survives the discussion) has not concluded.
 
 ## Blockers or open questions
 
@@ -67,8 +88,13 @@ work session. Replace stale details instead of letting this file become a diary.
 - The comparison metric against the baseline not yet defined.
 - The priority tiebreaker rule is flagged but not formalized: open question is whether the
   friend-presence check is personalized per viewer or global across all viewers.
-- Whether to trim the 51 logged sources down to a smaller working set is explicitly deferred;
-  the owner said the reason for any trim needs deciding later, not now.
+- Whether to trim the 51 logged sources from the first two searches down to a smaller working
+  set is explicitly deferred; the owner said the reason for any trim needs deciding later, not
+  now. The social-aliveness search's sources were trimmed on a different, explicit basis
+  (measurability), so that one is not part of this open question.
+- The parameter set for venue activity is still open: headcount and groups are settled, momentum
+  was proposed and retracted, nothing from the social-aliveness search has been confirmed as an
+  actual parameter yet, only identified as measurable.
 
 ## Unverified claims or results
 
@@ -81,22 +107,25 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## Next three actions
 
-1. Decide, with a stated reason, whether and how to trim the 51 logged sources before writing
-   the literature review narrative in `paper/sections/02-literature-review.tex`.
-2. Grab the three bot-blocked open-access papers from the first search (Clement et al.,
+1. Finish naming the parameter set for venue activity (headcount, groups, and whatever else
+   gets confirmed from or beyond the social-aliveness search).
+2. Decide, with a stated reason, whether and how to trim the 51 logged sources from the first
+   two searches before writing the literature review narrative in
+   `paper/sections/02-literature-review.tex`.
+3. Grab the three bot-blocked open-access papers from the first search (Clement et al.,
    Timokhin et al., Zhuang and Mateu) by hand in a browser; links are in `AI/SOURCES.md`.
-3. Formalize the priority tiebreaker rule, once the owner is ready to decide the open question
-   inside it.
 
 ## Files to open first
 
-- [`drafts/literature-review-results.md`](../drafts/literature-review-results.md): the full
-  prose findings from the second search, organized by question.
-- [`AI/SOURCES.md`](SOURCES.md): all 51 logged sources, all still leads.
 - [`drafts/problem-statement-draft.md`](../drafts/problem-statement-draft.md): the current
-  problem statement, not yet in the paper.
+  problem statement, community-scoped, not yet in the paper.
+- [`drafts/social-aliveness-search.md`](../drafts/social-aliveness-search.md): the parameter
+  search, full results.
+- [`AI/SOURCES.md`](SOURCES.md): 59 logged sources, all still leads or rejected.
+- [`drafts/literature-review-results.md`](../drafts/literature-review-results.md): the first
+  search's full prose findings, organized by question.
 - [`drafts/literature-search-topics.md`](../drafts/literature-search-topics.md): the 13
-  candidate search topics that drove the second search.
+  candidate search topics that drove the first search.
 
 ## Related records
 
