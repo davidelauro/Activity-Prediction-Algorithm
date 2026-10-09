@@ -26,10 +26,73 @@ Use IDs `DEC-001`, `DEC-002`, and so on.
 
 Add new entries above older entries.
 
-### DEC-006 Fix the synthetic map's structure and scale
+### DEC-007 Restate the problem around a three-level display and an adoption threshold
 
 - **Date:** 2026-10-09
 - **Status:** active
+- **Decision:** the problem is restated, and the statement lives in
+  `drafts/problem-statement-v2.md`. The app's output is a three-level display rather than a
+  headcount. The research question asks for the smallest adoption at which the display becomes
+  good enough, and it asks that of every possible procedure rather than of one. The following
+  values are settled.
+  1. Three levels, labelled quiet, busy and packed, shown as yellow, orange and red. The owner
+     chose three so the colours stay recognizable on screen without a legend.
+  2. A venue with no check-ins inside the window does not appear on the map at all.
+  3. The two boundaries sit at quantiles of the headcount distribution, not at absolute
+     headcounts. The quantile split itself is not yet chosen.
+  4. The window runs two hours back from the present moment.
+  5. Success means a match rate of 80 percent among shown venues, and coverage of 80 percent
+     among venues that are genuinely busy or packed.
+  6. An adopter is a member who uses the app. Adoption is the percentage of the community who
+     are adopters.
+  7. Presence at a venue is enforced by the app rather than assumed, since the app accepts a
+     check-in only from a user at the venue's location. The posting assumptions therefore number
+     three, not four.
+  8. The community is a fixed and finite set of people. Deciding who belongs to it in practice
+     stays out of scope, and without that assumption no venue has a well defined headcount.
+- **Alternatives considered:** predicting a headcount and treating the levels as presentation,
+  which is what `drafts/problem-statement-draft.md` does; grey for a venue with no check-ins,
+  which was adopted and then dropped; absolute rather than quantile boundaries; four levels
+  rather than three; scoring with an asymmetric cost ratio for overestimating, which the earlier
+  draft carried and the owner removed; a per-user window derived from each user's own drink rate,
+  and a window varying by time of day, both of which the owner raised and both of which were set
+  aside as refinements rather than parts of the problem.
+- **Reason:** the owner's own reasoning drove the three structural moves. The user acts on a
+  comparison between venues, so a count is a means rather than the product. An arithmetic check
+  showed that no adoption level yields a precise per-venue headcount for a community of 30,000
+  across 100 venues, while a coarse level is reachable, which makes the level the only honest
+  output. Asking the question of every possible procedure keeps it inside the problem, because a
+  question about one estimator's performance is a question about a solution the statement does
+  not contain.
+- **Consequences or limitations:** six, and the first three are the ones to watch.
+  The problem can no longer be answered by simulation alone. A claim about every procedure needs
+  the optimal rule derived first, after which simulation evaluates it, and the result then holds
+  relative to the assumed model and prior rather than universally.
+  Two quantities the answer depends on still have no source: how unequally members spread across
+  venues, which the owner's own analysis ranks above adoption in importance, and how often an
+  adopter posts.
+  Dropping grey means the map cannot distinguish "no information" from "quiet", and that trade
+  belongs in the discussion.
+  The quantile split stays open, and a skewed split would raise the trivial baseline and weaken
+  the 80 percent target.
+  The owner's insight that per-user post counts carry information is deliberately absent, since
+  it contradicts the constant-posting-probability assumption and belongs with the solution.
+  The hour of the evening is unfixed, and it feeds both the window's justification and turnout.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** supersedes DEC-006 choices 1 to 7
+  and keeps choice 8. Sources: SRC-028 for quantile classes, SRC-062 and SRC-064 for the window,
+  SRC-065 and SRC-060 for scale and turnout, SRC-013 through SRC-015 and SRC-022 for the limit
+  side, SRC-029 through SRC-031 for how readers treat categories.
+- **Related prompt log, commit, or pull request:**
+  `AI/PROMPTS/2026-10-09-problem-statement.md`
+
+### DEC-006 Fix the synthetic map's structure and scale
+
+- **Date:** 2026-10-09
+- **Status:** superseded by DEC-007 on 2026-10-09, except for choice 8, the scale. Choices 1
+  through 7 describe a venue map that the stripped-down problem of DEC-007 does not have. The
+  entry stays as written, since the workflow keeps superseded decisions rather than deleting
+  them.
 - **Decision:** eight choices define the synthetic venue map.
   1. The map carries community members only. The simulator models no general public.
   2. Venues form an abstract adjacency graph. The map assigns no geographic coordinates.

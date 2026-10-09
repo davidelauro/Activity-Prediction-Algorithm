@@ -71,6 +71,10 @@ Suggested statuses are `LEAD`, `CHECKED`, `USED`, and `REJECTED`.
 | SRC-059 | Gabriel et al. (2020) | paper | LEAD | headcount a weak predictor of felt connection |
 | SRC-060 | Eurostat city statistics | dataset | LEAD | population and student counts per city |
 | SRC-061 | OpenStreetMap via Overpass | dataset | LEAD | nightlife venue counts per city |
+| SRC-062 | Gilmore et al. (2021) | paper | CHECKED | drinking session duration, 4.8 hours mean |
+| SRC-063 | Gilmore et al. (2022) | paper | LEAD | companion paper on the same Perth survey |
+| SRC-064 | Sykes, Rowley, Schaefer (1993) | paper | LEAD | duration of group stay, isolates vs groups |
+| SRC-065 | Eurostat time use survey | dataset | LEAD | going-out participation by day of week |
 
 ## Entry template
 
@@ -1161,6 +1165,102 @@ Uppsala, SE013C Lund.
     out count;
 
 Levels used: Leuven 8, Groningen 8, Heidelberg 6.
+
+### SRC-062 Gilmore et al. (2021)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Gilmore, W., Symons, M., Liang, W., Graham, K.,
+  Kypri, K., Miller, P., Chikritzhs, T., "Association between Nightlife Goers' Likelihood of an
+  Alcohol Use Disorder and Their Preferred Bar's Closing Time: A Cross-Sectional Observational
+  Study in Perth, Australia," International Journal of Environmental Research and Public Health
+  18:13040, 2021.
+- **Stable link, DOI, or version:** doi.org/10.3390/ijerph182413040, CC BY. **A correction
+  exists and must be cited alongside it:** same authors, 2022, same journal, 19:9684,
+  doi.org/10.3390/ijerph19159684.
+- **Checked by and date:** results table read directly by Claude Code on 2026-10-09, through the
+  Europe PMC full-text API. The owner has not read the paper.
+- **Exact relevant location:** the drinking-session duration rows of the comparison table
+- **What it supports:** drinking session duration had a mean of 4.8 hours with standard
+  deviation 2.7 for one subgroup of 246 respondents, and 5.0 hours with standard deviation 2.5
+  for another of 198. Two further subgroups gave 4.5 and 4.4 hours. Street-intercept surveys of
+  nightlife-goers in four Perth nightlife areas, 2015 to 2016.
+- **What it does not support or important limitations:** the figure measures a whole drinking
+  session, not time spent at one venue, so it bounds the project's two-hour window from above
+  rather than setting it. Perth rather than a European university city. Nightlife-goers
+  intercepted on the street, which is not a random sample of a community.
+- **Where it is used in the report or code:** not yet used. Anchors the two-hour window in
+  `drafts/problem-statement-v2.md`.
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-problem-statement.md`
+
+### SRC-063 Gilmore et al. (2022)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Gilmore, W., Symons, M., Liang, W., Graham, K.,
+  Kypri, K., Miller, P., Chikritzhs, T., "Association between Bar Closing Time, Alcohol Use
+  Disorders and Blood Alcohol Concentration: A Cross-Sectional Observational Study of
+  Nightlife-Goers in Perth, Australia," International Journal of Environmental Research and
+  Public Health 19:7026, 2022.
+- **Stable link, DOI, or version:** doi.org/10.3390/ijerph19127026, CC BY
+- **Checked by and date:** metadata verified against the Europe PMC API on 2026-10-09. Full text
+  not read.
+- **Exact relevant location:** reports on the same Perth survey as SRC-062
+- **What it supports:** a second reporting of the same fieldwork, worth checking for a
+  venue-level rather than session-level duration figure
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-problem-statement.md`
+
+### SRC-064 Sykes, Rowley, Schaefer (1993)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Sykes, R.E., Rowley, R.D., Schaefer, J.M., "The
+  influence of time, gender and group size on heavy drinking in public bars," Journal of Studies
+  on Alcohol 54(2):133-138, 1993.
+- **Stable link, DOI, or version:** doi.org/10.15288/jsa.1993.54.133
+- **Checked by and date:** metadata and abstract verified against the PubMed API on 2026-10-09,
+  PMID 8459706. Full text not read.
+- **Exact relevant location:** per the abstract, average duration of group stay in a bar is one
+  of the measured variables
+- **What it supports:** two things this project needs. It measures duration of stay at a single
+  venue, which is what the two-hour window actually requires and which SRC-062 does not give.
+  It also separates isolates from groups across 1,996 observed drinking units in a 12 percent
+  random sample of 565 bars, which bears on the owner's claim that people rarely drink alone.
+- **What it does not support or important limitations:** the abstract reports that group size
+  did not affect the proportion of a group drinking heavily, so the paper is not evidence for
+  group size driving behaviour generally. 1993, United States metropolitan area. The duration
+  figure is not in the abstract and the full text is not in hand.
+- **Where it is used in the report or code:** not yet used
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-problem-statement.md`
+
+### SRC-065 Eurostat time use survey
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Eurostat, Harmonised European Time Use Survey,
+  datasets `tus_20week` (time spent in the main activity by sex and day of the week, 2020 wave)
+  and `tus_00age` (time spent, participation time and participation rate by sex and age group,
+  2000 and 2010 waves).
+- **Stable link, DOI, or version:**
+  `ec.europa.eu/eurostat/databrowser/product/view/tus_20week` and
+  `ec.europa.eu/eurostat/databrowser/product/view/tus_00age`
+- **Checked by and date:** queried and read by Claude Code on 2026-10-09 through the Eurostat
+  dissemination API, unit `PTP_RT`. The owner has not re-run the queries.
+- **Exact relevant location:** activity codes `AC52` and `AC512_513_519` in the 2020 wave, and
+  `AC52` and `AC51B` with age `Y20-24` against `TOTAL` in the 2010 wave
+- **What it supports:** the day-of-week shape of going out. Across eleven countries, the median
+  participation rate in entertainment and culture ran 2.91 percent Monday to Thursday, 4.08
+  percent on Friday, 6.63 percent on Saturday and 4.27 percent on Sunday. Socialising with
+  others ran 23.60, 27.74, 37.18 and 35.40 percent over the same days. In the 2010 wave the
+  median ratio of the 20 to 24 age group to the total population was 1.67 for entertainment and
+  culture and 1.10 for other social life, across eighteen countries.
+- **What it does not support or important limitations:** three serious limits. The 2020 wave's
+  fieldwork years differ by country and overlap COVID restrictions, and nobody has checked which
+  years each country collected, so a going-out rate measured under restrictions would be biased
+  down. Neither activity code means "went to a bar", since entertainment and culture covers
+  cinema and museums while socialising includes visits at home. The day breakdown bundles Monday
+  to Thursday, so Thursday cannot be separated. Combining the 2020 day shape with the 2010 age
+  ratio is a construction across two waves and not a single measured quantity.
+- **Where it is used in the report or code:** not yet used. Produced the turnout figures of 4.9,
+  6.8 and 11.1 percent used in the 2026-10-09 scale calculations.
+- **Related prompt log:** `AI/PROMPTS/2026-10-09-problem-statement.md`
 
 ### Discarded as not measurable in this project's setting
 

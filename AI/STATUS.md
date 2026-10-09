@@ -5,9 +5,7 @@ work session. Replace stale details instead of letting this file become a diary.
 
 - **Last updated:** 2026-10-09
 - **Updated by:** Claude Code
-- **Current branch:** literature/search-topics, pushed through `f799ce9`. The map-design
-  records from the 2026-10-09 session sit on top of that, not yet pushed at the time of
-  writing.
+- **Current branch:** literature/search-topics, pushed through `46c5a5b`.
 - **Current stage:** planning
 
 ## Done and checked
@@ -79,10 +77,26 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## In progress
 
-- The synthetic map's structure is decided, and the map is not built. `DEC-006` records eight
-  choices and names what still blocks implementation.
+- Nothing active. The problem statement is finished and lives in
+  `drafts/problem-statement-v2.md`. Two values inside it stay open, both small.
 
 ## Settled since the last major update
+
+- `DEC-007`: the problem is restated around a three-level display and an adoption threshold, and
+  it supersedes `DEC-006` choices 1 to 7. The statement lives in
+  `drafts/problem-statement-v2.md`. Settled inside it: three levels labelled quiet, busy and
+  packed shown as yellow, orange and red; a venue with no check-ins does not appear on the map;
+  the two boundaries sit at quantiles rather than absolute headcounts; a two-hour window; an 80
+  percent match rate target and an 80 percent coverage target; adopter and adoption defined;
+  presence enforced by the app so the posting assumptions number three. The research question
+  asks the smallest adoption at which both targets hold, and asks it of every possible procedure
+  rather than of one.
+- The output is a level, not a headcount. An arithmetic check during the session showed that no
+  adoption level yields a precise per-venue headcount for a community of 30,000 across 100
+  venues, while a coarse level stays reachable.
+- The problem can no longer be answered by simulation alone. A claim about every procedure needs
+  the optimal rule derived first, and simulation then evaluates that rule. The result holds
+  relative to the assumed model and prior, not universally.
 
 - `DEC-004`: venue activity has three parameters, headcount, groups, and familiarity.
   Familiarity is a known covariate from check-in history, not a predicted quantity. Logged in
@@ -104,8 +118,17 @@ work session. Replace stale details instead of letting this file become a diary.
 
 - The owner leads the model design; not started. See `AI/PROJECT.md`, "Chosen extension: to be
   decided."
-- The simulator is not built. The map's structure is decided per `DEC-006`, and the arrival
-  process and the synthetic social graph are not started.
+- The simulator is not built, and nothing in the repository is code. `DEC-007` stripped the map
+  structure out of the problem, so `DEC-006` choices 1 to 7 no longer describe the current work.
+- Two values inside `DEC-007` stay open. The quantile split is unchosen, and a skewed split such
+  as 60, 30, 10 would let a procedure that calls every venue quiet score 60 percent, which
+  weakens the 80 percent target. The hour of the evening is unfixed, and it feeds both the
+  window's justification and the turnout figure.
+- Two quantities the answer depends on have no source at all: how unequally members spread
+  across venues, which the owner's own analysis ranks above adoption in importance, and how
+  often an adopter posts.
+- The optimal rule has not been derived. Without it there is no limit to compare against and
+  nothing for a simulation to evaluate.
 - `DEC-006` leaves the intrinsic-draw distribution unnamed, so the map cannot be built yet.
   Three implementation details also stay open: the district count and venues per district,
   whether a graph edge is binary or weighted, and which busyness a substituting person reacts
@@ -129,6 +152,14 @@ work session. Replace stale details instead of letting this file become a diary.
 
 - SRC-001 through SRC-051 in `AI/SOURCES.md` are all still `LEAD` or `REJECTED`; none read and
   personally checked by the owner yet, regardless of how thoroughly the search itself read them.
+- The choice of three levels rests on cartographic convention about how many classes a reader
+  recognises at a glance. No source in this repository supports it, and none was found.
+- `SRC-062` was read directly from the paper's results table, so its duration figures are solid,
+  but they measure a whole drinking session rather than time at one venue. The two-hour window
+  therefore rests on that session length divided by an unsourced number of venues per night.
+  `SRC-063`, `SRC-064` and `SRC-065` are leads with verified metadata and unread full text.
+- `SRC-065` carries a serious limitation recorded in its own entry: the 2020 time-use wave
+  overlaps COVID restrictions and nobody has checked which years each country collected.
 - `SRC-060` and `SRC-061` were retrieved by Claude Code on 2026-10-09 through the Eurostat and
   Overpass APIs, and the owner has not re-run either query. Both entries carry the exact query
   used. `SRC-060` has one load-bearing limitation: the Eurostat student indicator counts
@@ -140,24 +171,27 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## Next actions
 
-1. Decide how the simulator constructs the subset of people who hold the app. Two deferred map
-   questions wait on it.
-2. Name the intrinsic-draw distribution `DEC-006` left open, which unblocks building the map.
-3. Decide the shape question `DEC-004` left open: how headcount enters the model, linearly or
-   with the inverted-U shape `SRC-053` and `SRC-054` point toward.
-4. Decide, with a stated reason, whether and how to trim the 51 logged sources from the first
-   two searches before writing the literature review narrative in
-   `paper/sections/02-literature-review.tex`.
-5. Grab the three bot-blocked open-access papers from the first search (Clement et al.,
+1. Choose the quantile split, terciles or a skew, since it fixes the trivial baseline the 80
+   percent target is measured against.
+2. Fix the hour of the evening the problem is posed at.
+3. Find sources for the two unsourced quantities: venue inequality and how often an adopter
+   posts.
+4. Derive the optimal rule, which is the step that makes the research question answerable at
+   all.
+5. Decide, with a stated reason, whether and how to trim the logged sources before writing the
+   literature review narrative in `paper/sections/02-literature-review.tex`.
+6. Grab the three bot-blocked open-access papers from the first search (Clement et al.,
    Timokhin et al., Zhuang and Mateu) by hand in a browser; links are in `AI/SOURCES.md`.
 
 ## Files to open first
 
-- [`drafts/problem-statement-draft.md`](../drafts/problem-statement-draft.md): the current
-  problem statement, community-scoped, not yet in the paper.
+- [`drafts/problem-statement-v2.md`](../drafts/problem-statement-v2.md): the current problem
+  statement. Start here.
+- [`drafts/problem-statement-draft.md`](../drafts/problem-statement-draft.md): the earlier
+  statement, superseded in substance by v2 and kept as the record of where it came from.
 - [`drafts/social-aliveness-search.md`](../drafts/social-aliveness-search.md): the parameter
   search, full results.
-- [`AI/SOURCES.md`](SOURCES.md): 61 logged sources, all still leads or rejected.
+- [`AI/SOURCES.md`](SOURCES.md): 65 logged sources, one checked and the rest leads or rejected.
 - [`drafts/literature-review-results.md`](../drafts/literature-review-results.md): the first
   search's full prose findings, organized by question.
 - [`drafts/literature-search-topics.md`](../drafts/literature-search-topics.md): the 13
@@ -165,8 +199,9 @@ work session. Replace stale details instead of letting this file become a diary.
 
 ## Related records
 
-- DEC-001 through DEC-006 in `AI/DECISIONS.md`.
+- DEC-001 through DEC-007 in `AI/DECISIONS.md`.
 - ATT-001 in `AI/ATTEMPTS.md`.
 - `AI/PROMPTS/2026-10-08-project-scaffolding.md`,
   `AI/PROMPTS/2026-10-09-literature-search-topics.md`, and
-  `AI/PROMPTS/2026-10-09-map-design-decisions.md`.
+  `AI/PROMPTS/2026-10-09-map-design-decisions.md`, and
+  `AI/PROMPTS/2026-10-09-problem-statement.md`.
