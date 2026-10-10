@@ -3,7 +3,7 @@
 This file is the short handoff to the next session. Refresh it at the end of each substantial
 work session. Replace stale details instead of letting this file become a diary.
 
-- **Last updated:** 2026-10-10
+- **Last updated:** 2026-10-11
 - **Updated by:** Claude Code
 - **Current branch:** problem/adoption-threshold, branched from `literature/search-topics` at
   `23a4629`
@@ -33,13 +33,18 @@ No code exists. The paper holds only scaffolding.
 - Two literature searches, run externally, produced `SRC-001` through `SRC-061`. A third pass in
   session added `SRC-062` through `SRC-065`.
 - The 2026-10-10 search session added `SRC-066` through `SRC-111` and promoted `SRC-001` to
-  `CHECKED`. `AI/SOURCES.md` now holds 111 sources: 29 `CHECKED`, 80 `LEAD`, 2 `REJECTED`. Seven
-  background agents ran in three waves, covering per-adopter posting probability, colocated-friend
-  dependency, frameworks for a bound over every procedure, observational venue dependence,
-  check-in motivation, the within-person across-venue distribution, and candidate formalisms for a
-  probability indexed by both person and venue. Every `CHECKED` entry records which sections were
-  read. The owner has personally read none of the 111. See
+  `CHECKED`. Seven background agents ran in three waves, covering per-adopter posting probability,
+  colocated-friend dependency, frameworks for a bound over every procedure, observational venue
+  dependence, check-in motivation, the within-person across-venue distribution, and candidate
+  formalisms for a probability indexed by both person and venue. See
   `AI/PROMPTS/2026-10-10-assumption-2-literature.md`.
+- The 2026-10-11 search session added `SRC-113` through `SRC-137`, running the three clustering
+  prompts drafted in `4e3afe9`. Three background agents covered network threshold theory, the
+  empirical clustering of real app adoption, and the survey-methodology design effect. See
+  `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`.
+- `AI/SOURCES.md` now holds 137 sources: 45 `CHECKED`, 89 `LEAD`, 3 `REJECTED`. Every `CHECKED`
+  entry records which sections were read, and each was read by Claude Code. The owner has
+  personally read none of the 137.
 - Scale figures from direct Eurostat and Overpass queries: a median European university city of
   about 130,000 residents, roughly 30,000 students taken as the community size, and 75 to 125
   nightlife venues. Recorded as `SRC-060`, `SRC-061` and `SRC-065`.
@@ -111,12 +116,56 @@ No code exists. The paper holds only scaffolding.
   one clean, uniformly-applied number (as `PRF-001` currently does). No mechanism for how
   adoption clusters is proposed; this is only logged as a consideration, not yet a decision. It
   would also answer `AI/PROJECT.md`'s open "Chosen extension" slot if adopted, which it has not
-  been. Three search prompts drafted, none run: `drafts/search-prompt-clustered-adoption-threshold.md`
-  (does clustering shift a diffusion or coverage threshold, drawing on network epidemiology and
-  percolation theory), `drafts/search-prompt-app-adoption-network-structure.md` (how clustered
-  is real app adoption, empirically), and `drafts/search-prompt-cluster-sampling-variance.md`
-  (the survey-methodology design-effect formula, a more tractable statistical framing of the
-  same question).
+  been. All three search prompts have now been run; see
+  `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md` and the four bullets below.
+- Clustered adoption is empirically large, and measured. `SRC-113` reports that adopters carry a
+  five-fold higher share of adopters in their local networks, with raw relative risks running from
+  about 9 at one adopter friend to roughly 30 at thirteen or fourteen. `SRC-115` reports a
+  network-neighbour odds ratio of 7.49 with interval (5.64, 9.94). `SRC-114` reports that Skype
+  adopters already had 19 percent of their contacts adopted at their own moment of adoption. Note
+  that the usual methodological hierarchy inverts here: this project needs the observed clustering
+  of the adopter set, not its cause, so these raw figures bear on the question while the
+  homophily-matched estimates near 2 to 3 in `SRC-113` and `SRC-115` answer a different one. That
+  argument has to be made in the writeup rather than assumed, and `SRC-118` is the critique to
+  make it against.
+- The direction of the clustering effect is unsettled in the literature, and three assumptions
+  determine the sign. What is held fixed: `SRC-120` finds clustering raises the percolation
+  threshold holding the degree distribution and correlation structure fixed, while `SRC-121` finds
+  it lowers the transition holding only mean degree fixed. The dynamics: `SRC-122`'s equation (26)
+  gives an explicit sign criterion, which fails for site and bond percolation at every mean degree
+  above 2 but holds for Watts' threshold model only between mean degree 3 and 29. What the
+  clustered set correlates with: clustering on adoption status raises the threshold (`SRC-119`,
+  `SRC-125`), while correlation of immunity with contact rate lowers it (`SRC-124`). No blanket
+  claim that clustering hurts this project is defensible.
+- The epidemic-threshold analogy is weaker than it looks, and this is the main caution from the
+  2026-10-11 round. `SRC-119` gives the one closed form found,
+  `pi_v^c = (1/(1-h))(1 - 1/R_0)` in the Coleman homophily index, with the striking property that
+  herd immunity becomes unattainable once `h >= 1/R_0`, which matches the shape of this project's
+  own question about whether a sufficient adoption rate exists at all. But herd immunity blocks
+  transmission paths, while this project's coverage target asks whether each venue holds a posting
+  adopter. Nothing propagates through the social graph at display time, so `R_0` has no evident
+  counterpart here and the formula cannot be lifted across without inventing one. `SRC-123` is the
+  closest real match despite being the least cited of the eight, because it measures sampling
+  reach: strong community structure capped recruitment at roughly 85 percent of the population,
+  design effects reached about 40 against 1 to 2 for random networks, and whole subgroups went
+  unreached rather than merely mis-estimated.
+- The design effect is confirmed and does not reach the coverage target. `SRC-127` equation 1 gives
+  `DE = 1 + (n-1) rho`, with equation 17 correcting for unequal cluster sizes as
+  `DE = 1 + {(CV^2+1) n_bar - 1} rho`, and `SRC-128` states the assumptions. For a binary trait the
+  ANOVA definition of `rho` carries over but is tied to the outcome prevalence, and `SRC-130`
+  confirms the owner's suspicion that competing definitions exist. The obstacle: `SRC-132` states
+  that the variance-based effective sample size does not reproduce the probability of a zero, and
+  defines a separate parameter for that purpose lying between `n/deff` and `n`. Its body is unread,
+  which makes opening it a priority, since the whole design-effect route to coverage turns on it.
+  The machinery that does treat the probability of at least one positive lives in veterinary
+  surveillance (`SRC-133`, with `SRC-134` as its primary source) and in ecology (`SRC-136`), and it
+  proceeds by explicit mixture model rather than by a multiplier. `SRC-136` is the most promising
+  unopened lead of the round, because it joins occupancy modelling under cluster sampling to the
+  strands this project already reached at `SRC-009`, `SRC-010`, `SRC-016` and `SRC-107`.
+- The link between the empirical figures and either calculation is missing. No source found reports
+  an assortativity coefficient, an intraclass correlation, or a modularity value for an adopter set
+  on a social graph, and none studies a location-based venue app at all. Converting a
+  friend-adoption odds ratio into an `rho` would be this project's own derivation, not a citation.
 - The venues actually shown (those with at least one check-in) do not split into exact terciles,
   because venues with zero check-ins, disproportionately the true-quiet ones, get hidden before
   the split is read off. How much this shifts the realized trivial baseline, and how that shift
@@ -198,23 +247,24 @@ No code exists. The paper holds only scaffolding.
    rule.
 4. Find a source for venue inequality, the one input that still has none.
 5. Write `paper/sections/02-literature-review.tex` against the restated problem, using the
-   relevant sources rather than all 112.
+   relevant sources rather than all 137.
 
 ## Files to open first
 
 - [`drafts/problem-statement-v2.md`](../drafts/problem-statement-v2.md): the problem. Start here.
 - [`AI/DECISIONS.md`](DECISIONS.md): `DEC-007` for every settled value, `DEC-008` for what was
   deleted and why, `DEC-005` for the rule keeping the baseline out until the end.
-- [`AI/SOURCES.md`](SOURCES.md): 111 logged sources, 29 checked, none read by the owner.
+- [`AI/SOURCES.md`](SOURCES.md): 137 logged sources, 45 checked, none read by the owner.
 - [`AI/PROMPTS/2026-10-10-assumption-2-literature.md`](PROMPTS/2026-10-10-assumption-2-literature.md):
   what the 2026-10-10 searches found, what they failed to find, and what was left undecided.
 
 ## Related records
 
-- DEC-001 through DEC-008 in `AI/DECISIONS.md`.
+- DEC-001 through DEC-012 in `AI/DECISIONS.md`.
 - ATT-001 in `AI/ATTEMPTS.md`.
 - `AI/PROMPTS/2026-10-08-project-scaffolding.md`,
   `AI/PROMPTS/2026-10-09-literature-search-topics.md`,
   `AI/PROMPTS/2026-10-09-map-design-decisions.md`,
-  `AI/PROMPTS/2026-10-09-problem-statement.md`, and
-  `AI/PROMPTS/2026-10-10-assumption-2-literature.md`.
+  `AI/PROMPTS/2026-10-09-problem-statement.md`,
+  `AI/PROMPTS/2026-10-10-assumption-2-literature.md`, and
+  `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`.

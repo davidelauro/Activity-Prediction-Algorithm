@@ -122,6 +122,31 @@ Suggested statuses are `LEAD`, `CHECKED`, `USED`, and `REJECTED`.
 | SRC-110 | Gelman, Hill (2007) | book | LEAD | non-nested models, pinpoint unverified |
 | SRC-111 | Classical compound and choice citations | group | LEAD | six remaining foundational citations, none opened |
 | SRC-112 | Beta-binomial, as individual heterogeneity in thinning | concept | LEAD | mathematical form confirmed via secondary sources; Skellam/Williams themselves unopened |
+| SRC-113 | Aral, Muchnik, Sundararajan (2009) | paper | CHECKED | 5-fold adopter clustering, 50.2 percent homophily |
+| SRC-114 | Karsai et al. (2016) | paper | CHECKED | Skype adopters at 19 percent of contacts adopted |
+| SRC-115 | Hill, Provost, Volinsky (2006) | paper | CHECKED | network-neighbour odds ratio 7.49 |
+| SRC-116 | Ugander et al. (2012) | paper | CHECKED | component count beats neighbourhood size |
+| SRC-117 | Aral, Walker (2011) | paper | LEAD | viral design effect, estimation tables unread |
+| SRC-118 | Shalizi, Thomas (2011) | paper | LEAD | the standard homophily identification critique |
+| SRC-119 | Hiraoka et al. (2022) | paper | CHECKED | closed-form threshold in a homophily index |
+| SRC-120 | Gleeson, Melnik, Hackett (2010) | paper | CHECKED | clustering raises the percolation threshold |
+| SRC-121 | Newman (2009) | paper | CHECKED | clustering lowers it, at fixed mean degree |
+| SRC-122 | Hackett, Melnik, Gleeson (2011) | paper | CHECKED | explicit sign criterion for the direction |
+| SRC-123 | Rocha et al. (2017) | paper | CHECKED | clustered sampling leaves subgroups unreached |
+| SRC-124 | Britton, Ball, Trapman (2020) | paper | CHECKED | correlated immunity lowers the threshold |
+| SRC-125 | Salathé, Bonhoeffer (2008) | paper | CHECKED | clustered refusal undoes 90 percent coverage |
+| SRC-126 | Salathé, Jones (2010) | paper | CHECKED | epidemic size falls as modularity rises |
+| SRC-127 | Rutterford, Copas, Eldridge (2015) | paper | CHECKED | design effect confirmed, with CV correction |
+| SRC-128 | Hund, Pagano (2014) | paper | CHECKED | design-effect assumptions and binary rho |
+| SRC-129 | Kish (1965) | book | LEAD | primary design-effect citation, pinpoint unverified |
+| SRC-130 | Eldridge, Ukoumunne, Carlin (2009) | paper | LEAD | competing definitions of the binary ICC |
+| SRC-131 | Eldridge, Ashby, Kerry (2006) | paper | LEAD | unequal cluster sizes, primary source |
+| SRC-132 | Madden, Hughes (1999) | paper | LEAD | design effect does not reproduce the zero term |
+| SRC-133 | Kopacka, FFD vignette | software | CHECKED | herd sensitivity as probability of one positive |
+| SRC-134 | Cameron, Baldock (1998) | paper | LEAD | primary source behind herd sensitivity |
+| SRC-135 | Hedt-Gauthier et al. (2013) | paper | CHECKED | beta-binomial LQAS parameterised by rho |
+| SRC-136 | Hines et al. (2010) | paper | LEAD | occupancy modelling under cluster sampling |
+| SRC-137 | Alimohamadi, Sepandi (2019) | paper | REJECTED | correct formula, inadequate citation |
 
 ## Entry template
 
@@ -2377,6 +2402,569 @@ Levels used: Leuven 8, Groningen 8, Heidelberg 6.
   formalism for Assumption 2.
 - **Related prompt log:** this session, 2026-10-10, continuing
   `AI/PROMPTS/2026-10-10-assumption-2-literature.md`.
+
+### SRC-113 Aral, Muchnik, Sundararajan (2009)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Aral, S., Muchnik, L., Sundararajan, A.,
+  "Distinguishing influence-based contagion from homophily-driven diffusion in dynamic networks,"
+  Proceedings of the National Academy of Sciences 106(51):21544-21549, 2009.
+- **Stable link, DOI, or version:** doi.org/10.1073/pnas.0908800106
+- **Checked by and date:** full text read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** page 21545 for the neighbourhood ratio and the shuffle test, Figure
+  2C for the ratio against adopter-friend count, page 21546 for random matching and for dynamic
+  propensity matching, Figure 4B for the split, page 21548 for the authors' own limitation.
+- **What it supports:** both quantities this project needs to keep apart. Adopters have a five-fold
+  higher percentage of adopters in their local networks, with a t-statistic of 100.12. Under random
+  matching the treated-adopter fraction is 9 times the untreated fraction at one or more adopter
+  friends, and the text states the results imply a 15-fold increase at four or more. Figure 2C
+  reaches roughly 30-fold at 13 or 14 adopter friends. Friends are between 100 and 500 percent more
+  likely to adopt within 2 days of each other. Under dynamic propensity matching on 40 time-varying
+  and 6 time-invariant covariates the ratio falls to about 3, and the authors state that random
+  matching overestimates influence by up to 700 percent. Figure 4B attributes 50.2 percent of
+  treated adoption to homophily, leaving 49.8 percent as an upper bound on influence. Data: Yahoo!
+  Go 2.0 on a Yahoo! instant-messaging network of 27 million users, 1 July to 29 October 2007.
+- **What it does not support or important limitations:** the five-fold, 9-fold, 15-fold and 30-fold
+  figures measure observed clustering of the adopter set. The 3-fold figure and the 49.8 percent
+  are a bounded causal-influence estimate, which is a different quantity. This project needs the
+  observed clustering rather than its cause, so the larger figures are the relevant ones and the
+  matched estimates answer a question the project is not asking. The authors state on page 21548
+  that Yahoo! Go exhibits no direct network externalities, while a venue-display app plainly does,
+  so contagion in this project's setting could run stronger. No assortativity coefficient and no
+  intraclass correlation are reported.
+- **Where it is used in the report or code:** not yet used. Bears on the clustered-adoption
+  extension, which `AI/PROJECT.md` has not chosen.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-114 Karsai, Iñiguez, Kikas, Kaski, Kertész (2016)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Karsai, M., Iñiguez, G., Kikas, R., Kaski, K.,
+  Kertész, J., "Local cascades induced global contagion: How heterogeneous thresholds, exogenous
+  effects, and unconcerned behaviour govern online adoption spreading," Scientific Reports 6:27178,
+  2016.
+- **Stable link, DOI, or version:** arxiv.org/abs/1601.07995, read in place of the journal version
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** page 3 and Figure 1e for the threshold distribution, page 4 for the
+  adoption cluster size.
+- **What it supports:** the closest available analogue of this project's quantity. The fractional
+  adoption threshold is lognormal with average `w = 0.19`, meaning an average adopter already had
+  19 percent of their contacts adopted at the moment of their own adoption. Average degree is 8.56.
+  The giant adoption cluster reached under 6 percent of active Skype users over seven years. Data:
+  Skype, 510 million registered users, 4.4 billion links, adoption of the paid credit service over
+  89 months.
+- **What it does not support or important limitations:** the study makes no attempt to separate
+  influence from homophily, and the authors state that doing so remains a challenge. The figure is
+  a threshold at the moment of adoption rather than an assortativity coefficient of the final
+  adopter set, so it is not directly the clustering parameter a design-effect calculation would
+  need. Skype is a communication app rather than a location-based social app.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-115 Hill, Provost, Volinsky (2006)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Hill, S., Provost, F., Volinsky, C.,
+  "Network-Based Marketing: Identifying Likely Adopters via Consumer Networks," Statistical
+  Science 21(2):256-276, 2006.
+- **Stable link, DOI, or version:** doi.org/10.1214/088342306000000222. Preprint at
+  arxiv.org/abs/math/0606278
+- **Checked by and date:** full text read by Claude Code on 2026-10-11 through the preprint. The
+  owner has not read it.
+- **Exact relevant location:** Table 3 on page 12 of the preprint, Figure 3 caption and Figure 4 on
+  page 13, Table 5 on page 15, Section 5.3 for the homophily question.
+- **What it supports:** a network-neighbour coefficient of 2.0 with interval (1.7, 2.3), reported
+  as an odds ratio of 7.49 with a 95 percent confidence interval of (5.64, 9.94). The overall
+  take-rate ratio is 3.4, and one segment showed 11 percent for network neighbours against 0.3
+  percent for non-neighbours. After propensity matching on over 150 attributes the coefficient
+  falls to 0.68, 0.99 and 0.84 by loyalty group, which are odds ratios near 2.0 to 2.7. Data: a
+  new telecommunications service, direct-mail campaign, 21 marketing segments.
+- **What it does not support or important limitations:** the service is a paid telecom product, not
+  a social app, and adoption mechanics differ by category. The 7.49 odds ratio measures observed
+  clustering; the matched figures are a weak causal estimate. Section 5.3 asks the homophily
+  question explicitly, which makes this one of the few sources that does.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-116 Ugander, Backstrom, Marlow, Kleinberg (2012)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Ugander, J., Backstrom, L., Marlow, C., Kleinberg,
+  J., "Structural diversity in social contagion," Proceedings of the National Academy of Sciences
+  109(16):5962-5966, 2012.
+- **Stable link, DOI, or version:** doi.org/10.1073/pnas.1116502109
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** Figure 2B for the relative conversion rates, Figure S2 for the
+  homogeneity check.
+- **What it supports:** that the number of connected components in a person's contact neighbourhood
+  drives adoption more than the neighbourhood size does. Relative conversion rises to roughly 3.0
+  for a neighbourhood of five or six contacts split into six connected components, on a scale where
+  1.0 is the one-node rate. Data: 54 million Facebook invitation emails, 12 July to 26 September
+  2010, plus a separate engagement study on about 10 million users.
+- **What it does not support or important limitations:** absolute conversion rates are not
+  published, only ratios. The homophily separation is partial: Figure S2 shows the component effect
+  persists within neighbourhoods homogeneous in sex, age and nationality, and the authors write
+  that nonlinear effects make traditional regression controls generally inadequate. It measures
+  observed clustering. Its relevance to this project is structural rather than numerical: it says
+  the shape of a neighbourhood matters, not only how many adopters it holds.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-117 Aral and Walker (2011)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Aral, S., Walker, D., "Creating Social Contagion
+  Through Viral Product Design: A Randomized Trial of Peer Influence in Networks," Management
+  Science 57(9):1623-1639, 2011.
+- **Stable link, DOI, or version:** doi.org/10.1287/mnsc.1110.1421
+- **Checked by and date:** pages 1623 and 1624 read by Claude Code on 2026-10-11. The estimation
+  tables were not read, so this entry stays `LEAD` under this repository's convention.
+- **Exact relevant location:** pages 1623 and 1624 only.
+- **What it supports:** from the pages read, passive-broadcast viral features produce a 246 percent
+  increase in peer influence and social contagion, and active-personalized features add only an
+  additional 98 percent. A randomized field experiment on 9,687 Facebook users and their 1.4
+  million friends.
+- **What it does not support or important limitations:** it measures the effect of a product design
+  feature on contagion, not a baseline transmission rate and not the clustering of an adopter set.
+  It is a causal-influence measurement, which is not the quantity this project needs. The
+  estimation tables are unverified.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-118 Shalizi and Thomas (2011)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Shalizi, C.R., Thomas, A.C., "Homophily and
+  Contagion Are Generically Confounded in Observational Social Network Studies," Sociological
+  Methods and Research 40(2):211-239, 2011.
+- **Stable link, DOI, or version:** not verified.
+- **Checked by and date:** not read. Named by Claude Code on 2026-10-11 as the standard
+  identification critique.
+- **Exact relevant location:** not established.
+- **What it supports:** nothing yet.
+- **What it does not support or important limitations:** unread. It is recorded because it is the
+  standard objection to every causal reading of `SRC-113` through `SRC-116`. This project needs
+  observed clustering rather than causal influence, so the critique bites less here than it would
+  in a diffusion paper, but that argument must be made rather than assumed, and it should be made
+  against this source once someone reads it.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-119 Hiraoka, Rizi, Kivelä, Saramäki (2022)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Hiraoka, T., Rizi, A.K., Kivelä, M., Saramäki, J.,
+  "Herd immunity and epidemic size in networks with vaccination homophily," Physical Review E
+  105:L052301, 2022.
+- **Stable link, DOI, or version:** doi.org/10.1103/PhysRevE.105.L052301, arXiv:2112.07538
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** equations (1), (2), (5), (6) and (7), with Figures 1 and 2.
+  Equations (15) and (16) are solved numerically.
+- **What it supports:** the only closed form found in this search. The clustering measure is the
+  Coleman homophily index, equation (2),
+  `h = (pi_vv - pi_v)/(1 - pi_v) = (pi_uu - pi_u)/(1 - pi_u)`. For a perfect vaccine the critical
+  coverage is equation (6), `pi_v^c = (1/(1-h))(1 - 1/R_0)`, and equation (5) generalizes it to
+  imperfect vaccines through a factor `epsilon = (1-f_S)(1-f_I)`. Equation (7) states that once
+  `h >= 1/R_0` the critical coverage reaches 1 and herd immunity becomes unattainable. The authors
+  state the threshold result holds for any degree distribution. The index `h` is computable from a
+  simulated adopter labelling on a simulated graph.
+- **What it does not support or important limitations:** the critical transfer problem. Herd
+  immunity is a statement about blocking transmission paths through a network, while this project's
+  coverage target is a statement about whether each venue holds at least one adopter who posts.
+  Nothing propagates through the social graph at display time, so `R_0` has no evident counterpart
+  in this project's setup and `pi_v^c` cannot be lifted across without inventing one. The adoption
+  process may well be a contagion, but the quantity being bounded is a sampling-reach quantity
+  rather than a transmission quantity. The paper also gives no finite-size behaviour, assumes a
+  locally tree-like network, identifies `R_0` with the mean excess degree, and does not model
+  degree correlations. Equation (7) is nonetheless the one result found that matches the shape of
+  this project's second research question, which asks whether a sufficient adoption rate exists at
+  all.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-120 Gleeson, Melnik, Hackett (2010)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Gleeson, J.P., Melnik, S., Hackett, A., "How
+  clustering affects the bond percolation threshold in complex networks," Physical Review E
+  81:066114, 2010.
+- **Stable link, DOI, or version:** doi.org/10.1103/PhysRevE.81.066114
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** equations (2), (3) and (5), Figures 1, 2 and 3, Section V.
+- **What it supports:** clustering raises the bond percolation threshold when the comparison holds
+  both the degree distribution and the correlation structure fixed. Equation (5) gives the
+  unclustered threshold `p_th = sum_k k P_k / sum_k k(k-1) P_k`, and equation (3) gives the
+  clustered threshold implicitly. The clustering measure is `C = sum_{k>=2} P_k c_k`.
+- **What it does not support or important limitations:** no closed form in `C`; the clustered
+  threshold is a numerical root of equation (3). It assumes a clique-based model and infinite size.
+  Figure 3(a) shows the clustered threshold can fall below that of an unclustered network matched
+  only on the joint degree distribution, because correlations beyond nearest neighbours also move
+  the threshold. The direction of the effect therefore depends on what is held fixed, which is why
+  this source and `SRC-121` appear to disagree.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-121 Newman (2009)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Newman, M.E.J., "Random graphs with clustering,"
+  Physical Review Letters 103:058701, 2009.
+- **Stable link, DOI, or version:** doi.org/10.1103/PhysRevLett.103.058701
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** equation (4) defines the clustering coefficient, equation (22) gives
+  the giant-component condition, equations (23) and (24) follow, with the left panel of Figure 2.
+- **What it supports:** the opposite direction to `SRC-120`. At fixed average degree, higher
+  clustering pushes the percolation transition to a lower occupation probability, while the giant
+  cluster at full occupation shrinks.
+- **What it does not support or important limitations:** it fixes mean degree rather than the
+  degree distribution, and that difference in control variable, not any mathematical disagreement,
+  drives the apparent conflict with `SRC-120`. It assumes a single-edge and triangle configuration
+  model. Any use of either source must state which quantity is held fixed, because the sign of the
+  effect follows from that choice.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-122 Hackett, Melnik, Gleeson (2011)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Hackett, A., Melnik, S., Gleeson, J.P., "Cascades on
+  a class of clustered random networks," Physical Review E 83:056107, 2011.
+- **Stable link, DOI, or version:** arxiv.org/abs/1012.3651 version 2
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** the cascade condition in equation (24), `S_c` in equation (25), the
+  sign criterion in equation (26), the clustering relation in equation (22), with Figures 3 and 4.
+- **What it supports:** the sharpest statement of when clustering helps and when it hurts.
+  Equation (26) separates the two regimes: when the inequality holds, clustering increases cascade
+  size, and otherwise it decreases it. The authors state that for site and bond percolation the
+  inequality fails for every mean degree above 2, so clustering always raises the threshold there.
+  For Watts' threshold model with Gaussian thresholds of standard deviation 0.1, clustering
+  decreases cascade size at mean degree 3 or below, increases it between 3 and 29, and decreases it
+  again at 29 or above.
+- **What it does not support or important limitations:** it assumes a degree-regular distribution,
+  chosen specifically to neutralise degree correlations, and non-overlapping triangles. It does not
+  cover heterogeneous degrees with clustering, where correlation effects re-enter. The
+  non-monotone dependence on mean degree is a warning against assuming any single direction for
+  this project's own setting.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-123 Rocha, Thorson, Lambiotte, Liljeros (2017)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Rocha, L.E.C., Thorson, A.E., Lambiotte, R.,
+  Liljeros, F., "Respondent-driven sampling bias induced by community structure and response rates
+  in social networks," Journal of the Royal Statistical Society Series A 180(1):99-118, 2017.
+- **Stable link, DOI, or version:** doi.org/10.1111/rssa.12180. Preprint at arXiv:1503.05826, which
+  is the version read.
+- **Checked by and date:** the arXiv version read by Claude Code on 2026-10-11. The journal version
+  was not opened. The owner has not read either.
+- **Exact relevant location:** not pinpointed to a numbered equation. The reported results concern
+  recruitment ceilings, design effects and required response rates.
+- **What it supports:** the one source found that reports subgroups going UNREACHED rather than
+  merely mis-estimated, which is this project's coverage failure in another domain. Strong
+  community structure capped recruitment at roughly 85 percent of the population, with bridging
+  bottlenecks blocking access to subgroups. Design effects against simple random sampling reached
+  about 40 for strong communities, against 1 to 2 for random networks. Required response rates rose
+  from about 0.35 to about 0.45 under strong clustering. Networks: Lancichinetti-Fortunato
+  benchmarks plus five empirical networks. Clustering is measured by clustering coefficient,
+  triangle count and assortativity.
+- **What it does not support or important limitations:** it gives no closed-form coverage formula,
+  and its sampling process is referral-chain recruitment rather than independent presence at a
+  venue. Despite being the least cited of the threshold sources found, it is the closest match to
+  this project's mechanism, because it measures reach rather than transmission.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-124 Britton, Ball, Trapman (2020)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Britton, T., Ball, F., Trapman, P., "A mathematical
+  model reveals the influence of population heterogeneity on herd immunity to SARS-CoV-2," Science
+  369:846-849, 2020. The preprint carries the title "The disease-induced herd immunity level for
+  Covid-19 is substantially lower than the classical herd immunity level."
+- **Stable link, DOI, or version:** doi.org/10.1126/science.abc6810. Preprint at arXiv:2005.03085,
+  which is the version read.
+- **Checked by and date:** the preprint's abstract and model sections, pages 1 to 3, read by Claude
+  Code on 2026-10-11. The Science version was not opened. The owner has not read either.
+- **Exact relevant location:** abstract and model sections, pages 1 to 3 of the preprint.
+- **What it supports:** the reverse direction from `SRC-119`. At `R_0 = 2.5` the disease-induced
+  herd immunity level is 43 percent against a classical level of 60 percent, because the immune set
+  correlates with high contact rates, so a correlated immune set outperforms a uniformly random one
+  of the same size. Model: 6 age cohorts with fitted contact rates and 3 activity levels.
+- **What it does not support or important limitations:** this is attribute correlation with
+  activity level, not triangle clustering, and the paper gives no formula in any clustering
+  coefficient. It is logged because it establishes that correlation in the adopting set can lower
+  rather than raise a threshold, which blocks any blanket claim that clustering hurts. For this
+  project the question becomes whether adoption correlates with going out often, since that would
+  be the analogous favourable case.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-125 Salathé and Bonhoeffer (2008)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Salathé, M., Bonhoeffer, S., "The effect of opinion
+  clustering on disease outbreaks," Journal of the Royal Society Interface 5(29):1505-1508, 2008.
+- **Stable link, DOI, or version:** doi.org/10.1098/rsif.2008.0271
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** the results text and figures. 220,000 simulations, 2,000 per
+  parameter set.
+- **What it supports:** that clustering of the non-adopting set can undo a large nominal coverage.
+  At 90 percent coverage held fixed, opinion-driven clustering of the unvaccinated produced outbreak
+  frequencies matching a homogeneous population below 70 percent coverage. Effects peak near the
+  herd immunity threshold. The clustering measure is a dissimilarity index, the fraction of
+  neighbours holding the opposite opinion.
+- **What it does not support or important limitations:** numerical only, with no threshold formula.
+  Small networks of 2,000 nodes at mean degree 10. The transfer caution recorded under `SRC-119`
+  applies here too, since this is a transmission result.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-126 Salathé and Jones (2010)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Salathé, M., Jones, J.H., "Dynamics and control of
+  diseases in networks with community structure," PLoS Computational Biology 6:e1000736, 2010.
+- **Stable link, DOI, or version:** doi.org/10.1371/journal.pcbi.1000736. The issue number was not
+  independently confirmed.
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** the modularity definition from the edge-fraction matrix, with
+  Figures 1 and 2.
+- **What it supports:** final epidemic size falls and duration rises as modularity increases, across
+  transmission rates of 0.05, 0.06 and 0.08. Networks: 2,000 nodes in 50 Watts-Strogatz communities
+  of 40 nodes each.
+- **What it does not support or important limitations:** no closed-form threshold in modularity.
+  The paper's targeting result concerns which algorithm to use rather than a threshold shift. The
+  transfer caution under `SRC-119` applies.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-127 Rutterford, Copas, Eldridge (2015)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Rutterford, C., Copas, A., Eldridge, S., "Methods for
+  sample size determination in cluster randomized trials," International Journal of Epidemiology
+  44(3):1051-1067, 2015.
+- **Stable link, DOI, or version:** doi.org/10.1093/ije/dyv113. Open access at
+  `pmc.ncbi.nlm.nih.gov/articles/PMC4521133/`
+- **Checked by and date:** full text read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** equation 1 under "A simple approach to sample size calculation", and
+  equations 15 and 17 under "Variable cluster sizes".
+- **What it supports:** the design-effect formula, confirmed. Equation 1 reads
+  `DE = 1 + (n-1) rho`, with `n` the number of individuals per cluster. Equation 15 gives the exact
+  form when every individual cluster size is known,
+  `DE = (n_bar / c) sum_i n_i [1 + (n_i - 1) rho]`. Equation 17 gives the distributional form
+  `DE = 1 + {(CV^2 + 1) n_bar - 1} rho`, with CV the coefficient of variation of cluster size. The
+  paper defines `rho` as the proportion of variance due to between-cluster variation.
+- **What it does not support or important limitations:** for a binary outcome the paper states that
+  the between-cluster variance also depends on the overall outcome proportion, so `rho` is not free
+  of the prevalence. The formula addresses the variance of a mean or a proportion and says nothing
+  about the probability that a cluster yields at least one positive, which is the quantity this
+  project's coverage target needs. See `SRC-132`.
+- **Where it is used in the report or code:** not yet used. Confirms the formula the owner stated
+  when drafting `drafts/search-prompt-cluster-sampling-variance.md`.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-128 Hund and Pagano (2014)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Hund, L., Pagano, M., "Extending cluster Lot Quality
+  Assurance Sampling designs for surveillance programs," Statistics in Medicine 33(16):2746-2757,
+  2014.
+- **Stable link, DOI, or version:** doi.org/10.1002/sim.6145. Open access at
+  `pmc.ncbi.nlm.nih.gov/articles/PMC4047169/`
+- **Checked by and date:** full text read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** the statement of assumptions for the design effect, the finite-`K`
+  correction, and the sum-of-squares definition of `rho`.
+- **What it supports:** the assumptions behind the design effect, stated explicitly.
+  `Deff = 1 + (m-1) rho` holds when the number sampled per cluster `m` is constant, the
+  within-cluster population is large and equal across clusters, and the number of clusters `K` is
+  large. Relaxing the last gives `Deff = 1 + (f m - 1) rho` with `f = 1 - k/K`. The paper defines
+  `rho` by a sum-of-squares decomposition, `rho = 1 - (M/(M-1))(SSW/SSTO)`, which is the ANOVA form
+  and applies to a binary trait without modification.
+- **What it does not support or important limitations:** the authors note that further relaxations,
+  including cluster-varying population size, yield more general forms they do not develop. This
+  matters here because this project's venues differ in capacity, which `DEC-011` has now brought
+  into scope. The paper frames its question as misclassification risk rather than detection.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-129 Kish (1965)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Kish, L., *Survey Sampling*, Wiley, 1965.
+- **Stable link, DOI, or version:** none verified.
+- **Checked by and date:** not opened. Secondary sources attribute the design-effect formula to
+  page 162, and Claude Code reports that pinpoint as unverified.
+- **Exact relevant location:** reported as page 162. Unverified.
+- **What it supports:** nothing verified. It is the standard primary citation for the design
+  effect, which `SRC-127` and `SRC-128` state in modern form.
+- **What it does not support or important limitations:** do not cite page 162 until someone opens
+  the book. Cite `SRC-127` or `SRC-128` instead, since both were read.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-130 Eldridge, Ukoumunne, Carlin (2009)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Eldridge, S.M., Ukoumunne, O.C., Carlin, J.B., "The
+  Intra-Cluster Correlation Coefficient in Cluster Randomized Trials: A Review of Definitions,"
+  International Statistical Review 77(3):378-394, 2009.
+- **Stable link, DOI, or version:** doi.org/10.1111/j.1751-5823.2009.00092.x
+- **Checked by and date:** abstract text read by Claude Code on 2026-10-11. The article was not
+  read.
+- **Exact relevant location:** not established.
+- **What it supports:** from the abstract, that the definition of the intra-cluster correlation is
+  elusive for non-normal outcomes, that greater complexity arises for dichotomous outcomes, and
+  that the usual coefficient cannot be related directly to the parameters of the logistic-normal
+  model. This confirms the owner's suspicion, recorded in the search prompt, that the binary
+  intraclass correlation has competing definitions.
+- **What it does not support or important limitations:** unread beyond the abstract, so the
+  competing definitions themselves are not yet recorded here. This is the source to open before any
+  `rho` is reported for an adopter set.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-131 Eldridge, Ashby, Kerry (2006)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Eldridge, S.M., Ashby, D., Kerry, S., "Sample size
+  for cluster randomized trials: effect of coefficient of variation of cluster size and analysis
+  method," International Journal of Epidemiology 35(5):1292-1300, 2006.
+- **Stable link, DOI, or version:** not verified.
+- **Checked by and date:** not opened. Claude Code reports that its coefficient-of-variation result
+  is the one reproduced as equation 17 of `SRC-127`.
+- **Exact relevant location:** not established.
+- **What it supports:** nothing verified directly. It is the primary source for the unequal-cluster
+  correction this project would need, since venues differ in size.
+- **What it does not support or important limitations:** unread. Cite `SRC-127`'s equation 17
+  instead until someone opens this.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-132 Madden and Hughes (1999)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Madden, L.V., Hughes, G., "An Effective Sample Size
+  for Predicting Plant Disease Incidence in a Spatial Hierarchy," Phytopathology 89(9):770-781,
+  1999.
+- **Stable link, DOI, or version:** doi.org/10.1094/PHYTO.1999.89.9.770
+- **Checked by and date:** the publisher returned HTTP 403. Claude Code read the abstract on
+  2026-10-11 through the UKHSA research portal and search returns, and read no part of the body.
+  The agent labelled this `CHECKED, abstract only`, which does not meet this repository's bar, so
+  the entry is recorded as `LEAD`.
+- **Exact relevant location:** the abstract only.
+- **What it supports:** the single most important result of the 2026-10-11 search, and it needs
+  verifying because of that. The authors replace the per-unit sample size `n` by a parameter `nu`
+  chosen so that the zero term of the binomial, meaning the probability that a sampling unit is
+  disease free, equals the zero term of the beta-binomial. They state that `nu` has a similar
+  interpretation to, but is not the same as, the survey-sampling effective sample size `n/deff`,
+  and that `nu` lies between `n/deff` and `n`. The variance-based effective sample size therefore
+  does not reproduce the probability of a zero.
+- **What it does not support or important limitations:** the body is unread, so no equation, table
+  or numerical result from it may be cited. The domain is plant disease in a spatial hierarchy
+  rather than people in venues. If the abstract's claim holds, it rules out carrying a design
+  effect across to this project's coverage target, which makes opening this paper a priority.
+- **Where it is used in the report or code:** not yet used. Bears directly on whether the
+  design-effect route can reach the coverage target at all.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-133 Kopacka, FFD package vignette
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Kopacka, I., "FFD: Package to substantiate freedom
+  from disease in R using two-stage sampling," CRAN vignette.
+- **Stable link, DOI, or version:** the CRAN vignette PDF. The package version was not recorded and
+  must be fixed before any computational use.
+- **Checked by and date:** the vignette PDF read by Claude Code on 2026-10-11. The owner has not
+  read it.
+- **Exact relevant location:** Section 2.1, equations (1) and (2), and Section 2.2 for herd
+  sensitivity.
+- **What it supports:** an explicit treatment of the quantity this project's coverage target needs.
+  Equations (1) and (2) give `P(T+ = 0 | d)` through a modified hypergeometric sum, and Section 2.2
+  defines herd sensitivity as `Se_herd = P(T+ > 0 | d) = 1 - P(T+ = 0 | d)`, which is the
+  probability that a cluster emits at least one positive. Clustering enters through a two-level
+  design prevalence, between-herd and intra-herd, rather than through an intraclass correlation or
+  a design effect.
+- **What it does not support or important limitations:** software documentation is not a
+  mathematical source, and no theorem may be cited from it. The vignette attributes its formulas to
+  Cameron and Baldock (1998), logged as `SRC-134` and unopened. The two-level design prevalence is a
+  different parameterization from the intraclass correlation the owner's prompt assumed, so
+  adopting this route would mean changing parameters rather than reusing `rho`.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-134 Cameron and Baldock (1998)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Cameron, A.R., Baldock, F.C., two 1998 papers on
+  two-stage sampling to substantiate freedom from disease, cited by `SRC-133` as 1998a and 1998b.
+  Full titles, journal and pages were not resolved.
+- **Stable link, DOI, or version:** none verified.
+- **Checked by and date:** not opened. Identified by Claude Code on 2026-10-11 only through
+  `SRC-133`'s citation.
+- **Exact relevant location:** not established.
+- **What it supports:** nothing yet. These are the primary sources behind the herd-sensitivity
+  formula that `SRC-133` states.
+- **What it does not support or important limitations:** the citation is incomplete and must be
+  resolved before use. Open these before citing the herd-sensitivity result to a primary source.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-135 Hedt-Gauthier, Mitsunaga, Hund, Olives, Pagano (2013)
+
+- **Status:** CHECKED
+- **Full citation or dataset/software name:** Hedt-Gauthier, B.L., Mitsunaga, T., Hund, L., Olives,
+  C., Pagano, M., "The effect of clustering on lot quality assurance sampling: a probabilistic
+  model to calculate sample sizes for quality assessments," Emerging Themes in Epidemiology 10:11,
+  2013.
+- **Stable link, DOI, or version:** doi.org/10.1186/1742-7622-10-11. Full text at
+  `pmc.ncbi.nlm.nih.gov/articles/PMC3819670/`
+- **Checked by and date:** read by Claude Code on 2026-10-11. The owner has not read it.
+- **Exact relevant location:** not pinpointed to a numbered equation.
+- **What it supports:** it replaces the binomial by a beta-binomial parameterized by the
+  intraclass correlation, to set sample sizes and decision rules. Because it treats the full
+  distribution of the count, the zero case falls out of it.
+- **What it does not support or important limitations:** it frames the question as
+  misclassification risk rather than detection, so the zero probability is available but is not the
+  paper's object. It gives no coverage formula.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-136 Hines, Nichols, Royle, MacKenzie, Gopalaswamy, Kumar, Karanth (2010)
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** Hines, J.E., Nichols, J.D., Royle, J.A., MacKenzie,
+  D.I., Gopalaswamy, A.M., Kumar, N.S., Karanth, K.U., "Tigers on trails: occupancy modeling for
+  cluster sampling," Ecological Applications 20(5):1456-1466, 2010.
+- **Stable link, DOI, or version:** not verified.
+- **Checked by and date:** not opened. Surfaced by Claude Code on 2026-10-11.
+- **Exact relevant location:** not established.
+- **What it supports:** nothing yet. It treats detection under spatially correlated replicates,
+  which is occupancy modelling with the independence assumption relaxed.
+- **What it does not support or important limitations:** unread. It is the most promising unopened
+  lead from this round, because it joins two strands the project has already reached separately:
+  occupancy modelling with covariates on detection (`SRC-107`), N-mixture counts (`SRC-009`,
+  `SRC-010`), and beta-binomial correlated detection (`SRC-016`). Open this before building any
+  coverage model.
+- **Where it is used in the report or code:** not yet used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
+
+### SRC-137 Alimohamadi and Sepandi (2019)
+
+- **Status:** REJECTED
+- **Full citation or dataset/software name:** Alimohamadi, Y., Sepandi, M., "Considering the design
+  effect in cluster sampling," Journal of Cardiovascular and Thoracic Research 11(1):78, 2019.
+- **Stable link, DOI, or version:** doi.org/10.15171/jcvtr.2019.14
+- **Checked by and date:** read by Claude Code on 2026-10-11.
+- **Exact relevant location:** the statement of `Deff = 1 + rho(n-1)`.
+- **What it supports:** the formula, correctly stated, assuming equal cluster sizes.
+- **What it does not support or important limitations:** rejected as a citation, not as a fact. It
+  is a two-page letter in an unrelated specialty journal, and it is not the primary source for a
+  result that `SRC-127` and `SRC-128` both state with their assumptions and corrections. Cite those
+  instead. Logged so that nobody re-finds this letter and cites it for want of a better reference.
+- **Where it is used in the report or code:** not used.
+- **Related prompt log:** `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`
 
 ### Discarded as not measurable in this project's setting
 
