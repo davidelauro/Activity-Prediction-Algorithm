@@ -70,6 +70,10 @@ No code exists. The paper holds only scaffolding.
   moves with adoption rate, is open. See `DEC-010`.
 - The optimal rule is not derived. Until it is, there is no limit to compare against and nothing
   for a simulation to evaluate. This is the step that makes the research question answerable.
+  Related: "every possible procedure" needs a mathematical framework for proving a bound over
+  all procedures (minimax / statistical decision theory are candidates), not yet chosen. Search
+  prompt drafted in `drafts/search-prompt-minimax-framework.md`, scoped to surfacing candidate
+  frameworks only, not picking one, since that choice is the owner's per `AGENTS.md`.
 - Assumption 2's posting-probability heterogeneity (varies per adopter, mechanism unspecified)
   needs a literature pass, scoped to the model, not the display, so `DEC-009` does not apply.
   Search prompt drafted in `drafts/search-prompt-posting-probability.md`. A prior unverified
