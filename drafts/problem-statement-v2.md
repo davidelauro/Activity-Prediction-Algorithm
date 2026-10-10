@@ -1,10 +1,10 @@
 # Problem statement, version 2
 
-Written 2026-10-09, owner-led, in the USPArC style. This file supersedes
-[`problem-statement-draft.md`](problem-statement-draft.md) in substance. That earlier draft
-predicted a headcount per venue and treated the discrete levels as presentation. This version
-makes the three-level display the product and the headcount a latent quantity behind it. The
-earlier file stays in place as the record of where the statement came from.
+Written 2026-10-09, owner-led, in the USPArC style. It replaces an earlier draft that predicted
+a headcount per venue and treated the discrete levels as presentation. This version makes the
+three-level display the product and the headcount a latent quantity behind it. The owner deleted
+that earlier draft on 2026-10-10 under DEC-008, so it survives only in git history, at commit
+`23a4629`, as `drafts/problem-statement-draft.md`.
 
 Settled values appear inline. Open values appear in the table at the end.
 

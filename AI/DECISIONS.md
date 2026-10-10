@@ -26,6 +26,48 @@ Use IDs `DEC-001`, `DEC-002`, and so on.
 
 Add new entries above older entries.
 
+### DEC-008 Delete the first two literature rounds and start from the restated problem
+
+- **Date:** 2026-10-10
+- **Status:** active
+- **Decision:** start over from the problem in `drafts/problem-statement-v2.md`, on a new branch
+  `problem/adoption-threshold`. Five files are deleted outright rather than archived:
+  `drafts/literature-search-topics.md`, `drafts/search-prompts.md`,
+  `drafts/literature-review-results.md`, `drafts/social-aliveness-search.md`, and
+  `drafts/problem-statement-draft.md`. `paper/sections/02-literature-review.tex` returns to a
+  stub, since its contents answered three research questions the restated problem replaced.
+  `AI/SOURCES.md` keeps all 65 entries untouched, and no `AI/` record is deleted.
+- **Alternatives considered:** archiving the five drafts under `drafts/archive/` instead of
+  deleting them; pruning `AI/SOURCES.md` down to the roughly 25 entries that bear on the
+  restated problem and marking the other 35 out of scope; deleting the `AI/` records as well,
+  which the owner was offered and did not take; doing the clear-out on
+  `literature/search-topics` rather than on a new branch.
+- **Reason:** the deleted drafts all belong to the old framing, in which the model predicted a
+  headcount per venue from a map of venues. The restated problem outputs a three-level display
+  and asks for an adoption threshold, so those drafts no longer describe the work. The owner
+  chose outright deletion over archiving, and git history keeps every version regardless.
+- **Consequences or limitations:** four present-tense claims in committed records became false
+  when the files went, and all four were corrected in the same commit. `AI/SOURCES.md` said the
+  full writeups of both searches lived in two of the deleted drafts, and now points at git
+  history instead. `drafts/problem-statement-v2.md` said its predecessor stayed in place, and
+  now says where it went.
+  Two committed decisions still carry pointers to deleted files, and this entry corrects them
+  rather than rewriting them, since `AGENTS.md` keeps old decisions as written. `DEC-004` cites
+  `drafts/social-aliveness-search.md` for the social-aliveness search detail. `DEC-007` cites
+  `drafts/problem-statement-draft.md` as the alternative framing it rejected. Both resolve only
+  in git history, at commit `23a4629`.
+  The prompt records under `AI/PROMPTS/` also name the deleted files. Those stay untouched and
+  stay accurate, because each one is a dated account of a session in which the files existed.
+  The main risk this decision accepts is that roughly 35 of the 65 logged sources are now out of
+  scope while still sitting in `AI/SOURCES.md`. Nobody has marked which, so a later session has
+  to redo that classification or read it out of
+  `AI/PROMPTS/2026-10-09-problem-statement.md`, which records the three buckets.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** follows DEC-007. Touches DEC-004
+  and DEC-007 only by correction, not by amendment.
+- **Related prompt log, commit, or pull request:** last commit holding the deleted files is
+  `23a4629` on `literature/search-topics`.
+
 ### DEC-007 Restate the problem around a three-level display and an adoption threshold
 
 - **Date:** 2026-10-09

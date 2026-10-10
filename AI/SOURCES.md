@@ -226,7 +226,8 @@ cases, but not yet read and confirmed by the owner. None has been cited in the p
 SRC-009 through SRC-051 surfaced from the ten prompts in `drafts/search-prompts.md`, run
 2026-10-09 in a fresh Opus chat per `DEC-003` and the addendum in
 `AI/PROMPTS/2026-10-09-literature-search-topics.md`. The full writeup, with every finding stated
-in prose and grouped by question, lives in `drafts/literature-review-results.md`; the entries
+in prose and grouped by question, was deleted on 2026-10-10 under DEC-008 and survives only in
+git history, at commit `23a4629`, as `drafts/literature-review-results.md`; the entries
 below are the citation record, not a duplicate of that prose. "Checked by and date" below
 reports how closely that search read each source (full text, abstract and record, or secondary),
 which is not the same as the owner personally checking it; every entry stays `LEAD` until the
@@ -933,7 +934,8 @@ owner does.
 
 SRC-052 through SRC-059 surfaced from a search on what makes a place feel socially alive,
 run 2026-10-09 via a fresh subagent, independent of this project's main session. Full prose
-detail for every source the search returned lives in `drafts/social-aliveness-search.md`. The
+detail for every source the search returned was deleted on 2026-10-10 under DEC-008 and
+survives only in git history, at commit `23a4629`. The
 owner asked for a second pass: keep only the ones measurable from this project's actual data,
 check-ins (user, timestamp, venue) and a mutual-follow social graph, nothing else. No audio,
 survey, physical-venue, or capacity data exists in this project's scope. The eight below passed
@@ -1275,5 +1277,5 @@ qualitative fieldwork that cannot be reduced to this project's check-in schema (
 Blokland and Nast, Johnston). De Nadai et al. (2016), on urban vitality from mobile-phone data,
 is the closest methodological relative of this project among the discarded set, but its actual
 inputs, census and land-registry data, are still outside scope. Full detail on every discarded
-source, including citation status, is preserved in `drafts/social-aliveness-search.md`; nothing
-is lost, it is simply not part of the active source list.
+source, including citation status, was deleted on 2026-10-10 under DEC-008. It survives only in
+git history, at commit `23a4629`, and is no longer part of the working tree.
