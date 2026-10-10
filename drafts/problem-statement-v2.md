@@ -10,60 +10,46 @@ Settled values appear inline. Open values appear in the table at the end.
 
 ## The statement
 
-A social app lets its users post a check-in at a public venue. Each check-in records one drink,
-which means that a single user can post more than once during one visit. Every check-in carries
-three things: one user, one timestamp, and one venue. The app accepts a check-in only from a
-user at the venue's own location, so a check-in cannot come from somewhere else. The app serves
-a community of young adults who want to socialize with friends. We treat the community as a
-finite set of people, fixed only at the moment we judge it. Its size can differ from one night
-to the next. Deciding who belongs to that set in practice stays out of scope. We call a
-member who uses the app an adopter, and we call the percentage of the community who are adopters
-the adoption rate. The app also holds a social graph of the mutual follows between its adopters.
+A social app lets users post a check-in at a public venue. A check-in records one drink, so one
+visit can produce several check-ins. Each check-in carries a user, a timestamp, and a venue. The
+app accepts a check-in only at the venue's own location. It serves a community of young adults
+who want to socialize with friends. We treat the community as a finite set, fixed only at the
+moment the app judges it, and its size can differ from one night to the next. We call a member
+who uses the app an adopter, and we call the percentage of the community who are adopters the
+adoption rate. The app also holds a social graph of mutual follows among adopters.
 
-The app judges a venue from the check-ins posted there inside a window of two hours ending at
-the present moment. Within that window we see which adopters posted at the venue and how many
-posts each of them made. We see nothing of the members who stayed silent, and nothing of anyone
-outside the community.
+Three assumptions about posting follow. Non-adopters post nothing. A present adopter posts at
+least once with positive probability. That probability can depend on the adopter and on the
+venue. Non-friends post independently of one another. Friends at the same venue and time do
+not.
 
-We assume three things about posting, and without them no procedure could recover anything, so
-the question below would have no answer. Non-adopters post nothing. Every adopter present at a
-venue posts at least once with some probability. That probability can depend on the adopter and
-on the venue. Members who are not friends post independently of one another. Friends who are
-at the same venue at the same time do not post independently of each other.
+Each venue holds a definite number of community members at any moment. We call that number its
+true headcount. Each venue also has a fixed capacity, and we call headcount divided by capacity
+its true occupancy. The app never reports either number.
 
-A user opens the app to decide where to go out, so the app must judge how much community
-activity each venue holds right now, and it reports that judgement coarsely. It shows every
-venue with at least one check-in inside the window, and it places that venue on one of three
-levels, which we label quiet, busy and packed and show as yellow, orange and red. Two boundaries
-separate the levels, and we set them at the terciles of the occupancy distribution among
-currently open venues, so each night splits into equal thirds by that night's own activity
-relative to each venue's own capacity, not by raw headcount. A venue with no check-ins inside
-the window does not appear on the map. The user compares levels, not numbers.
+The app judges each venue from check-ins posted there in the last two hours, showing every
+venue with at least one such check-in. Each shown venue gets one of three levels: quiet
+(yellow), busy (orange), or packed (red). The two boundaries are the terciles of tonight's
+occupancy distribution among open venues, not a fixed historical threshold. Users compare
+levels, not numbers.
 
-Behind those levels sits a quantity we never see. At the present moment each venue holds a
-definite number of community members, and we call that number its true headcount. Each venue
-also has a fixed, known capacity, and we call the true headcount divided by capacity its true
-occupancy. The app never reports a headcount or an occupancy and does not need to, because
-occupancy matters only for the level it falls in.
+The app gets a shown venue right when its level matches its true occupancy. The fraction of
+shown venues it gets right is the match rate. A venue that never appears is a different kind of
+error. The fraction of busy-or-packed venues that appear at all is the coverage.
 
-The app gets a shown venue right when it places that venue on the level its true occupancy falls
-in. Across the shown venues we measure the fraction placed correctly, and we call that the match
-rate. A venue that never appears carries a different kind of error, so we measure it apart. Among
-venues whose true occupancy reaches busy or packed, we measure the fraction that appear at all,
-and we call that the coverage. Our question concerns how the match rate and the coverage depend
-on adoption rate, holding four other quantities fixed: the number of venues, the number of members
-out, how unequally those members spread across venues, and how often an adopter posts. We ask for
-the smallest adoption rate at which the match rate reaches 80 percent and the coverage reaches 80
-percent, and we ask whether such an adoption rate exists at all. We put the match rate to every
-possible procedure rather than to one, because the app could compute its levels in more than one
-way and this statement names none of them. Coverage needs no such care, since a venue appears
-according to whether anyone posted and no procedure changes that.
+Our question is how match rate and coverage depend on adoption rate. We hold four other
+quantities fixed: the number of venues, the number of members out, how unequally they spread
+across venues, and how often an adopter posts. We ask for the smallest adoption rate at which
+match rate and coverage both reach 80 percent, and whether that adoption rate exists at all.
 
-Real check-in data exists for this app, but we do not use it here. This paper's aim is to find
-the minimal adoption rate any algorithm needs before the app implements it, and no implemented
-algorithm yet exists to test against that data. We keep real venue data out of scope as well. We
-also set aside what the map does to the people who read it, which means that every statement we
-make describes a world in which nobody saw the map.
+We judge match rate against every possible procedure, since the app could compute its levels in
+more than one way. Coverage needs no such care: a venue's appearance depends only on whether
+anyone posted, not on the procedure.
+
+Real check-in data exists, but we do not use it. This paper's aim is to find the minimal
+adoption rate any algorithm needs before the app implements one, and no such algorithm exists
+yet to test. We keep real venue data out of scope too, and we set aside what the map does to
+the people who read it: every statement here describes a world where nobody has seen the map.
 
 ## Settled, with where each value came from
 

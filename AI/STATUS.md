@@ -102,6 +102,21 @@ No code exists. The paper holds only scaffolding.
   resharing through a news feed rather than colocated posting. The shared group-level latent event
   and the beta-binomial or common-shock constructions have no empirical calibration in this
   literature.
+- Adoption rate is currently treated as a single aggregate percentage, with no stated model for
+  which community members it picks out. The owner flagged that adoption will probably cluster
+  along the social graph, not fall as a uniform random sample, since apps commonly spread
+  friend to friend. This is linked to Assumption 3: a colocated company of friends is then more
+  likely to be either mostly adopters or mostly non-adopters together, rather than an even mix,
+  which changes what a company's check-ins look like and complicates treating adoption rate as
+  one clean, uniformly-applied number (as `PRF-001` currently does). No mechanism for how
+  adoption clusters is proposed; this is only logged as a consideration, not yet a decision. It
+  would also answer `AI/PROJECT.md`'s open "Chosen extension" slot if adopted, which it has not
+  been. Three search prompts drafted, none run: `drafts/search-prompt-clustered-adoption-threshold.md`
+  (does clustering shift a diffusion or coverage threshold, drawing on network epidemiology and
+  percolation theory), `drafts/search-prompt-app-adoption-network-structure.md` (how clustered
+  is real app adoption, empirically), and `drafts/search-prompt-cluster-sampling-variance.md`
+  (the survey-methodology design-effect formula, a more tractable statistical framing of the
+  same question).
 - The venues actually shown (those with at least one check-in) do not split into exact terciles,
   because venues with zero check-ins, disproportionately the true-quiet ones, get hidden before
   the split is read off. How much this shifts the realized trivial baseline, and how that shift
