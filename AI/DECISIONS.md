@@ -91,6 +91,15 @@ Add new entries above older entries.
 - **Related attempt, source, experiment, data, or proof IDs:** corrects `DEC-007` item 3 and its
   related-sources line without rewriting them, the same way `DEC-008` corrected pointers to
   files it deleted. `SRC-028` stays logged in `AI/SOURCES.md`, status `LEAD`, unaffected.
+
+**Addendum, 2026-10-10 (continuing the same session):** the original consequences list named
+only the `SRC-028`/boundary-form citation. The decision's own text already named the window as
+one of the structural choices this rule covers, but its basis-table citation of `SRC-062` was
+missed at the time and left in place. The owner caught the inconsistency in a later review pass
+and extended the drop to the window row as well. `drafts/problem-statement-v2.md`'s basis table
+and `AI/STATUS.md` are updated accordingly. `SRC-062` stays logged, unaffected, and the weakness
+already on record there, a 4.8-hour whole-session figure divided by an unsourced venues-per-night
+number, is now moot for the problem statement regardless, since no citation rests on it there.
 - **Related prompt log, commit, or pull request:** this session, 2026-10-10, continuing
   `problem/adoption-threshold`.
 

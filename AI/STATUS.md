@@ -70,6 +70,16 @@ No code exists. The paper holds only scaffolding.
   moves with adoption rate, is open. See `DEC-010`.
 - The optimal rule is not derived. Until it is, there is no limit to compare against and nothing
   for a simulation to evaluate. This is the step that makes the research question answerable.
+- Assumption 2's posting-probability heterogeneity (varies per adopter, mechanism unspecified)
+  needs a literature pass, scoped to the model, not the display, so `DEC-009` does not apply.
+  Search prompt drafted in `drafts/search-prompt-posting-probability.md`. A prior unverified
+  search flagged a real translation gap: posting-volume heavy-tailedness is documented, but
+  that is lifetime post count, not a bounded per-visit probability.
+- Assumption 3's colocated-friend dependency (friends at the same venue and time do not post
+  independently) has no stated mechanism either. Same scope as Assumption 2, same reason
+  `DEC-009` does not apply. Search prompt drafted in
+  `drafts/search-prompt-friend-colocation.md`. The closest lead already found, unverified, is a
+  Foursquare colocation study (personality homophily in checkins).
 - Roughly 35 of the 65 logged sources are out of scope for the restated problem and nobody has
   marked which. The three buckets are recorded in
   `AI/PROMPTS/2026-10-09-problem-statement.md`.
@@ -79,9 +89,10 @@ No code exists. The paper holds only scaffolding.
 
 - The choice of three display levels rests on cartographic convention about how many classes a
   reader recognises at a glance. No source in this repository supports it and none was found.
-- The two-hour window rests on `SRC-062`'s session length of 4.8 hours divided by an unsourced
-  number of venues per night. `SRC-062` measures a whole drinking session, not time at one
-  venue.
+- The two-hour window is now a plain owner choice (`DEC-009` extended), not backed by
+  `SRC-062`. It had rested on `SRC-062`'s session length of 4.8 hours divided by an unsourced
+  number of venues per night, and `SRC-062` measures a whole drinking session, not time at one
+  venue, which was thin support regardless.
 - `SRC-065` draws on a time-use wave that overlaps COVID restrictions, and nobody has checked
   which years each country collected. A going-out rate measured under restrictions is biased
   down.

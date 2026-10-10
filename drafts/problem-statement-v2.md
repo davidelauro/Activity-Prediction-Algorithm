@@ -74,7 +74,7 @@ which means that every statement we make describes a world in which nobody saw t
 | Venue with no check-ins | not shown on the map | owner |
 | Boundary form | terciles of tonight's own headcount distribution | owner (`DEC-009` dropped the earlier `SRC-028` citation for this row) |
 | Quantile split | terciles, equal thirds | owner, `DEC-010` |
-| Window | 2 hours | owner, anchored on `SRC-062` and bracketed by trade estimates |
+| Window | 2 hours | owner (`DEC-009` extended to drop the `SRC-062` citation for this row too) |
 | Match rate target | 80 percent | owner |
 | Coverage target | 80 percent | owner |
 | Presence at the venue | enforced by the app, not assumed | owner, a property of the check-in flow |
