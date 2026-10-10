@@ -26,6 +26,89 @@ Use IDs `DEC-001`, `DEC-002`, and so on.
 
 Add new entries above older entries.
 
+### DEC-012 Drop venue-independence from Assumption 2
+
+- **Date:** 2026-10-10
+- **Status:** active
+- **Decision:** Assumption 2 no longer claims posting probability is independent of venue. It
+  now states that the probability an adopter posts, given presence, can depend on both the
+  adopter and the venue. No mechanism or shape is specified for either dependence.
+- **Alternatives considered:** the three options named in `AI/STATUS.md`'s next actions: keep
+  venue-independence as a declared simplifying assumption with the evidence recorded as a known
+  limitation; weaken the clause, which is what this entry does; or state the unweakened clause
+  explicitly as a declared modelling choice rather than implying it is supported. `DEC-011`'s
+  occupancy move, considered as a possible way to absorb the dependence through felt crowding,
+  was separately ruled out as the explanation, since the owner confirmed the venue-dependence
+  evidence found is about venue identity (coolness, promotions, local ownership), not crowding.
+- **Reason:** the literature search run this session found real, if indirect, evidence against
+  venue-independence (`AI/STATUS.md`'s blocker list; full detail in
+  `AI/PROMPTS/2026-10-10-assumption-2-literature.md`), and the owner judged the clause false
+  rather than merely unsupported. Keeping it stated as though settled would misrepresent what is
+  known. The owner separately ruled out requiring any procedure to learn venue-specific effects
+  from that venue's own history, so this entry only removes the false claim; it does not adopt a
+  mechanism.
+- **Consequences or limitations:** the posting-probability mechanism is now open on two axes
+  instead of one: how it varies by adopter, and how it varies by venue, with no documented shape
+  for either (see `drafts/search-prompt-posting-probability.md`, which should be understood as
+  now covering both axes, not the adopter axis alone). The candidate formalisms discussed this
+  session (N-mixture with a beta-binomial extension for heterogeneity, the latent-exposure model,
+  matrix factorization, crossed random effects) remain candidates only; none is adopted here.
+  `PRF-001` in `AI/PROOF_STATUS.md`, which already assumed venue-dependence is real, is
+  unaffected by this entry becoming the problem statement's own stated position rather than only
+  a literature finding.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** resolves the first next action
+  recorded after the 2026-10-10 literature search. Related sources: the venue-dependence set
+  (`SRC-082`, `SRC-086` through `SRC-088`, `SRC-091` through `SRC-095`) and the formalism set
+  (`SRC-009`, `SRC-103` through `SRC-112`).
+- **Related prompt log, commit, or pull request:** this session, 2026-10-10, continuing
+  `AI/PROMPTS/2026-10-10-assumption-2-literature.md`.
+
+### DEC-011 Bring venue capacity into scope and base levels on occupancy
+
+- **Date:** 2026-10-10
+- **Status:** active
+- **Decision:** every venue has a fixed, known capacity. The three levels are no longer based on
+  terciles of raw true headcount among currently open venues, but on terciles of true
+  occupancy, true headcount divided by capacity, among currently open venues. True headcount
+  stays defined and named; it is no longer the quantity the display boundaries read off. This
+  reverses the scope exclusion in `DEC-007`'s statement that venue capacity stays out of scope.
+- **Alternatives considered:** keeping raw headcount terciles and dropping capacity entirely,
+  which is what the statement said before this entry; an absolute, per-venue occupancy threshold
+  not ranked against other venues that night (considered and set aside, named option B in the
+  session, in favour of staying relative to keep the clean tercile-baseline property from
+  `DEC-010`).
+- **Reason:** the owner wants occupancy, not raw headcount, to be the quantity the map actually
+  reports, since a packed small venue and a half-empty large one should not be treated the same
+  by a map meant to say how crowded a place feels. The move was also motivated by a specific
+  worry raised the same session: that posting probability depends on the venue, which the
+  literature search supports (see the blocker on Assumption 2 in `AI/STATUS.md`); if the
+  mechanism were really about felt crowding, basing levels on occupancy rather than raw headcount
+  could have absorbed that dependence. The owner confirmed in the same session that the
+  venue-dependence evidence found is not about crowding, so this move does not resolve
+  Assumption 2's open question, but the owner still wants occupancy as the reported quantity on
+  its own terms.
+- **Consequences or limitations:** `drafts/problem-statement-v2.md` and
+  `paper/sections/03-problem-statement.tex` both updated: the capacity scope exclusion is
+  removed, a `True headcount and occupancy` definition replaces the old `True headcount`
+  definition, the display paragraph reads terciles of occupancy, and the match rate and coverage
+  definition reads true occupancy rather than true headcount. The classical N-mixture formalism
+  discussed for Assumption 2 assumes one shared count distribution across venues, which breaks
+  once capacity varies by venue; a capacity-aware reparameterization (a shared occupancy rate
+  rather than a shared headcount distribution) was discussed but not adopted as a decision, only
+  as a candidate, and stays open. Whether venue capacity should join the list of quantities the
+  research question holds fixed alongside the number of venues, members out, inequality of
+  spread, and posting frequency is undecided; this entry does not add it to that list, treating
+  capacity for now as a static property of the venue map rather than a varied experimental
+  quantity, and that treatment itself is a default the owner has not confirmed.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** discussed alongside the N-mixture
+  and occupancy-model candidates for Assumption 2 (`SRC-009`, `SRC-106`, `SRC-107`, `SRC-112`),
+  though this decision is about the display's boundary quantity, separate from Assumption 2's
+  still-open posting-probability mechanism.
+- **Related prompt log, commit, or pull request:** this session, 2026-10-10, continuing
+  `problem/adoption-threshold`.
+
 ### DEC-010 Settle the quantile split as terciles
 
 - **Date:** 2026-10-10

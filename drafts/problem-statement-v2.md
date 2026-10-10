@@ -27,28 +27,29 @@ outside the community.
 
 We assume three things about posting, and without them no procedure could recover anything, so
 the question below would have no answer. Non-adopters post nothing. Every adopter present at a
-venue posts at least once with some probability. That probability can depend on the adopter, but
-not on the venue. Members who are not friends post independently of one another. Friends who are
+venue posts at least once with some probability. That probability can depend on the adopter and
+on the venue. Members who are not friends post independently of one another. Friends who are
 at the same venue at the same time do not post independently of each other.
 
 A user opens the app to decide where to go out, so the app must judge how much community
 activity each venue holds right now, and it reports that judgement coarsely. It shows every
 venue with at least one check-in inside the window, and it places that venue on one of three
 levels, which we label quiet, busy and packed and show as yellow, orange and red. Two boundaries
-separate the levels, and we set them at the terciles of the headcount distribution among
-currently open venues, so each night splits into equal thirds by that night's own activity. A
-venue with no check-ins inside the window does not appear on the map. The user compares levels,
-not numbers.
+separate the levels, and we set them at the terciles of the occupancy distribution among
+currently open venues, so each night splits into equal thirds by that night's own activity
+relative to each venue's own capacity, not by raw headcount. A venue with no check-ins inside
+the window does not appear on the map. The user compares levels, not numbers.
 
 Behind those levels sits a quantity we never see. At the present moment each venue holds a
-definite number of community members, and we call that number its true headcount. The app never
-reports a headcount and does not need to, because a headcount matters only for the level it
-falls in.
+definite number of community members, and we call that number its true headcount. Each venue
+also has a fixed, known capacity, and we call the true headcount divided by capacity its true
+occupancy. The app never reports a headcount or an occupancy and does not need to, because
+occupancy matters only for the level it falls in.
 
-The app gets a shown venue right when it places that venue on the level its true headcount falls
+The app gets a shown venue right when it places that venue on the level its true occupancy falls
 in. Across the shown venues we measure the fraction placed correctly, and we call that the match
 rate. A venue that never appears carries a different kind of error, so we measure it apart. Among
-venues whose true headcount reaches busy or packed, we measure the fraction that appear at all,
+venues whose true occupancy reaches busy or packed, we measure the fraction that appear at all,
 and we call that the coverage. Our question concerns how the match rate and the coverage depend
 on adoption rate, holding four other quantities fixed: the number of venues, the number of members
 out, how unequally those members spread across venues, and how often an adopter posts. We ask for
@@ -60,10 +61,9 @@ according to whether anyone posted and no procedure changes that.
 
 Real check-in data exists for this app, but we do not use it here. This paper's aim is to find
 the minimal adoption rate any algorithm needs before the app implements it, and no implemented
-algorithm yet exists to test against that data. We keep real venue data out of scope as well.
-Venue capacity stays out until venues can report it themselves. We also set aside what the map
-does to the people who read it,
-which means that every statement we make describes a world in which nobody saw the map.
+algorithm yet exists to test against that data. We keep real venue data out of scope as well. We
+also set aside what the map does to the people who read it, which means that every statement we
+make describes a world in which nobody saw the map.
 
 ## Settled, with where each value came from
 
@@ -72,7 +72,7 @@ which means that every statement we make describes a world in which nobody saw t
 | Number of levels | 3 | owner, chosen for colours recognizable on screen without a legend |
 | Labels and colours | quiet, busy, packed as yellow, orange, red | owner |
 | Venue with no check-ins | not shown on the map | owner |
-| Boundary form | terciles of tonight's own headcount distribution | owner (`DEC-009` dropped the earlier `SRC-028` citation for this row) |
+| Boundary form | terciles of tonight's own occupancy distribution (headcount divided by capacity) | owner (`DEC-009` dropped the earlier `SRC-028` citation for this row); `DEC-011` brought capacity into scope |
 | Quantile split | terciles, equal thirds | owner, `DEC-010` |
 | Window | 2 hours | owner (`DEC-009` extended to drop the `SRC-062` citation for this row too) |
 | Match rate target | 80 percent | owner |

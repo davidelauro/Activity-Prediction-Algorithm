@@ -59,6 +59,11 @@ No code exists. The paper holds only scaffolding.
   among currently open venues, recomputed each judged moment, not against a fixed historical
   count. The split is settled as terciles, equal thirds, which fixes the trivial match-rate
   baseline at exactly 33 percent.
+- `DEC-011`: venue capacity is now in scope, and the display's boundaries read terciles of true
+  occupancy (headcount divided by capacity), not raw headcount. True headcount stays defined as
+  its own quantity. This does not resolve Assumption 2's venue-independence doubt; the owner
+  confirmed the venue-dependence evidence found is about venue identity, not crowding, so
+  occupancy does not absorb it.
 
 ## In progress
 
@@ -66,6 +71,10 @@ No code exists. The paper holds only scaffolding.
 
 ## Blockers or open questions
 
+- Whether venue capacity joins the list of quantities the research question holds fixed
+  (currently: number of venues, members out, inequality of spread, posting frequency) is
+  undecided. `DEC-011` treats capacity as a static map property for now, not as a fifth varied
+  quantity, but that is a default, not a confirmed choice.
 - The hour of the evening is unfixed, and it feeds both the window's justification and the
   turnout figure.
 - How unequally members spread across venues still has no source. The owner's own analysis ranks
@@ -76,17 +85,16 @@ No code exists. The paper holds only scaffolding.
   shape, its variance, and whether it is unimodal are unmeasured. The 2026-10-10 searches closed
   this as a literature question, which makes the shape a declared modelling choice rather than a
   documented fact.
-- Assumption 2's venue-independence clause is in doubt and unresolved. The motivation literature
-  attaches posting to venue attributes that vary from bar to bar: coolness and brag value
-  (`SRC-091`, `SRC-094`), perceived interestingness (`SRC-082`, `SRC-092`), local ownership
-  (`SRC-092`), and promotions (`SRC-094` at 19.89 percent, `SRC-087` where one promotion moved a
-  chain from 5 to 1323 daily check-ins). The observational literature measures venue-level effects
-  on check-in behavior (`SRC-086`, `SRC-088`). Two caveats run the other way: `SRC-086`'s
-  mechanism is mis-tagging from a ranked list, which this app's location enforcement designs out,
-  and `SRC-088` compares two different populations. No source holds a user fixed, restricts to
+- `DEC-012`: Assumption 2's venue-independence clause is dropped, not merely doubted. Posting
+  probability can now depend on both the adopter and the venue, with neither mechanism
+  specified. The motivation literature that drove this (coolness and brag value, `SRC-091`,
+  `SRC-094`; perceived interestingness, `SRC-082`, `SRC-092`; local ownership, `SRC-092`;
+  promotions, `SRC-094` at 19.89 percent, `SRC-087` where one promotion moved a chain from 5 to
+  1323 daily check-ins; observational venue-level effects, `SRC-086`, `SRC-088`, with caveats
+  recorded there) stays as the evidentiary record. No source holds a user fixed, restricts to
   bars, and measures posting from one bar to the next, and no source reports a variance
-  decomposition separating a venue component from a user component. The owner has not revised the
-  assumption.
+  decomposition separating a venue component from a user component, so the magnitude and shape
+  of venue-dependence remain open, same status as adopter-dependence.
 - Assumption 3 has no quantitative mechanism. `SRC-001` supports its qualitative direction only.
   `SRC-078` and `SRC-079` give a cascade form but publish no fitted magnitudes and exclude
   simultaneity by construction, while Assumption 3 concerns friends present at the same time.
@@ -107,7 +115,11 @@ No code exists. The paper holds only scaffolding.
   Bayes-optimal rule (`SRC-071`), ordinal risk over all measurable decision functions
   (`SRC-072`), and minimax estimation under binomial thinning (`SRC-073`).
 - Six prerequisites must be settled before any framework applies, and they are the owner's to
-  decide. Is the thinning probability known to the procedure, or must a procedure estimate it. Are
+  decide. Is the thinning probability known to the procedure, or must a procedure estimate it.
+  `PRF-001` in `AI/PROOF_STATUS.md` argues, heuristically and not yet checked, that given the
+  venue-dependence evidence already logged, adoption rate specifically must be known or well
+  estimated, since the escape (an unknown shared rate cancels out for ranking purposes) only
+  holds if every venue is affected equally, which the venue-dependence sources contradict. Are
   the tercile boundaries fixed in advance, or defined by the realized headcount distribution,
   which makes the labels data-dependent and collides with several of the frameworks above. Which
   loss counts a mistake: 0-1 per venue, an ordinal distance, or the fraction correct among
@@ -162,15 +174,16 @@ No code exists. The paper holds only scaffolding.
 
 ## Next actions
 
-1. Decide whether Assumption 2 keeps its venue-independence clause, weakens it, or states it as a
-   declared modelling choice with its limitation recorded. The literature no longer leaves this
-   untouched, and the decision gates the simulator's posting mechanism.
+1. Pick a mechanism and shape for how posting probability varies by adopter and by venue
+   (`DEC-012` dropped the false independence claim but specifies neither). The candidate
+   formalisms discussed (N-mixture with a beta-binomial extension, latent exposure, crossed
+   random effects) are all still open.
 2. Fix the hour of the evening the problem is posed at.
 3. Settle the six framework prerequisites above, then choose a framework and derive the optimal
    rule.
 4. Find a source for venue inequality, the one input that still has none.
 5. Write `paper/sections/02-literature-review.tex` against the restated problem, using the
-   relevant sources rather than all 111.
+   relevant sources rather than all 112.
 
 ## Files to open first
 

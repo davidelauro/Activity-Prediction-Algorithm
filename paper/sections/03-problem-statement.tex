@@ -27,9 +27,9 @@ outside the community.
 Non-adopters post nothing.
 \end{assumption}
 
-\begin{assumption}[Venue-uniform, adopter-dependent posting probability]
+\begin{assumption}[Adopter- and venue-dependent posting probability]
 Every adopter present at a venue posts at least once with some probability. That probability
-can depend on the adopter, but not on the venue.
+can depend on the adopter and on the venue.
 \end{assumption}
 
 \begin{assumption}[Friends at the same venue and time]
@@ -45,22 +45,24 @@ activity each venue holds right now, and it reports that judgement coarsely. It 
 venue with at least one check-in inside the window, and it places that venue on one of three
 levels, which we label \emph{quiet}, \emph{busy}, and \emph{packed}, shown respectively as
 yellow, orange, and red. Two boundaries separate the levels, set at the terciles of the
-headcount distribution among currently open venues, so each judged moment splits into equal
-thirds by that moment's own activity rather than against a fixed historical count. A venue with
-no check-ins inside the window does not appear on the map. The user compares levels, not
-numbers.
+occupancy distribution among currently open venues, so each judged moment splits into equal
+thirds by that moment's own activity relative to each venue's own capacity, rather than by raw
+headcount or against a fixed historical count. A venue with no check-ins inside the window does
+not appear on the map. The user compares levels, not numbers.
 
-\begin{definition}[True headcount]
+\begin{definition}[True headcount and occupancy]
 At the present moment each venue holds a definite number of community members. We call that
-number the venue's \emph{true headcount}. The app never reports a headcount and does not need
-to, because a headcount matters only for the level it falls in.
+number the venue's \emph{true headcount}. Each venue also has a fixed, known capacity. We call
+the venue's true headcount divided by its capacity its \emph{true occupancy}. The app never
+reports a headcount or an occupancy and does not need to, because occupancy matters only for the
+level it falls in.
 \end{definition}
 
 \begin{definition}[Match rate and coverage]
-The app gets a shown venue right when it places that venue on the level its true headcount
+The app gets a shown venue right when it places that venue on the level its true occupancy
 falls in. Across the shown venues, we measure the fraction placed correctly and call it the
 \emph{match rate}. A venue that never appears carries a different kind of error, so we measure
-it apart: among venues whose true headcount reaches busy or packed, we measure the fraction that
+it apart: among venues whose true occupancy reaches busy or packed, we measure the fraction that
 appear at all, and we call that the \emph{coverage}.
 \end{definition}
 
@@ -77,7 +79,6 @@ that.
 
 Real check-in data exists for this app, but we do not use it here. This paper's aim is to find
 the minimal adoption rate any algorithm needs before the app implements it, and no implemented
-algorithm yet exists to test against that data. We keep real venue data out of scope as well.
-Venue capacity stays out of scope until venues can report it themselves. We also set aside what
-the map does to the people who read it, so every statement we make describes a world in which
-nobody saw the map.
+algorithm yet exists to test against that data. We keep real venue data out of scope as well. We
+also set aside what the map does to the people who read it, so every statement we make describes
+a world in which nobody saw the map.

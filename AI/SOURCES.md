@@ -120,7 +120,8 @@ Suggested statuses are `LEAD`, `CHECKED`, `USED`, and `REJECTED`.
 | SRC-108 | Bates et al. (2015) | paper | LEAD | lme4, abstract only |
 | SRC-109 | Baayen, Davidson, Bates (2008) | paper | LEAD | crossed subjects and items design |
 | SRC-110 | Gelman, Hill (2007) | book | LEAD | non-nested models, pinpoint unverified |
-| SRC-111 | Classical compound and choice citations | group | LEAD | eight foundational citations, none opened |
+| SRC-111 | Classical compound and choice citations | group | LEAD | six remaining foundational citations, none opened |
+| SRC-112 | Beta-binomial, as individual heterogeneity in thinning | concept | LEAD | mathematical form confirmed via secondary sources; Skellam/Williams themselves unopened |
 
 ## Entry template
 
@@ -2323,14 +2324,14 @@ Levels used: Leuven 8, Groningen 8, Heidelberg 6.
 
 - **Status:** LEAD
 - **Full citation or dataset/software name:** a group of foundational citations surfaced together
-  and opened by nobody. Skellam, J.G., Journal of the Royal Statistical Society Series B, 1948,
-  and Williams, D.A., 1975, named by search results as the origin of the beta-binomial and of its
-  overdispersion application. Mosimann, J.E., "On the compound multinomial distribution, the
-  multivariate beta-distribution, and correlations among proportions," Biometrika 49:65-82, 1962,
-  for the Dirichlet-multinomial. Mullahy, J., Journal of Econometrics 33(3):341-365, 1986, for the
-  hurdle model. Bradley, R.A., Terry, M.E., Biometrika 39:324-345, 1952, Luce, R.D., *Individual
-  Choice Behavior*, Wiley, 1959, and Plackett, R.L., "The analysis of permutations," Journal of the
-  Royal Statistical Society Series C 24(2):193-202, 1975, for choice models.
+  and opened by nobody. The beta-binomial pair, Skellam (1948) and Williams (1975), is split out
+  as `SRC-112`; the six below stay in this entry. Mosimann, J.E., "On the compound multinomial
+  distribution, the multivariate beta-distribution, and correlations among proportions,"
+  Biometrika 49:65-82, 1962, for the Dirichlet-multinomial. Mullahy, J., Journal of Econometrics
+  33(3):341-365, 1986, for the hurdle model. Bradley, R.A., Terry, M.E., Biometrika 39:324-345,
+  1952, Luce, R.D., *Individual Choice Behavior*, Wiley, 1959, and Plackett, R.L., "The analysis
+  of permutations," Journal of the Royal Statistical Society Series C 24(2):193-202, 1975, for
+  choice models.
 - **Stable link, DOI, or version:** none verified.
 - **Checked by and date:** none opened. All citation details come from search results, checked by
   Claude Code on 2026-10-10 only for internal consistency. The zero-inflated Poisson citation from
@@ -2343,6 +2344,39 @@ Levels used: Leuven 8, Groningen 8, Heidelberg 6.
   articles. Split this entry into separate IDs as each source is actually opened.
 - **Where it is used in the report or code:** not used.
 - **Related prompt log:** `AI/PROMPTS/2026-10-10-assumption-2-literature.md`
+
+### SRC-112 Beta-binomial as individual heterogeneity in thinning
+
+- **Status:** LEAD
+- **Full citation or dataset/software name:** the beta-binomial distribution, originating with
+  Skellam, J.G., Journal of the Royal Statistical Society Series B, 1948, and its overdispersion
+  application from Williams, D.A., 1975. Mathematical form cross-checked on 2026-10-10 against
+  modern secondary treatments rather than against either original paper.
+- **Stable link, DOI, or version:** none verified for either original paper. Secondary
+  confirmation drawn from standard reference treatments of the beta-binomial distribution found
+  by search (Wikipedia's entry and several applied-statistics papers on fitting it), not from a
+  single authoritative source.
+- **Checked by and date:** neither original paper opened. The mathematical form was independently
+  confirmed by Claude Code on 2026-10-10 via secondary sources: a Binomial(n, p) count where p
+  itself is Beta(a, b)-distributed rather than fixed, giving a count distribution with more
+  spread than a plain binomial and an intraclass correlation of 1/(1 + a + b). This is a
+  confirmation of the concept's standard mathematical form, not a verification of either Skellam
+  or Williams's own text, proofs, or original framing.
+- **Exact relevant location:** none established in either original paper.
+- **What it supports:** a direct fix for the N-mixture model's "one shared detection probability"
+  limitation (see `SRC-009`). Writing `y_v | N_v ~ Beta-Binomial(N_v, a, b)` instead of
+  `Binomial(N_v, p)` is mathematically equivalent to letting each of the `N_v` people present have
+  their own posting probability drawn from a Beta distribution, without needing to track which
+  specific people they are. Raised and worked through in this session while discussing why the
+  plain N-mixture model cannot represent per-adopter heterogeneity.
+- **What it does not support or important limitations:** does not by itself add venue-dependence;
+  the Beta distribution's own parameters would still need to vary by venue to capture that, which
+  is a separate, undocumented choice. Confirmed only against secondary sources, so no claim here
+  may be attributed to Skellam or Williams's actual text until one of the two originals is opened.
+- **Where it is used in the report or code:** not yet used. Candidate extension to the N-mixture
+  formalism for Assumption 2.
+- **Related prompt log:** this session, 2026-10-10, continuing
+  `AI/PROMPTS/2026-10-10-assumption-2-literature.md`.
 
 ### Discarded as not measurable in this project's setting
 
