@@ -42,6 +42,16 @@ No code exists. The paper holds only scaffolding.
 - `DEC-008`: the first two literature rounds were deleted. Five drafts went, and
   `paper/sections/02-literature-review.tex` returned to a stub. No `AI/` record was deleted.
   `23a4629` is the last commit holding the deleted files.
+- `DEC-009`: the problem statement states its own structural choices without citing
+  `AI/SOURCES.md` entries. Drops the `SRC-028` citation that had backed the quantile-boundary
+  choice; the choice itself stands.
+- The community is now explicitly a finite set fixed only at the moment it is judged, not fixed
+  across nights, so its size can differ night to night (a festival night pulling in more people
+  who fit the demographic is a change in that size, not a violation of the definition).
+- `DEC-010`: boundaries confirmed as quantiles of tonight's own true-headcount distribution
+  among currently open venues, recomputed each judged moment, not against a fixed historical
+  count. The split is settled as terciles, equal thirds, which fixes the trivial match-rate
+  baseline at exactly 33 percent.
 
 ## In progress
 
@@ -49,13 +59,15 @@ No code exists. The paper holds only scaffolding.
 
 ## Blockers or open questions
 
-- Two values inside the problem stay open. The quantile split is unchosen, and a skew such as
-  60, 30, 10 would let a procedure that calls every venue quiet score 60 percent, which weakens
-  the 80 percent target. The hour of the evening is unfixed, and it feeds both the window's
-  justification and the turnout figure.
+- The hour of the evening is unfixed, and it feeds both the window's justification and the
+  turnout figure.
 - Two quantities the answer depends on have no source: how unequally members spread across
-  venues, which the owner's own analysis ranks above adoption in importance, and how often an
-  adopter posts.
+  venues, which the owner's own analysis ranks above adoption rate in importance, and how often
+  an adopter posts.
+- The venues actually shown (those with at least one check-in) do not split into exact terciles,
+  because venues with zero check-ins, disproportionately the true-quiet ones, get hidden before
+  the split is read off. How much this shifts the realized trivial baseline, and how that shift
+  moves with adoption rate, is open. See `DEC-010`.
 - The optimal rule is not derived. Until it is, there is no limit to compare against and nothing
   for a simulation to evaluate. This is the step that makes the research question answerable.
 - Roughly 35 of the 65 logged sources are out of scope for the restated problem and nobody has
@@ -81,12 +93,10 @@ No code exists. The paper holds only scaffolding.
 
 ## Next actions
 
-1. Choose the quantile split, since it fixes the trivial baseline the 80 percent target is
-   measured against.
-2. Fix the hour of the evening the problem is posed at.
-3. Derive the optimal rule.
-4. Find sources for venue inequality and for how often an adopter posts.
-5. Write `paper/sections/02-literature-review.tex` against the restated problem, using the
+1. Fix the hour of the evening the problem is posed at.
+2. Derive the optimal rule.
+3. Find sources for venue inequality and for how often an adopter posts.
+4. Write `paper/sections/02-literature-review.tex` against the restated problem, using the
    roughly 25 relevant sources rather than all 65.
 
 ## Files to open first

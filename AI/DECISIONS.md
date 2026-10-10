@@ -26,6 +26,74 @@ Use IDs `DEC-001`, `DEC-002`, and so on.
 
 Add new entries above older entries.
 
+### DEC-010 Settle the quantile split as terciles
+
+- **Date:** 2026-10-10
+- **Status:** active
+- **Decision:** the two boundaries that separate quiet, busy, and packed split venues into
+  equal thirds by true headcount, each night, each time the app judges. This settles the open
+  item left by `DEC-007` item 3.
+- **Alternatives considered:** a skewed split, such as 60, 30, 10, which the owner had flagged
+  as a way to make the map show mostly quiet venues, matching an intuition about most nights
+  having more quiet venues than packed ones.
+- **Reason:** the boundaries are quantiles of tonight's own true-headcount distribution, not of
+  any fixed historical reference (confirmed the same session). Under that design, whatever
+  split fractions are chosen become the exact ground-truth class proportions every time, so a
+  trivial procedure that always guesses the majority class scores exactly that fraction.
+  Terciles give the cleanest, least arbitrary baseline, exactly 33 percent, and need no further
+  argument for why those particular numbers. A skewed split would need its own justification
+  and would weaken how much the 80 percent match-rate target actually demonstrates. Terciles
+  also match the app's purpose more directly: it reports relative standing within tonight's
+  activity, not an absolute capacity judgement, so "top third, middle third, bottom third of
+  tonight" is the honest description.
+- **Consequences or limitations:** the map will show roughly equal numbers of each color on any
+  given night, which does not match an intuition that most nights have more quiet venues than
+  busy or packed ones. That intuition, if true, describes the absolute distribution of
+  activity, not venues' standing relative to each other, so it is not evidence against this
+  choice, but the discussion section should say so explicitly rather than let a reader assume
+  the map should look mostly quiet most nights. The venues actually shown (those with at least
+  one check-in) do not split into exact thirds either, because venues with zero check-ins,
+  disproportionately the true-quiet ones, get hidden before the split is read off. This
+  interaction with adoption, already noted in `AI/STATUS.md`, remains open.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** resolves the first open item
+  under `DEC-007`. Does not rely on `SRC-028`, following `DEC-009`.
+- **Related prompt log, commit, or pull request:** this session, 2026-10-10, continuing
+  `problem/adoption-threshold`.
+
+### DEC-009 Stop citing literature-search sources to justify the live problem statement
+
+- **Date:** 2026-10-10
+- **Status:** active
+- **Decision:** the problem statement states its own structural choices, such as the number of
+  levels, the boundary form, the window, and the two targets, as owner choices. It states them
+  without citing the sources logged in `AI/SOURCES.md`. This reverses the part of `DEC-007` item
+  3 that cited `SRC-028` as the reason for choosing quantile boundaries over absolute headcounts.
+  The choice itself, quantiles rather than absolute counts, stands unchanged. Only its stated
+  reason changes, from a literature citation to an owner choice. `AI/SOURCES.md` keeps `SRC-028`
+  logged, unverified, and available for the literature review section later if independently
+  checked.
+- **Alternatives considered:** keeping `SRC-028` as a citation with an explicit caveat that it
+  is an unverified lead; dropping quantile boundaries as the boundary rule entirely and
+  reopening how boundaries are set.
+- **Reason:** `DEC-008` already cleared out literature-search output once because it was driving
+  the old framing of the problem. The owner does not want literature-search output, verified or
+  not, to keep entering the live problem statement as justification. The problem statement
+  should describe the problem as the owner has settled it, not carry provisional outside
+  support for a choice the owner already made on other grounds.
+- **Consequences or limitations:** `drafts/problem-statement-v2.md`'s basis table needs its
+  `SRC-028` citation dropped for the boundary-form row. `AI/STATUS.md` needs the same update.
+  `paper/sections/03-problem-statement.tex` already stated the quantile choice without an
+  in-text citation, so it needs no change. If the literature review section later verifies
+  `SRC-028` independently, it may still cite it there as review material, separate from the
+  problem statement.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** corrects `DEC-007` item 3 and its
+  related-sources line without rewriting them, the same way `DEC-008` corrected pointers to
+  files it deleted. `SRC-028` stays logged in `AI/SOURCES.md`, status `LEAD`, unaffected.
+- **Related prompt log, commit, or pull request:** this session, 2026-10-10, continuing
+  `problem/adoption-threshold`.
+
 ### DEC-008 Delete the first two literature rounds and start from the restated problem
 
 - **Date:** 2026-10-10
