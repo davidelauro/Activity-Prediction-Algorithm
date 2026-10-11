@@ -26,6 +26,152 @@ Use IDs `DEC-001`, `DEC-002`, and so on.
 
 Add new entries above older entries.
 
+### DEC-015 The research question targets coverage, and the setting gains three layers
+
+- **Date:** 2026-10-11
+- **Status:** active
+- **Decision:** the project's research question is now the coverage question. We ask how the
+  adopter set must sit inside the community's real friendship network for coverage to reach 90
+  percent, where coverage keeps its meaning from `DEC-007`: the fraction of busy-or-packed venues
+  that appear on the display at all. The question varies network structure, not adoption rate.
+  The setting gains three layers to support it. C is the community network, meaning the real
+  friendships among all community members, which determines who goes out together. A is the
+  adopter set, a vertex subset of C. G is the app's recorded graph of mutual follows among
+  adopters, a subgraph of C restricted to A, from which some real ties among adopters are
+  missing. The app sees G alone.
+- **Alternatives considered:** three. Point the question at match rate, which the owner rejected.
+  Point it at both, as the 80/80 pair in `DEC-007` did. Or keep asking for an adoption rate, a
+  single scalar, which `DEC-013` had already demoted. The owner also considered taking G equal to
+  the full induced subgraph of C on A, and rejected that as the less realistic reading.
+- **Reason:** coverage carries no procedure quantifier, since a venue appears when anybody posted
+  and that does not depend on how the app computes levels. So the coverage question needs none of
+  the six framework prerequisites recorded in `AI/STATUS.md`, and it is answerable now. Pointing
+  at coverage also matches what network structure can actually move: coverage turns on whether a
+  posting adopter is present, while the match rate turns on the thinning and the censoring. The
+  owner's own reasoning supplied the three layers. Co-attendance is driven by real friendships,
+  so without C the social graph has no path to coverage at all, which was the obstacle the
+  clustered-reach search named earlier the same day. G plays no part in the coverage question,
+  because whether the app recorded a follow does not change whether a user posts; G matters only
+  when an algorithm uses the graph to infer something, which is the levels problem.
+- **Consequences or limitations:** six. The coverage target is unsettled between 80 and 90
+  percent. The owner said 90 when this entry was drafted and 80 later the same session, and
+  deferred the choice; nothing downstream may assume either. Whether match rate keeps a target at
+  all is also unsettled, and the owner should note that 90 percent on match rate may sit above the
+  ceiling, which is part of why the question points elsewhere. Match rate and the three levels
+  stay defined in the setting; this entry changes what the question asks, not what the app does.
+  `DEC-014`'s three reference points
+  were designed for the levels problem, and the ceiling there is the optimal rule, which has no
+  counterpart for coverage; the natural reference for coverage is instead the coverage a
+  uniformly random adopter set of the same size achieves, and that substitution is not yet
+  settled. The co-attendance mechanism is still open: whether people arrive in groups drawn from
+  C, which changes the arrival process from plain Poisson to batch Poisson and therefore touches
+  the owner's own choice of a Poisson process, or whether they arrive independently with a pull
+  toward where friends already are. Which network properties get swept is open, with candidates
+  being group size, homophily of adoption on C, clustering, and the component structure of A
+  inside C. And the extent of G's missingness is deliberately deferred to the point where an
+  algorithm uses G, rather than fixed now.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** amends the setting settled under
+  `DEC-007`, which otherwise stands. Sits inside the framing of `DEC-013`. Requires the reference
+  substitution noted above against `DEC-014`. Relevant findings, none with an `SRC` entry yet:
+  the per-venue probability of a zero has a closed form under within-cluster dependence in
+  Guillera-Arroita, Morgan, Ridout and Linkie (2011), equation (3.4), page 308; no source
+  bounds the joint probability across all venues under heterogeneous and dependent posting, with
+  Chen-Stein the named route through Barbour, Holst and Janson (1992) and Holst (1986), both
+  unopened; and no source reports an assortativity coefficient, intraclass correlation, or
+  modularity value for an adopter set on any social graph, confirmed twice by search, so the
+  swept ranges will have no external anchor.
+- **Related prompt log, commit, or pull request:** this session, 2026-10-11, following `DEC-013`
+  and `DEC-014`. The clustered-reach obstacle is recorded in
+  `AI/PROMPTS/2026-10-11-question-relocation-results.md`.
+
+### DEC-014 Drop the baseline as the reference, evaluate against floor, naive rule and ceiling
+
+- **Date:** 2026-10-11
+- **Status:** active
+- **Decision:** `sql/activity_score.sql` is no longer the project's reference for success. Three
+  reference points replace it. The floor is chance, meaning the match rate a uniformly random
+  label assignment achieves, computed at its realized value rather than assumed to be 33 percent.
+  The naive rule is what the app would ship without thought, meaning venues ordered by raw
+  check-in count, by distinct posters, or by count divided by capacity. The ceiling is the
+  optimal rule for the project's own loss, computed inside the simulator where true occupancy is
+  known. Success is stated as distance from the ceiling, with the floor and the naive rule as
+  context.
+- **Alternatives considered:** keep the baseline as the single reference, which `AI/PROJECT.md`
+  had required; keep it as one reference among several; or drop it entirely from the writeup. The
+  owner rejected it as a reference. Whether it is mentioned once as a frozen prior attempt or
+  dropped from the writeup altogether is not settled by this entry.
+- **Reason:** the owner judged the baseline unfit as a yardstick. Beating a heuristic that an AI
+  produced without validation is a soft target, and a wide margin over it carries little
+  information. Distance from the optimal rule carries a meaning, and the optimal rule is citable
+  rather than open: Lin, Louis, Paddock and Ridgeway (2006), Theorem 1, and Gu and Koenker
+  (2023), Section 3.1, both give the Bayes rule for a 0-1 loss around a percentile cut. For an
+  application project under `DEC-013`, the naive rule is also the comparison a practitioner would
+  actually make.
+- **Consequences or limitations:** four. `AI/PROJECT.md`'s success criterion, which named the
+  baseline, is rewritten by this entry. `DEC-005`, which kept the baseline out of the simulator's
+  design until comparison time, now has nothing to protect and is noted as moot rather than
+  superseded, since its reasoning stands if the baseline is ever reinstated. The ceiling exists
+  only inside the simulator, because the optimal rule needs the true occupancy distribution, so
+  the writeup must state that the ceiling is a simulator quantity and not a real-world one. And
+  the realized floor is not known: `DEC-010` leaves open how far the shown venues depart from
+  equal thirds once censoring removes the quiet ones, so computing the floor is work, not a
+  constant.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** rewrites the success criterion set
+  in `AI/PROJECT.md`. Renders `DEC-005` moot. Depends on the open question in `DEC-010`. The two
+  sources behind the ceiling have no `SRC` entry yet.
+- **Related prompt log, commit, or pull request:** this session, 2026-10-11, following `DEC-013`.
+
+### DEC-013 Pursue the application gap, not a theory gap
+
+- **Date:** 2026-10-11
+- **Status:** active
+- **Decision:** the project pursues its application gap. The aim is a usable level-assignment
+  algorithm for the app, evaluated against a synthetic simulator with known ground truth and
+  compared against the frozen baseline. The project does not claim a theory gap, and it does not
+  claim novelty for the boundary form.
+- **Alternatives considered:** four. First, keep the adoption-threshold question of `DEC-007` as
+  the headline, which stays blocked on three unsourced inputs and an unselected framework.
+  Second, pose the recoverability question the AI proposed this session, which asks whether the
+  tercile partition is recoverable from a zero-censored, doubly-indexed thinning and what ceiling
+  any procedure faces. Third, pose the joint coverage bound, meaning the probability that every
+  busy-or-packed venue emits at least one post under clustered adoption and friend dependence.
+  Fourth, pose the realized-baseline question left open by `DEC-010`. The owner chose the
+  application framing over all four.
+- **Reason:** the project never held a sharp theory gap. It held a measurement gap, since no
+  source studies a location-based venue app, publishes the distribution of an adopter's posting
+  rate, decomposes a venue effect from a user effect, or reports a clustering figure for an
+  adopter set; and it held an application gap, since no such algorithm exists to test. The
+  theory-gap candidate raised on the morning of 2026-10-11, that no source defines its estimand
+  by the empirical quantiles of the realized finite vector, was falsified the same day; see
+  `AI/PROMPTS/2026-10-11-question-relocation-results.md`. An application gap is a sound reason to
+  build something and a poor reason to claim a theorem, so the project follows the gap it has.
+- **Consequences or limitations:** five. The claim type changes from theorem to simulation
+  evidence, so `AGENTS.md`'s rule on conclusions resting only on finite-size experiments now
+  governs the headline result. The scope line in `AI/PROJECT.md` putting real data out of scope
+  must be revisited, because a usable algorithm needs a calibration path to reality; that
+  revisit is not settled by this entry. The three unsourced inputs stop being values to find and
+  become quantities the algorithm estimates or the simulator sweeps. The circularity risk becomes
+  the project's central methodological threat, since the same author builds the simulator and the
+  model while the baseline was built without one; `AI/PROJECT.md`'s existing requirement to fix
+  the metric before looking at results is half the defence and the other half is undecided. And
+  the recoverability warning does not disappear: if venue identity in both margins makes the
+  ordering unrecoverable, then no model recovers it, so the warning becomes a soundness check on
+  the modelling results rather than the headline question.
+- **Approved by:** owner
+- **Related attempt, source, experiment, data, or proof IDs:** supersedes nothing. `DEC-007`
+  stays active, and its problem statement stays the description of the setting. Bears on
+  `DEC-010`, `DEC-012` and `PRF-001`. Relevant findings: the optimal rule for a 0-1 loss around
+  a percentile cut is published, in Lin, Louis, Paddock and Ridgeway (2006), Theorem 1, and Gu
+  and Koenker (2023), Section 3.1; the match rate over displayed units is a marginal false
+  discovery rate; and Fithian, Elith, Hastie and Keith (2015), Section 1.4, carries the
+  recoverability warning. None of these has an `SRC` entry yet.
+- **Related prompt log, commit, or pull request:**
+  `AI/PROMPTS/2026-10-11-question-relocation-prompts.md` and
+  `AI/PROMPTS/2026-10-11-question-relocation-results.md`. The prompts themselves are in
+  `dbd829a`.
+
 ### DEC-012 Drop venue-independence from Assumption 2
 
 - **Date:** 2026-10-10

@@ -7,9 +7,62 @@ work session. Replace stale details instead of letting this file become a diary.
 - **Updated by:** Claude Code
 - **Current branch:** problem/adoption-threshold, branched from `literature/search-topics` at
   `23a4629`
-- **Current stage:** planning
+- **Current stage:** planning, with the framing settled by `DEC-013` and the build not started
 
 ## Where the project stands
+
+`DEC-013` settled the framing on 2026-10-11. The project pursues its application gap, meaning a
+usable level-assignment algorithm evaluated against the simulator and compared against the frozen
+baseline. It claims no theory gap. The project never held one: it held a measurement gap, since no
+source studies a location-based venue app, and an application gap, since no such algorithm exists
+to test. The theory-gap candidate raised that morning was falsified the same afternoon.
+
+The adoption-threshold question of `DEC-007` is no longer the headline. It becomes the deployment
+question of whether a given night carries enough signal to display anything.
+
+`DEC-014` then dropped the baseline as the reference for success. Three reference points replace
+it: chance as the floor at its realized rather than assumed value, the naive rule the app would
+otherwise ship, and the optimal rule as the ceiling. Success is distance from the ceiling. This
+renders `DEC-005` moot and makes computing the realized floor a piece of work rather than a
+constant, since `DEC-010` leaves it open.
+
+`DEC-015` then pointed the research question at coverage and added three layers to the setting.
+C is the community's real friendship network, which decides who goes out together. A is the
+adopter set, a subset of C's members. G is the app's recorded follows among adopters. The app sees
+G alone. The question asks how A must sit inside C for coverage to reach the target, varying
+structure rather than adoption rate. See `drafts/problem-statement-v3.md`, which is the file to
+read first.
+
+The owner adopted the information-complete case for G, meaning G holds every friendship between
+two adopters. The argument is not that the data is perfect. Correlated posting can arise only
+between two co-present adopter friends, since non-adopters post nothing and non-friends post
+independently, so such a G holds the complete dependence structure. It is the best case for any
+graph-using algorithm and therefore the right first experiment. This is argued and adopted, and it
+has no `DEC` entry of its own yet.
+
+### The experiment design, worked out 2026-10-11 and not yet run
+
+Stage 1 walks the curve where coverage equals the target. Two knobs parameterize it: how many
+adopters there are, and how clustered they are on C. More clustering needs more adopters to hold
+the same coverage, so the target fixes a curve rather than a point. The family of adopter sets
+hitting any target is astronomically large, so we never enumerate it; we generate adopter sets
+with given values of those two knobs and average over seeds. Do not parameterize by anything close
+to the fraction of friend groups containing an adopter, since that is almost coverage itself and
+the question would collapse.
+
+Stage 2 takes points along that curve and measures what the graph is worth, reporting both the
+gain in level accuracy and how well G predicts the coverage problem an operator cannot otherwise
+see. Stage 2 must run at more than one point on the curve, because the graph's value is largest
+exactly where A is most clustered, and a single point could show no effect and support a false
+conclusion that the graph is useless.
+
+Two findings constrain the design. Coverage is constant in G, so varying the graph at fixed A
+changes only the levels and nothing is confounded. And the naive rules ignore the graph entirely,
+so nothing measures G's value until a graph-using rule exists.
+
+Two choices gate the build and neither is settled. Whether the algorithm estimates occupancy and
+then cuts it into terciles, or assigns levels directly. And whether its boundaries come from all
+open venues or only from the venues it can see.
 
 The problem is restated and settled. It lives in
 [`drafts/problem-statement-v2.md`](../drafts/problem-statement-v2.md), which is the one file to
@@ -42,7 +95,8 @@ No code exists. The paper holds only scaffolding.
   prompts drafted in `4e3afe9`. Three background agents covered network threshold theory, the
   empirical clustering of real app adoption, and the survey-methodology design effect. See
   `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`, and
-  `AI/PROMPTS/2026-10-11-question-relocation-prompts.md`.
+  `AI/PROMPTS/2026-10-11-question-relocation-prompts.md`, and
+  `AI/PROMPTS/2026-10-11-question-relocation-results.md`.
 - `AI/SOURCES.md` now holds 137 sources: 45 `CHECKED`, 89 `LEAD`, 3 `REJECTED`. Every `CHECKED`
   entry records which sections were read, and each was read by Claude Code. The owner has
   personally read none of the 137.
@@ -73,16 +127,22 @@ No code exists. The paper holds only scaffolding.
 
 ## In progress
 
-- Seven unrun prompts in `drafts/`, under the `question-prompt-` prefix, look for research
-  questions that the problem's setting and the logged literature support better than the current
-  adoption-threshold question does. The setting means every object, assumption and observation
-  rule in `drafts/problem-statement-v2.md` except the paragraph beginning "Our question is". The
-  setting stays fixed in all seven and only the question moves. The seven are identifiability,
-  coverage as a detection guarantee, recovery of tonight's ordering, the censored display and its
-  own boundaries, the reach of a clustered adopter set, the display as the open question, and an
-  open channel asking which question forms this observation structure usually carries. The owner
-  has not chosen which to run. The partition into seven is the AI's, so running one implies the
-  direction was considered; see `AI/PROMPTS/2026-10-11-question-relocation-prompts.md`.
+- All seven question-relocation prompts have now run, and the owner is reviewing the results. See
+  `AI/PROMPTS/2026-10-11-question-relocation-results.md` for the verdicts, the findings, and the
+  corrections to existing entries. Two candidates returned negative, clustered reach and display
+  design. Censored boundaries returned a sub-problem rather than a replacement. Identifiability,
+  coverage and ranking each improve one half of the current question and not the other. Roughly
+  sixty reported sources are still unlogged, pending the owner's decision on which candidates
+  survive.
+- The seven prompts stay in `drafts/` under the `question-prompt-` prefix. Each holds the problem's
+  setting fixed and moves only the question. The setting means every object, assumption and
+  observation rule in `drafts/problem-statement-v2.md` except the paragraph beginning "Our
+  question is". The seven are identifiability, coverage as a detection guarantee, recovery of
+  tonight's ordering, the censored display and its own boundaries, the reach of a clustered
+  adopter set, the display as the open question, and an open channel asking which question forms
+  this observation structure usually carries. The partition into seven is the AI's, which is why
+  the seventh exists; see `AI/PROMPTS/2026-10-11-question-relocation-prompts.md` for how they
+  were drafted.
 
 ## Blockers or open questions
 
@@ -185,8 +245,51 @@ No code exists. The paper holds only scaffolding.
   same setting. Two documented weaknesses drive this: three of the four quantities the question
   holds fixed have no source, and the every-procedure half is blocked on an unselected framework.
   The seven prompts under "In progress" are the search instrument, not a decision.
-- The optimal rule is not derived. Until it is, there is no limit to compare against and nothing
-  for a simulation to evaluate. This is the step that makes the research question answerable.
+- The optimal rule is not derived here, but it may be citable rather than derivable from
+  scratch. Lin, Louis, Paddock and Ridgeway (2006), Theorem 1, and Gu and Koenker (2023),
+  Section 3.1, independently give the same rule for a 0/1 loss around a percentile cut point:
+  rank the posterior probability that a unit lies above the cut. This is logged as a literature
+  fact, not as a proposal; the choice of model and framework is the owner's. Until the owner
+  settles it there is no limit to compare against and nothing for a simulation to evaluate.
+- The match rate has two established names. Over displayed venues it is the marginal FDR of Gu and
+  Koenker (2023), Section 3.3. Over all venues it is one minus the normalized Hamming loss of
+  Chen, Gao and Zhang (2022), whose equation (14) gives the step to exact recovery. The random
+  denominator treated as a defect under `DEC-010` is therefore a named quantity.
+- Relative recovery may not survive `DEC-012`. Fithian, Elith, Hastie and Keith (2015), Sections
+  1.3 and 1.4, recover relative intensity under thinning only when the thinning covariates differ
+  from the intensity covariates. `DEC-012` makes posting probability depend on venue identity
+  while occupancy is indexed by venue, so the margins share a covariate. Hastie and Fithian (2013)
+  reads the other way. The two are one research line and the tension is unresolved.
+- Identifiability would not settle the existence question. Farcomeni and Tardella (2012) prove
+  identifiability in Theorem 3.1 and then show in Example 3.1 that the identified alternatives are
+  distinguished only 41 and 76 percent of the time. Their equation (3.1) shows that conditioning
+  on units observed at least once destroys identifiability of the hidden mass.
+- The probability of a zero under within-cluster dependence has a closed form for one cluster,
+  Guillera-Arroita, Morgan, Ridout and Linkie (2011), equation (3.4), page 308. No joint guarantee
+  over every cluster exists under heterogeneity and dependence together. The named route is
+  Chen-Stein, with Barbour, Holst and Janson (1992) and Holst (1986) unopened.
+- `AI/STATUS.md`'s own claim that only `SRC-104` and `SRC-107` model an unobserved true zero is
+  corrected below under the 2026-10-11 results record. Hwang, Stoklosa and Chen (2022), equation
+  (4), removes the unit rather than keeping it with a zero.
+- The current question is not novel in form. It exists in two literatures the record does not hold
+  as the minimum penetration rate needed for an accuracy target, and in the transport version the
+  penetration rate is itself estimated jointly, which bears on `PRF-001`.
+- The boundary form is not novel either, and the earlier claim that it was is withdrawn. Three
+  agents reported on 2026-10-11 that no source defines its estimand by the empirical quantiles of
+  the realized finite vector. A second open-channel pass the same day falsified that. Lin, Louis,
+  Paddock and Ridgeway (2006), equation (3), page 918, define the true rank as a function of the
+  realized vector alone, equation (7) converts it to a percentile, and Section 4 builds losses
+  targeting correct classification into the upper part of the realized ensemble. Paddock, Ridgeway,
+  Lin and Louis (2006) and Ginestet (2011), Section 3.2.1, do the same. The earlier agents appear
+  to have collapsed a self-referential procedure into a self-referential estimand; Henderson and
+  Newton (2016) is the case that separates them, with the estimand a quantile of the prior and the
+  self-referential step inside the procedure.
+- What remains unfound is narrower. No source combines the self-referential boundary with units
+  that vanish from the ensemble, so that the empirical quantile is computed over a random subset of
+  the very vector it partitions. Any novelty claim should rest on the censoring and the dependence,
+  not on the boundary form. Shen and Louis (1998), JRSS-B 60:455-471, is the primary source for the
+  ensemble rank estimand and is paywalled and unread, so this correction's own foundation is one
+  source deep.
 - The framework for the every-procedure claim is unchosen. The 2026-10-10 search surfaced
   candidates and their requirements without recommending one: minimax reduction to M-ary testing
   (`SRC-066`), Le Cam (`SRC-066`, `SRC-067`), Fano including its approximate-recovery form
@@ -253,23 +356,38 @@ No code exists. The paper holds only scaffolding.
 
 ## Next actions
 
-1. Decide which of the seven `drafts/question-prompt-*.md` files to run, and delete the rest.
-   Verification cost, not merit, favours identifiability, coverage-detection and question-forms
-   first, since their anchors `SRC-132`, `SRC-134` and `SRC-136` are already priority leads.
-2. Pick a mechanism and shape for how posting probability varies by adopter and by venue
+1. Settle the four operational choices the owner deferred on 2026-10-11: which study is the
+   result, coverage as the result with the algorithm as future work or coverage as the
+   precondition; the coverage target, 80 or 90 percent; the co-attendance mechanism, groups drawn
+   from C which makes arrivals batch rather than plain Poisson, or independent arrivals pulled
+   toward friends; and a rule that consumes G. The first two are one word each. Without the third,
+   coverage cannot be computed at all, because clustering reaches coverage only through friends
+   arriving together.
+2. Settle the two build-gating choices above, then build in this order: the evaluation harness,
+   which can be written against the baseline alone, then the simulator, then the owner's
+   algorithm, then the comparison. No code exists anywhere in the repository.
+3. Decide which of the roughly sixty sources reported on 2026-10-11 get `SRC` entries. Nothing
+   from the eight searches is logged in `AI/SOURCES.md` yet.
+4. Open Meng (2018) on the effective sample size of a self-selected sample. The question-forms
+   agent reports it as the one form needing none of the three unsourced inputs to pose, and it is
+   known only from its abstract.
+5. Pick a mechanism and shape for how posting probability varies by adopter and by venue
    (`DEC-012` dropped the false independence claim but specifies neither). The candidate
    formalisms discussed (N-mixture with a beta-binomial extension, latent exposure, crossed
    random effects) are all still open.
-3. Fix the hour of the evening the problem is posed at.
-4. Settle the six framework prerequisites above, then choose a framework and derive the optimal
+6. Fix the hour of the evening the problem is posed at.
+7. Settle the six framework prerequisites above, then choose a framework and derive the optimal
    rule.
-5. Find a source for venue inequality, the one input that still has none.
-6. Write `paper/sections/02-literature-review.tex` against the restated problem, using the
+8. Find a source for venue inequality, the one input that still has none.
+9. Write `paper/sections/02-literature-review.tex` against the restated problem, using the
    relevant sources rather than all 137.
 
 ## Files to open first
 
-- [`drafts/problem-statement-v2.md`](../drafts/problem-statement-v2.md): the problem. Start here.
+- [`drafts/problem-statement-v3.md`](../drafts/problem-statement-v3.md): the problem. Start here.
+- [`drafts/problem-statement-v2.md`](../drafts/problem-statement-v2.md): the superseded question,
+  kept as the record of what we no longer ask. Its setting prose is still current and version 3
+  carries it verbatim.
 - [`AI/DECISIONS.md`](DECISIONS.md): `DEC-007` for every settled value, `DEC-008` for what was
   deleted and why, `DEC-005` for the rule keeping the baseline out until the end.
 - [`AI/SOURCES.md`](SOURCES.md): 137 logged sources, 45 checked, none read by the owner.
@@ -286,4 +404,5 @@ No code exists. The paper holds only scaffolding.
   `AI/PROMPTS/2026-10-09-problem-statement.md`,
   `AI/PROMPTS/2026-10-10-assumption-2-literature.md`, and
   `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`, and
-  `AI/PROMPTS/2026-10-11-question-relocation-prompts.md`.
+  `AI/PROMPTS/2026-10-11-question-relocation-prompts.md`, and
+  `AI/PROMPTS/2026-10-11-question-relocation-results.md`.

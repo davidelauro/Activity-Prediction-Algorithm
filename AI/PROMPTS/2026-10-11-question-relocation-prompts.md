@@ -118,3 +118,9 @@ and question-forms first on grounds of verification cost rather than merit.
 
 Do not silently replace the account above after it has been committed. If a later correction is
 needed, add a dated note here or create a new prompt record that links to this one.
+
+### Addendum, 2026-10-11
+
+All seven prompts ran the same day, in parallel rather than in the suggested first wave of three.
+The results, the verdicts, and the corrections they produced to existing entries are recorded in
+`AI/PROMPTS/2026-10-11-question-relocation-results.md`. Nothing above is withdrawn.
