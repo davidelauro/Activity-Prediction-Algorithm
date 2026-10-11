@@ -125,6 +125,13 @@ No code exists. The paper holds only scaffolding.
   confirmed the venue-dependence evidence found is about venue identity, not crowding, so
   occupancy does not absorb it.
 
+- `paper/sections/03-problem-statement.tex` is written against version 3, with the three layers as
+  a definition, the information-complete app graph as Assumption 4, and the coverage question with
+  its target left as a parameter because `DEC-015` records the value as unsettled. The paper builds
+  clean at 3 pages, with only the pre-existing empty-bibliography warning. The Fithian et al.
+  result in its final paragraph carries no citation call, because `paper/references.bib` forbids an
+  entry for a source nobody here has opened; an agent read it and the owner has not.
+
 ## In progress
 
 - All seven question-relocation prompts have now run, and the owner is reviewing the results. See

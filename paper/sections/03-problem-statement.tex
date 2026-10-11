@@ -1,22 +1,36 @@
 \section{Problem Statement}
 
-% Owner-authored. Transcribed from drafts/problem-statement-v2.md (DEC-007),
-% the finalized statement, into the paper's definition/assumption
-% environments. No content added beyond that file; see it and
-% AI/DECISIONS.md (DEC-007) for the basis of each settled value, and
-% AI/STATUS.md for the items still open.
+% Owner-authored in substance. Transcribed from drafts/problem-statement-v3.md, the
+% finalized statement, into the paper's definition and assumption environments.
+% No content added beyond that file. The setting prose descends unchanged from
+% version 2 (DEC-007); the three layers and the coverage question come from DEC-015.
+% See AI/DECISIONS.md for the basis of each settled value, and AI/STATUS.md for the
+% items still open. The coverage target appears as a parameter because DEC-015
+% records its value as unsettled. The Fithian et al. result in the final paragraph
+% carries no \citet call and no bibliography entry, because paper/references.bib
+% forbids an entry for a source nobody here has opened. A background agent read it;
+% the owner has not. It needs an SRC entry and a bib entry before submission.
 
 A social app lets users post a check-in at a public venue. A check-in records one drink, so one
 visit can produce several check-ins. Each check-in carries a user, a timestamp, and a venue. The
 app accepts a check-in only at the venue's own location. It serves a community of young adults
 who want to socialize with friends. We treat the community as a finite set, fixed only at the
-moment the app judges it, and its size can differ from one night to the next. We call a member
-who uses the app an \emph{adopter}, and we call the percentage of the community who are
-adopters the \emph{adoption rate}. The app also holds a social graph of mutual follows among
-adopters.
+moment the app judges it, and its size can differ from one night to the next.
+
+We distinguish three objects. The community network carries the friendships that decide who goes
+out together. The adopter set carries the members who use the app. The app's own graph carries
+the follows it has recorded. Only the third is observable.
+
+\begin{definition}[The three layers]
+Let $C = (V, E)$ be the \emph{community network}, where $V$ is the community and $E$ holds the
+mutual friendships among its members. Let $A \subseteq V$ be the \emph{adopter set}, the members
+who use the app, and call $|A| / |V|$ the \emph{adoption rate}. Let $G = (A, F)$ be the
+\emph{app graph}, where $F \subseteq \{\, e \in E : e \subseteq A \,\}$ holds the mutual follows
+the app has recorded. The app observes $G$. It observes neither $C$ nor $V \setminus A$.
+\end{definition}
 
 \begin{assumption}[No non-adopter signal]
-Non-adopters post nothing.
+Members of $V \setminus A$ post nothing.
 \end{assumption}
 
 \begin{assumption}[Adopter- and venue-dependent posting probability]
@@ -28,17 +42,30 @@ the adopter and on the venue.
 Non-friends post independently of one another. Friends at the same venue and time do not.
 \end{assumption}
 
+Assumption 3 quantifies dependence over $E$, not over $F$. The app therefore faces correlation
+whose source it need not have recorded. Assumption 1 bounds the consequence. Correlated posting
+arises only between two co-present adopters joined in $E$, since non-adopters post nothing and
+non-friends post independently. The following assumption makes that bound exact.
+
+\begin{assumption}[Information-complete app graph]
+$F = \{\, e \in E : e \subseteq A \,\}$.
+\end{assumption}
+
+Assumption 4 does not claim that the app records friendships perfectly. It states the case in
+which the app holds every tie capable of producing a correlated post. We take this case first,
+because it bounds from above what any procedure using the app graph can achieve. We treat
+$F \subsetneq \{\, e \in E : e \subseteq A \,\}$ as a later relaxation.
+
 \begin{definition}[True headcount and occupancy]
 Each venue holds a definite number of community members at any moment. We call that number its
-\emph{true headcount}. Each venue also has a fixed capacity, and we call headcount divided by
-capacity its \emph{true occupancy}. The app never reports either number.
+\emph{true headcount}, written $N_v$. Each venue has a fixed capacity $K_v$, and we call
+$N_v / K_v$ its \emph{true occupancy}. The app reports neither quantity.
 \end{definition}
 
-The app judges each venue from check-ins posted there in the last two hours, showing every
-venue with at least one such check-in. Each shown venue gets one of three levels: quiet
-(yellow), busy (orange), or packed (red). The two boundaries are the terciles of tonight's
-occupancy distribution among open venues, not a fixed historical threshold. Users compare
-levels, not numbers.
+The app judges each venue from check-ins posted there in the last two hours, showing every venue
+with at least one such check-in. Each shown venue gets one of three levels: quiet, busy, or
+packed. The two boundaries are the terciles of tonight's occupancy distribution among open
+venues, not a fixed historical threshold. Users compare levels, not numbers.
 
 \begin{definition}[Match rate and coverage]
 The app gets a shown venue right when its level matches its true occupancy. The fraction of
@@ -46,16 +73,44 @@ shown venues it gets right is the \emph{match rate}. A venue that never appears 
 kind of error. The fraction of busy-or-packed venues that appear at all is the \emph{coverage}.
 \end{definition}
 
-Our question is how match rate and coverage depend on adoption rate. We hold four other
-quantities fixed: the number of venues, the number of members out, how unequally they spread
-across venues, and how often an adopter posts. We ask for the smallest adoption rate at which
-match rate and coverage both reach 80 percent, and whether that adoption rate exists at all.
+Coverage carries no reference to a procedure. A venue appears when at least one adopter present
+posts, whatever the app then computes from the posts. Coverage therefore depends on $C$, on $A$,
+and on the posting probabilities, and not on $G$.
 
-We judge match rate against every possible procedure, since the app could compute its levels in
-more than one way. Coverage needs no such care: a venue's appearance depends only on whether
-anyone posted, not on the procedure.
+\begin{definition}[The question]
+Fix a coverage target $\tau \in (0,1)$. We ask which placements of $A$ within $C$ achieve
+coverage at least $\tau$.
+\end{definition}
 
-Real check-in data exists, but we do not use it. This paper's aim is to find the minimal
-adoption rate any algorithm needs before the app implements one, and no such algorithm exists
-yet to test. We keep real venue data out of scope too, and we set aside what the map does to
-the people who read it: every statement here describes a world where nobody has seen the map.
+We vary structure rather than adoption rate. Two quantities govern the answer: the size of $A$,
+and the degree to which $A$ concentrates on $C$. A concentrated $A$ occupies few friend groups.
+Those groups fill few venues, and the remaining venues emit nothing. A dispersed $A$ of the same
+size meets many groups and misses little. The target $\tau$ therefore determines a curve in those
+two quantities, not a single adoption rate.
+
+The app graph serves the levels rather than the coverage. It distinguishes ten check-ins from one
+group of friends from ten check-ins by ten strangers, which lets a procedure discount correlated
+posts instead of reading them as independent evidence. It also carries information about the
+coverage itself, since a dense $G$ indicates that $A$ concentrates on $C$. Its value for the
+levels grows with that concentration, because concentration is what generates the correlation it
+corrects.
+
+We answer the question inside a synthetic simulation. The simulation generates a venue map, a
+flow of simulated people, and a social graph, and it fixes $N_v$ by construction. We use no real
+check-in data and no real venue data. We may set the generator's parameters from published
+summary statistics, which leaves the graph generated rather than observed.
+
+We compare coverage against the coverage that a uniformly placed adopter set of the same size
+achieves. We compare a level assignment against three reference points, fixed before we read any
+result: chance, computed rather than assumed; the rule an operator would otherwise ship, meaning
+venues ordered by check-in count, by distinct posters, or by count over capacity; and the optimal
+rule for this loss, which requires $N_v$ and therefore exists only inside the simulation.
+
+Three limits bound what follows. We report simulation evidence and not a theorem, and the
+simulator is our own construction. The concentration of $A$ on $C$ has no external anchor, since
+no source we examined reports such a figure for an adopter set on a friendship network, so we
+choose the range we sweep. And Fithian, Elith, Hastie and Keith report that thinning leaves
+relative intensity unrecoverable when a thinning covariate coincides with an intensity covariate. Assumption 2 lets
+posting depend on the venue while occupancy is indexed by the venue, so the two margins of this
+problem share a covariate. We treat that result as a soundness check on our level assignments
+rather than as a settled objection, because the step transferring it to this setting is unproved.
