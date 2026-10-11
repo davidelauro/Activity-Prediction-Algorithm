@@ -41,7 +41,8 @@ No code exists. The paper holds only scaffolding.
 - The 2026-10-11 search session added `SRC-113` through `SRC-137`, running the three clustering
   prompts drafted in `4e3afe9`. Three background agents covered network threshold theory, the
   empirical clustering of real app adoption, and the survey-methodology design effect. See
-  `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`.
+  `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`, and
+  `AI/PROMPTS/2026-10-11-question-relocation-prompts.md`.
 - `AI/SOURCES.md` now holds 137 sources: 45 `CHECKED`, 89 `LEAD`, 3 `REJECTED`. Every `CHECKED`
   entry records which sections were read, and each was read by Claude Code. The owner has
   personally read none of the 137.
@@ -72,7 +73,16 @@ No code exists. The paper holds only scaffolding.
 
 ## In progress
 
-- Nothing active.
+- Seven unrun prompts in `drafts/`, under the `question-prompt-` prefix, look for research
+  questions that the problem's setting and the logged literature support better than the current
+  adoption-threshold question does. The setting means every object, assumption and observation
+  rule in `drafts/problem-statement-v2.md` except the paragraph beginning "Our question is". The
+  setting stays fixed in all seven and only the question moves. The seven are identifiability,
+  coverage as a detection guarantee, recovery of tonight's ordering, the censored display and its
+  own boundaries, the reach of a clustered adopter set, the display as the open question, and an
+  open channel asking which question forms this observation structure usually carries. The owner
+  has not chosen which to run. The partition into seven is the AI's, so running one implies the
+  direction was considered; see `AI/PROMPTS/2026-10-11-question-relocation-prompts.md`.
 
 ## Blockers or open questions
 
@@ -170,6 +180,11 @@ No code exists. The paper holds only scaffolding.
   because venues with zero check-ins, disproportionately the true-quiet ones, get hidden before
   the split is read off. How much this shifts the realized trivial baseline, and how that shift
   moves with adoption rate, is open. See `DEC-010`.
+- Whether the project keeps its current research question is now open. `DEC-007` stands, and
+  nothing is changed, but the owner has asked for candidate relocations of the question over the
+  same setting. Two documented weaknesses drive this: three of the four quantities the question
+  holds fixed have no source, and the every-procedure half is blocked on an unselected framework.
+  The seven prompts under "In progress" are the search instrument, not a decision.
 - The optimal rule is not derived. Until it is, there is no limit to compare against and nothing
   for a simulation to evaluate. This is the step that makes the research question answerable.
 - The framework for the every-procedure claim is unchosen. The 2026-10-10 search surfaced
@@ -238,15 +253,18 @@ No code exists. The paper holds only scaffolding.
 
 ## Next actions
 
-1. Pick a mechanism and shape for how posting probability varies by adopter and by venue
+1. Decide which of the seven `drafts/question-prompt-*.md` files to run, and delete the rest.
+   Verification cost, not merit, favours identifiability, coverage-detection and question-forms
+   first, since their anchors `SRC-132`, `SRC-134` and `SRC-136` are already priority leads.
+2. Pick a mechanism and shape for how posting probability varies by adopter and by venue
    (`DEC-012` dropped the false independence claim but specifies neither). The candidate
    formalisms discussed (N-mixture with a beta-binomial extension, latent exposure, crossed
    random effects) are all still open.
-2. Fix the hour of the evening the problem is posed at.
-3. Settle the six framework prerequisites above, then choose a framework and derive the optimal
+3. Fix the hour of the evening the problem is posed at.
+4. Settle the six framework prerequisites above, then choose a framework and derive the optimal
    rule.
-4. Find a source for venue inequality, the one input that still has none.
-5. Write `paper/sections/02-literature-review.tex` against the restated problem, using the
+5. Find a source for venue inequality, the one input that still has none.
+6. Write `paper/sections/02-literature-review.tex` against the restated problem, using the
    relevant sources rather than all 137.
 
 ## Files to open first
@@ -267,4 +285,5 @@ No code exists. The paper holds only scaffolding.
   `AI/PROMPTS/2026-10-09-map-design-decisions.md`,
   `AI/PROMPTS/2026-10-09-problem-statement.md`,
   `AI/PROMPTS/2026-10-10-assumption-2-literature.md`, and
-  `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`.
+  `AI/PROMPTS/2026-10-11-clustered-adoption-literature.md`, and
+  `AI/PROMPTS/2026-10-11-question-relocation-prompts.md`.
